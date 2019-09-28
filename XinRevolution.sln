@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{CEA41836-8F98-499C-A6FE-D596EE70B512}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{C7E0CD2E-AEA2-40BE-8552-D18B4F8E0B3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager", "Manager", "{0C21E9B8-CD97-49DA-87E1-428B0CF432CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5D2BF526-DEF3-405F-BCC5-AA6AAAA5390B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Database", "XinRevolution.Database\XinRevolution.Database.csproj", "{7909C82D-1A90-47C4-BB4F-BFAB47E5C886}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7909C82D-1A90-47C4-BB4F-BFAB47E5C886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7909C82D-1A90-47C4-BB4F-BFAB47E5C886}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7909C82D-1A90-47C4-BB4F-BFAB47E5C886}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7909C82D-1A90-47C4-BB4F-BFAB47E5C886}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7909C82D-1A90-47C4-BB4F-BFAB47E5C886} = {CEA41836-8F98-499C-A6FE-D596EE70B512}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C078E5F5-CC46-4E05-9361-53D62AD20B18}
+	EndGlobalSection
+EndGlobal
