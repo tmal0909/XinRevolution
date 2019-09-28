@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XinRevolution.Database", "X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Manager", "XinRevolution.Manager\XinRevolution.Manager.csproj", "{93EE6B0B-3E2A-4483-A5EE-001450236B56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Repository", "XinRevolution.Repository\XinRevolution.Repository.csproj", "{43F245BB-A273-4EA5-A4D9-D45E67E81E16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD} = {CEA41836-8F98-499C-A6FE-D596EE70B512}
 		{93EE6B0B-3E2A-4483-A5EE-001450236B56} = {0C21E9B8-CD97-49DA-87E1-428B0CF432CD}
+		{43F245BB-A273-4EA5-A4D9-D45E67E81E16} = {C7E0CD2E-AEA2-40BE-8552-D18B4F8E0B3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C078E5F5-CC46-4E05-9361-53D62AD20B18}
