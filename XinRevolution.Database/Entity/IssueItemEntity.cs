@@ -24,14 +24,18 @@ namespace XinRevolution.Database.Entity
         [Column(TypeName = "nvarchar(300)")]
         public string ResourceUrl { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Required]
-        [Column(TypeName = "smalldatetime")]
-        public DateTime UpdateTime { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime ReleaseDate { get; set; }
 
         [Required]
         [Column(TypeName = "int")]
         public int IssueId { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [Required]
+        [Column(TypeName = "smalldatetime")]
+        public DateTime UtcUpdateTime { get; set; }
 
 
         public IssueEntity Issue { get; set; }

@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Manager", "Manager", "{0C21
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5D2BF526-DEF3-405F-BCC5-AA6AAAA5390B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Database", "XinRevolution.Database\XinRevolution.Database.csproj", "{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XinRevolution.Database", "XinRevolution.Database\XinRevolution.Database.csproj", "{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Manager", "XinRevolution.Manager\XinRevolution.Manager.csproj", "{93EE6B0B-3E2A-4483-A5EE-001450236B56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EE6B0B-3E2A-4483-A5EE-001450236B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD} = {CEA41836-8F98-499C-A6FE-D596EE70B512}
+		{93EE6B0B-3E2A-4483-A5EE-001450236B56} = {0C21E9B8-CD97-49DA-87E1-428B0CF432CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C078E5F5-CC46-4E05-9361-53D62AD20B18}
