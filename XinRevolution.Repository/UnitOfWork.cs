@@ -16,7 +16,7 @@ namespace XinRevolution.Repository
             Context = (TContext)context;
         }
 
-        public IGenericRepository<TEntity> GetRepository<TEntity>()
+        public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
             if (Repositories == null)
                 Repositories = new Hashtable();
@@ -26,7 +26,7 @@ namespace XinRevolution.Repository
             if (Repositories.ContainsKey(key))
                 return (IGenericRepository<TEntity>)Repositories[key];
 
-            var repository = new GenericRepository<TEntity>();
+            var repository = new GenericRepository<TEntity>(this.Context);
 
             Repositories.Add(key, repository);
 

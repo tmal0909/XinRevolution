@@ -12,7 +12,7 @@ namespace XinRevolution.Repository.Interface
 
         Hashtable Repositories { get; set; }
 
-        IGenericRepository<TEntity> GetRepository<TEntity>();
+        IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
 
         int Commit();
     }
