@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XinRevolution.Manager.Models;
+using XinRevolution.Manager.Services;
 
 namespace XinRevolution.Manager.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserService _service;
+
+        public HomeController(UserService service)
+        {
+            _service = service;
+        }
+
         public IActionResult Index()
         {
             return View();

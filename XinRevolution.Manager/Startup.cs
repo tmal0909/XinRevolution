@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XinRevolution.Database;
+using XinRevolution.Manager.Services;
+using XinRevolution.Repository;
+using XinRevolution.Repository.Interface;
 
 namespace XinRevolution.Manager
 {
@@ -26,11 +29,19 @@ namespace XinRevolution.Manager
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<XinRevolutionContext>(options => {
+            services.AddDbContext<XinRevolutionContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("Database"));
             });
+
+            services.AddScoped<DbContext, XinRevolutionContext>();
+            services.AddScoped<IUnitOfWork<DbContext>, UnitOfWork<DbContext>>();
+
+            services.AddScoped<UserService>();
+            services.AddScoped<IssueService>();
+            services.AddScoped<IssueItemService>();
+            services.AddScoped<IssueRelativeLinkService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

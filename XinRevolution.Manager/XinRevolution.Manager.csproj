@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\XinRevolution.Database\XinRevolution.Database.csproj" />
+    <ProjectReference Include="..\XinRevolution.Repository\XinRevolution.Repository.csproj" />
   </ItemGroup>
 
 </Project>
