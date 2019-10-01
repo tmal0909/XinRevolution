@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5D2BF526-DEF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XinRevolution.Database", "XinRevolution.Database\XinRevolution.Database.csproj", "{C95DBC38-88C1-4026-A7F9-594EBFD81ADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Manager", "XinRevolution.Manager\XinRevolution.Manager.csproj", "{93EE6B0B-3E2A-4483-A5EE-001450236B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XinRevolution.Manager", "XinRevolution.Manager\XinRevolution.Manager.csproj", "{93EE6B0B-3E2A-4483-A5EE-001450236B56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.Repository", "XinRevolution.Repository\XinRevolution.Repository.csproj", "{43F245BB-A273-4EA5-A4D9-D45E67E81E16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XinRevolution.Repository", "XinRevolution.Repository\XinRevolution.Repository.csproj", "{43F245BB-A273-4EA5-A4D9-D45E67E81E16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinRevolution.CloudService", "XinRevolution.CloudService\XinRevolution.CloudService.csproj", "{2BEECFFB-D811-4779-B1E2-E6C626FBE59A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43F245BB-A273-4EA5-A4D9-D45E67E81E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BEECFFB-D811-4779-B1E2-E6C626FBE59A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BEECFFB-D811-4779-B1E2-E6C626FBE59A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BEECFFB-D811-4779-B1E2-E6C626FBE59A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BEECFFB-D811-4779-B1E2-E6C626FBE59A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{C95DBC38-88C1-4026-A7F9-594EBFD81ADD} = {CEA41836-8F98-499C-A6FE-D596EE70B512}
 		{93EE6B0B-3E2A-4483-A5EE-001450236B56} = {0C21E9B8-CD97-49DA-87E1-428B0CF432CD}
 		{43F245BB-A273-4EA5-A4D9-D45E67E81E16} = {C7E0CD2E-AEA2-40BE-8552-D18B4F8E0B3C}
+		{2BEECFFB-D811-4779-B1E2-E6C626FBE59A} = {C7E0CD2E-AEA2-40BE-8552-D18B4F8E0B3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C078E5F5-CC46-4E05-9361-53D62AD20B18}

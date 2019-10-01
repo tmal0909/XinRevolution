@@ -13,6 +13,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\XinRevolution.CloudService\XinRevolution.CloudService.csproj" />
     <ProjectReference Include="..\XinRevolution.Database\XinRevolution.Database.csproj" />
     <ProjectReference Include="..\XinRevolution.Repository\XinRevolution.Repository.csproj" />
   </ItemGroup>

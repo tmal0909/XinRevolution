@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using XinRevolution.CloudService.AzureBlobService;
+using XinRevolution.CloudService.AzureBlobService.Interface;
 using XinRevolution.Database;
 using XinRevolution.Manager.Services;
 using XinRevolution.Repository;
@@ -37,7 +39,7 @@ namespace XinRevolution.Manager
 
             services.AddScoped<DbContext, XinRevolutionContext>();
             services.AddScoped<IUnitOfWork<DbContext>, UnitOfWork<DbContext>>();
-
+            services.AddScoped<IAzureBlobService, AzureBlobService>(x => new AzureBlobService(Configuration.GetConnectionString("Blob")));
             services.AddScoped<UserService>();
             services.AddScoped<IssueService>();
             services.AddScoped<IssueItemService>();
