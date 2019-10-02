@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using XinRevolution.CloudService.Model;
 
-namespace XinRevolution.CloudService.AzureBlobService.Interface
+namespace XinRevolution.CloudService.AzureService.Interface
 {
     public interface IAzureBlobService
     {
-        CloudServiceReslutModel<string> Save(string containerName, IFormFile file);
+        CloudServiceReslutModel<string> Upload(string containerName, IFormFile file);
 
         CloudServiceReslutModel Remove(string resourceUrl);
 

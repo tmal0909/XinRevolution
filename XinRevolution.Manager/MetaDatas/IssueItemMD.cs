@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,6 +21,7 @@ namespace XinRevolution.Manager.MetaDatas
         [Display(Name = "議題內文", Prompt = "請輸議題內文")]
         public string Content { get; set; }
 
+        [HiddenInput]
         [Required(ErrorMessage = "請輸入資源連結")]
         [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "資源連結", Prompt = "請輸入資源連結")]
@@ -34,5 +36,13 @@ namespace XinRevolution.Manager.MetaDatas
         [HiddenInput]
         [Required(ErrorMessage = "請攜帶外部鍵值")]
         public int IssueId { get; set; }
+
+        [DataType(DataType.Upload)]
+        [FileExtensions(Extensions = "png,jpg,jpeg,gif", ErrorMessage = "檔案類型錯誤")]
+        [Display(Name = "選擇資源")]
+        public IFormFile ResourceFile { get; set; }
+
+        [Display(Name = "資源名稱")]
+        public string ResourceName { get { return ResourceUrl; } set { } }
     }
 }

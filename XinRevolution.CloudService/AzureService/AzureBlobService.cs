@@ -4,10 +4,10 @@ using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using XinRevolution.CloudService.AzureBlobService.Interface;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.CloudService.Model;
 
-namespace XinRevolution.CloudService.AzureBlobService
+namespace XinRevolution.CloudService.AzureService
 {
     public class AzureBlobService : IAzureBlobService
     {
@@ -18,7 +18,7 @@ namespace XinRevolution.CloudService.AzureBlobService
             _connectionString = connectionString;
         }
 
-        public CloudServiceReslutModel<string> Save(string containerName, IFormFile file)
+        public CloudServiceReslutModel<string> Upload(string containerName, IFormFile file)
         {
             var result = new CloudServiceReslutModel<string>();
 
