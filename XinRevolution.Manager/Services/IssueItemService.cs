@@ -21,12 +21,15 @@ namespace XinRevolution.Manager.Services
             _cloudService = cloudService;
         }
 
-        public ServiceResultModel<IEnumerable<IssueItemEntity>> Find(int issueId)
+        public ServiceResultModel<IEnumerable<IssueItemEntity>> Find(int issueId = -1)
         {
             var result = new ServiceResultModel<IEnumerable<IssueItemEntity>>();
 
             try
             {
+                if (issueId == -1)
+                    return base.Find();
+
                 var entities = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == issueId);
 
                 result.Status = true;
@@ -110,7 +113,8 @@ namespace XinRevolution.Manager.Services
                     resourceChange = true;
                     metaData.ResourceUrl = uploadResult.Data;
 
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity {
+                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
+                    {
                         ResourceUrl = originResourceUrl,
                         DumpStatus = false
                     });
@@ -129,7 +133,8 @@ namespace XinRevolution.Manager.Services
             {
                 if (resourceChange)
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity {
+                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
+                    {
                         ResourceUrl = metaData.ResourceUrl,
                         DumpStatus = false
                     });
