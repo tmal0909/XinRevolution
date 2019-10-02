@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using XinRevolution.Manager.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Services;
 
 namespace XinRevolution.Manager.Controllers
@@ -18,20 +13,46 @@ namespace XinRevolution.Manager.Controllers
             _service = service;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
-            return View();
+            var result = _service.FindMetaData();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Login(UserMD metaData)
         {
-            return View();
+            var result = _service.Login(metaData);
+
+            if (!result.Status)
+            {
+                ViewBag.ErrorMessage = result.Message;
+
+                return View(result.Data);
+            }
+
+            // TODO : Set Authentication
+
+            return RedirectToAction("Index", "User");
+
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Logout()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // TODO : Clear Authentication
+
+            return RedirectToAction("Login", "Home");
+        }
+
+        public IActionResult Error(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
         }
     }
 }

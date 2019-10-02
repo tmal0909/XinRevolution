@@ -1,56 +1,165 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿/* General */
+html, body {
+    width: 100vw;
+    height: 100vh;
+    font-size: 1rem;
+    margin: 0px;
+    padding: 0px;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+header {
+    background: linear-gradient(45deg, black, #696060de);
+    color: #ceefed;
+    font-weight: 900;
+    font-size: 15px;
+    padding: 8px 30px;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+footer {
+    background: linear-gradient(45deg, #696060de, black);
+    color: #ceefed;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    padding: 8px 30px;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+
+/* Login */
+.login-background {
+    width: 100%;
+    height: 100%;
+    background-image: url(../image/background/login-background.jpg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+.login-frame {
+    width: 40%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: relative;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+.login-container {
+    width: 75%;
+    height: 75%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 20px;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+
+    .login-container img {
+        width: 50px;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+
+    .login-container form {
+        text-align: center;
+        margin: 20px auto;
+    }
+
+    .login-container input {
+        background-color: rgba(0,0,0, 0.5);
+        width: 70%;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    .login-container button {
+        background: rgba(0, 0, 0, 0.7);
+        width: 80px;
+        border-radius: 5px;
+        color: #fff1f1;
+        margin-top: 20px;
+        padding: 5px;
+        opacity: 0.7;
+    }
+
+        .login-container button:hover {
+            opacity: 1;
+        }
+
+
+/* Main */
+.main-frame {
+    height: calc(100% - 76px);
 }
+
+    .main-frame aside {
+        width: 200px;
+        height: 100%;
+        float: left;
+        padding: 10px;
+    }
+
+        .main-frame aside .accordion {
+            padding: 0.5rem 1rem;
+        }
+
+        .main-frame aside .acoordion-content {
+            margin-top: 10px;
+        }
+
+    .main-frame article {
+        height: 100%;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+
+/* Error */
+.error-background {
+    background-image: url(../image/background/error-background.jpg);
+    background-size: cover;
+    height: calc(100% - 76px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-frame {
+    width: 50%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: relative;
+}
+
+.error-container {
+    width: 75%;
+    height: 75%;
+    color: rgba(235, 227, 227, 0.90);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* Bootstrap */
+.breadcrumb {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.col-form-label {
+    font-size: 1rem;
+}
+
+
+/* DataTable */
