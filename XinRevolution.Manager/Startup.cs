@@ -60,6 +60,7 @@ namespace XinRevolution.Manager
                     template: "{controller=Home}/{action=Login}/{id?}");
             });
             dbContext.Database.EnsureCreated();
+            dbContext.Database.Migrate();
         }
     }
 }
