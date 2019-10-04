@@ -6,7 +6,7 @@ using XinRevolution.Repository.Interface;
 
 namespace XinRevolution.Manager.Services
 {
-    public abstract class BaseService<TEntity, TMetaData> where TEntity : class where TMetaData : class, new()
+    public abstract class BaseService<TEntity, TMetaData> where TEntity : class, new() where TMetaData : class
     {
         protected readonly IUnitOfWork<DbContext> _unitOfWork;
 
@@ -43,7 +43,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var metaData = new TMetaData();
+                var metaData = ToMetaData(new TEntity());
 
                 result.Status = true;
                 result.Message = $"操作成功";

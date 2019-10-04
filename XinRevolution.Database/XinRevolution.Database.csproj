@@ -1,8 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20191004150457_Initialize.cs" />
+    <Compile Remove="Migrations\20191004150457_Initialize.Designer.cs" />
+    <Compile Remove="Migrations\20191004150757_Initialize.cs" />
+    <Compile Remove="Migrations\20191004150757_Initialize.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace XinRevolution.Database.Migrations
 {
-    public partial class initialize : Migration
+    public partial class Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace XinRevolution.Database.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     DumpStatus = table.Column<bool>(type: "bit", nullable: false),
-                    UtcUpdateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace XinRevolution.Database.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Intro = table.Column<string>(type: "nvarchar(500)", nullable: false),
-                    UtcUpdateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -52,7 +52,7 @@ namespace XinRevolution.Database.Migrations
                     Phone = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Mail = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(300)", nullable: false),
-                    UtcUpdateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -71,7 +71,7 @@ namespace XinRevolution.Database.Migrations
                     ResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "date", nullable: false),
                     IssueId = table.Column<int>(type: "int", nullable: false),
-                    UtcUpdateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace XinRevolution.Database.Migrations
                     ResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     IssueId = table.Column<int>(type: "int", nullable: false),
-                    UtcUpdateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -111,8 +111,8 @@ namespace XinRevolution.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Account", "Address", "Mail", "Name", "Password", "Phone", "UtcUpdateTime" },
-                values: new object[] { 1, "dev", "12345678", "dev@mail.com", "developer", "dev", "12345678", "2019-09-28 19:20:00" });
+                columns: new[] { "Id", "Account", "Address", "Mail", "Name", "Password", "Phone" },
+                values: new object[] { 1, "dev", "12345678", "dev@mail.com", "developer", "dev", "12345678" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueItems_IssueId",

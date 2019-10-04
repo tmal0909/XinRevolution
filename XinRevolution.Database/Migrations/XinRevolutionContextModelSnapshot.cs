@@ -35,7 +35,8 @@ namespace XinRevolution.Database.Migrations
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("Id");
 
@@ -61,7 +62,8 @@ namespace XinRevolution.Database.Migrations
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("Id");
 
@@ -97,7 +99,8 @@ namespace XinRevolution.Database.Migrations
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("Id");
 
@@ -132,7 +135,8 @@ namespace XinRevolution.Database.Migrations
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("Id");
 
@@ -176,7 +180,8 @@ namespace XinRevolution.Database.Migrations
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("Id");
 
@@ -194,7 +199,7 @@ namespace XinRevolution.Database.Migrations
                             Name = "developer",
                             Password = "dev",
                             Phone = "12345678",
-                            UtcUpdateTime = new DateTime(2019, 9, 28, 11, 18, 28, 556, DateTimeKind.Utc).AddTicks(9590)
+                            UtcUpdateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

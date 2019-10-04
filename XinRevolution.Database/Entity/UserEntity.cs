@@ -38,7 +38,7 @@ namespace XinRevolution.Database.Entity
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Required]
-        [Column(TypeName = "smalldatetime")]
+        [Column(TypeName = "datetime")]
         public DateTime UtcUpdateTime { get; set; }
     }
 }

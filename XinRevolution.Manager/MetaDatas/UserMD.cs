@@ -30,6 +30,7 @@ namespace XinRevolution.Manager.MetaDatas
         [Display(Name = "電話", Prompt = "請輸入電話")]
         public string Phone { get; set; }
 
+        [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "請輸入電郵")]
         [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "電郵", Prompt = "請輸入電郵")]

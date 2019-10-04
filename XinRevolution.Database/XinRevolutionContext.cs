@@ -26,7 +26,7 @@ namespace XinRevolution.Database
         {
             DefineKey(modelBuilder);
             DefineAlternateKey(modelBuilder);
-            DefineValueGenerated(modelBuilder);
+            DefineDefaultValue(modelBuilder);
             DefineRelation(modelBuilder);
             DefineSeedData(modelBuilder);
         }
@@ -49,13 +49,13 @@ namespace XinRevolution.Database
             modelBuilder.Entity<IssueRelativeLinkEntity>().HasAlternateKey(x => new { x.ResourceUrl, x.IssueId });
         }
 
-        private void DefineValueGenerated(ModelBuilder modelBuilder)
+        private void DefineDefaultValue(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DumpResourceEntity>().Property(x => x.UtcUpdateTime).ValueGeneratedOnAddOrUpdate();
-            modelBuilder.Entity<UserEntity>().Property(x => x.UtcUpdateTime).ValueGeneratedOnAddOrUpdate();
-            modelBuilder.Entity<IssueEntity>().Property(x => x.UtcUpdateTime).ValueGeneratedOnAddOrUpdate();
-            modelBuilder.Entity<IssueItemEntity>().Property(x => x.UtcUpdateTime).ValueGeneratedOnAddOrUpdate();
-            modelBuilder.Entity<IssueRelativeLinkEntity>().Property(x => x.UtcUpdateTime).ValueGeneratedOnAddOrUpdate();
+            modelBuilder.Entity<DumpResourceEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<UserEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<IssueEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<IssueItemEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<IssueRelativeLinkEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
         private void DefineRelation(ModelBuilder modelBuilder)
@@ -74,8 +74,7 @@ namespace XinRevolution.Database
                 Name = "developer",
                 Phone = "12345678",
                 Mail = "dev@mail.com",
-                Address = "12345678",
-                UtcUpdateTime = DateTime.UtcNow
+                Address = "12345678"
             });
         }
     }
