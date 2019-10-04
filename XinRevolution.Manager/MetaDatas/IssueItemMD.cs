@@ -16,14 +16,15 @@ namespace XinRevolution.Manager.MetaDatas
         [Display(Name = "議題標題", Prompt = "請輸入議題標題")]
         public string Title { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "請輸入議題內文")]
-        [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
+        [StringLength(500, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "議題內文", Prompt = "請輸議題內文")]
         public string Content { get; set; }
 
         [HiddenInput]
         [Required(ErrorMessage = "請輸入資源連結")]
-        [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
+        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "資源連結", Prompt = "請輸入資源連結")]
         public string ResourceUrl { get; set; }
 

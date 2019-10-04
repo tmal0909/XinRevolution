@@ -17,9 +17,7 @@ namespace XinRevolution.Database
         public DbSet<IssueItemEntity> IssueItems { get; set; }
 
         public DbSet<IssueRelativeLinkEntity> IssueRelativeLinks { get; set; }
-
-
-
+               
         public XinRevolutionContext(DbContextOptions<XinRevolutionContext> options) : base(options) { }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
