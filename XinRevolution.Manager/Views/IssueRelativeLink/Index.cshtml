@@ -1,0 +1,44 @@
+﻿@model IEnumerable<IssueRelativeLinkEntity>
+
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">相關連結管理</li>
+        </ol>
+    </nav>
+</div>
+
+<div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>相關連結</th>
+                <th>資源連結</th>
+                <th>備註</th>
+                <th>更新時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.LinkUrl</td>
+                    <td>@item.ResourceUrl</td>
+                    <td>@item.Note</td>
+                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
+                    <td>
+                        <a class="icon-update" asp-controller="IssueRelativeLink" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                        <a class="icon-delete" asp-controller="IssueRelativeLink" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        initDataTable($('table'), '/IssueRelativeLink/Create?issueId={0}'.format(@ViewBag.IssueId));
+    </script>
+}

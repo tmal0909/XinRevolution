@@ -72,3 +72,12 @@ function initDataTable($table, createUrl) {
         $('.dataTables_button').html(element);
     }
 }
+
+// File Input 初始化
+function initFileInput($fileInput, $resourceName) {
+    $fileInput.on('change', function () {
+        var fileName = $(this).val().split('\\').pop();
+
+        $resourceName.val(fileName);
+    });
+}

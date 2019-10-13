@@ -30,8 +30,9 @@ namespace XinRevolution.CloudService.AzureService
                         throw new Exception($"檔案異常");
 
                     file.CopyTo(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
 
-                    var fileName = $"{new Guid().ToString().ToLower()}.{Path.GetExtension(file.FileName)}";
+                    var fileName = $"{Guid.NewGuid().ToString().ToLower()}{Path.GetExtension(file.FileName)}";
                     var storageAccount = CloudStorageAccount.Parse(_connectionString);
                     var blobClient = storageAccount.CreateCloudBlobClient();
 

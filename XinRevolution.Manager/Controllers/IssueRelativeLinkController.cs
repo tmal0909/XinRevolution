@@ -13,22 +13,26 @@ namespace XinRevolution.Manager.Controllers
             _service = service;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int issueId)
         {
-            var result = _service.Find();
+            var result = _service.Find(issueId);
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
 
+            ViewBag.IssueId = issueId;
+
             return View(result.Data);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int issueId)
         {
             var result = _service.FindMetaData();
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.IssueId = issueId;
 
             return View(result.Data);
         }
@@ -45,7 +49,7 @@ namespace XinRevolution.Manager.Controllers
                 return View(result.Data);
             }
 
-            return RedirectToAction("Index", "IssueRelativeLink");
+            return RedirectToAction("Index", "IssueRelativeLink", new { issueId = metaData.IssueId });
         }
 
         public IActionResult Update(int id)
@@ -54,6 +58,8 @@ namespace XinRevolution.Manager.Controllers
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.IssueId = result.Data.IssueId;
 
             return View(result.Data);
         }
@@ -70,7 +76,7 @@ namespace XinRevolution.Manager.Controllers
                 return View(result.Data);
             }
 
-            return RedirectToAction("Index", "IssueRelativeLink");
+            return RedirectToAction("Index", "IssueRelativeLink", new { issueId = metaData.IssueId });
         }
 
         public IActionResult Delete(int id)
@@ -79,6 +85,8 @@ namespace XinRevolution.Manager.Controllers
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.IssueId = result.Data.IssueId;
 
             return View(result.Data);
         }
@@ -95,7 +103,7 @@ namespace XinRevolution.Manager.Controllers
                 return View(result.Data);
             }
 
-            return RedirectToAction("Index", "IssueRelativeLink");
+            return RedirectToAction("Index", "IssueRelativeLink", new { issueId = metaData.IssueId });
         }
     }
 }

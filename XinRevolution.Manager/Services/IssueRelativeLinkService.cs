@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.MetaDatas;
@@ -53,8 +54,15 @@ namespace XinRevolution.Manager.Services
 
             try
             {
+                if (metaData.IssueId <= 0)
+                    throw new Exception($"資料異常");
+
                 if (metaData.ResourceFile == null || metaData.ResourceFile.Length <= 0)
-                    throw new Exception($"檔案異常");
+                    throw new Exception($"資源檔案異常");
+
+                var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
+                if (!ValidResourceTypeModel.Image.Contains(extension))
+                    throw new Exception($"不支援該類型資源檔案");
 
                 var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
                 if (!uploadResult.Status)
@@ -104,6 +112,10 @@ namespace XinRevolution.Manager.Services
             {
                 if (metaData.ResourceFile != null && metaData.ResourceFile.Length > 0)
                 {
+                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
+                    if (!ValidResourceTypeModel.Image.Contains(extension))
+                        throw new Exception($"不支援該類型資源檔案");
+
                     originResourceUrl = metaData.ResourceUrl;
 
                     var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
