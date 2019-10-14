@@ -15,5 +15,7 @@ namespace XinRevolution.Repository.Interface
         IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
 
         int Commit();
+
+        void RollBack();
     }
 }

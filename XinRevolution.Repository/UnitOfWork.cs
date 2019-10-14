@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Linq;
 using XinRevolution.Repository.Interface;
 
 namespace XinRevolution.Repository
@@ -31,6 +32,30 @@ namespace XinRevolution.Repository
             Repositories.Add(key, repository);
 
             return repository;
+        }
+
+        public void RollBack()
+        {
+            var changedEntries = Context.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged);
+
+            foreach(var entry in changedEntries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.CurrentValues.SetValues(entry.OriginalValues);
+                        entry.State = EntityState.Unchanged;
+                        break;
+
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Unchanged;
+                        break;
+                }
+            }
         }
 
         public int Commit()

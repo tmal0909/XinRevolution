@@ -82,6 +82,8 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
+                _unitOfWork.RollBack();
+
                 if (resourceChange)
                 {
                     _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
@@ -143,6 +145,8 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
+                _unitOfWork.RollBack();
+
                 if (resourceChange)
                 {
                     _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
@@ -187,6 +191,8 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
+                _unitOfWork.RollBack();
+
                 result.Status = false;
                 result.Message = $"操作失敗 : {ex.Message}";
                 result.Data = metaData;

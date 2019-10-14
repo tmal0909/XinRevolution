@@ -17,9 +17,9 @@ namespace XinRevolution.Database
         public DbSet<IssueItemEntity> IssueItems { get; set; }
 
         public DbSet<IssueRelativeLinkEntity> IssueRelativeLinks { get; set; }
-               
+
         public XinRevolutionContext(DbContextOptions<XinRevolutionContext> options) : base(options) { }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             DefineKey(modelBuilder);
@@ -43,8 +43,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<DumpResourceEntity>().HasAlternateKey(x => new { x.ResourceUrl });
             modelBuilder.Entity<UserEntity>().HasAlternateKey(x => new { x.Account });
             modelBuilder.Entity<IssueEntity>().HasAlternateKey(x => new { x.Name });
-            modelBuilder.Entity<IssueItemEntity>().HasAlternateKey(x => new { x.Title, x.ReleaseDate, x.IssueId });
-            modelBuilder.Entity<IssueRelativeLinkEntity>().HasAlternateKey(x => new { x.ResourceUrl, x.IssueId });
+            modelBuilder.Entity<IssueItemEntity>().HasAlternateKey(x => new { x.Id, x.IssueId });
+            modelBuilder.Entity<IssueRelativeLinkEntity>().HasAlternateKey(x => new { x.Id, x.IssueId });
         }
 
         private void DefineDefaultValue(ModelBuilder modelBuilder)
