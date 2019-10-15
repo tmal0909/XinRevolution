@@ -18,6 +18,14 @@ namespace XinRevolution.Database
 
         public DbSet<IssueRelativeLinkEntity> IssueRelativeLinks { get; set; }
 
+        public DbSet<TagEntity> Tags { get; set; }
+
+        public DbSet<BlogEntity> Blogs { get; set; }
+
+        public DbSet<BlogPostEntity> BlogPosts { get; set; }
+
+        public DbSet<BlogTagEntity> BlogTags { get; set; }
+
         public XinRevolutionContext(DbContextOptions<XinRevolutionContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +44,10 @@ namespace XinRevolution.Database
             modelBuilder.Entity<IssueEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<IssueItemEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<IssueRelativeLinkEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<TagEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<BlogEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<BlogPostEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<BlogTagEntity>().HasKey(x => x.Id);
         }
 
         private void DefineAlternateKey(ModelBuilder modelBuilder)
@@ -45,6 +57,10 @@ namespace XinRevolution.Database
             modelBuilder.Entity<IssueEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<IssueItemEntity>().HasAlternateKey(x => new { x.Id, x.IssueId });
             modelBuilder.Entity<IssueRelativeLinkEntity>().HasAlternateKey(x => new { x.Id, x.IssueId });
+            modelBuilder.Entity<TagEntity>().HasAlternateKey(x => new { x.Name });
+            modelBuilder.Entity<BlogEntity>().HasAlternateKey(x => new { x.Name });
+            modelBuilder.Entity<BlogPostEntity>().HasAlternateKey(x => new { x.Id, x.BlogId });
+            modelBuilder.Entity<BlogTagEntity>().HasAlternateKey(x => new { x.Id, x.BlogId, x.TagId });
         }
 
         private void DefineDefaultValue(ModelBuilder modelBuilder)
@@ -54,12 +70,19 @@ namespace XinRevolution.Database
             modelBuilder.Entity<IssueEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<IssueItemEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<IssueRelativeLinkEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<TagEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<BlogEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<BlogPostEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<BlogTagEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
         private void DefineRelation(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IssueItemEntity>().HasOne(x => x.Issue).WithMany(x => x.IssueItems).HasForeignKey(x => x.IssueId);
             modelBuilder.Entity<IssueRelativeLinkEntity>().HasOne(x => x.Issue).WithMany(x => x.IssueRelativeLinks).HasForeignKey(x => x.IssueId);
+            modelBuilder.Entity<BlogPostEntity>().HasOne(x => x.Blog).WithMany(x => x.BlogPosts).HasForeignKey(x => x.BlogId);
+            modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Blog).WithMany(x => x.BlogTags).HasForeignKey(x => x.BlogId);
+            modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Tag).WithMany(x => x.BlogTags).HasForeignKey(x => x.TagId);
         }
 
         private void DefineSeedData(ModelBuilder modelBuilder)
