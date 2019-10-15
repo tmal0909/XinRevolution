@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace XinRevolution.Manager.Models
+namespace XinRevolution.Manager.Constants
 {
-    public static class ValidResourceTypeModel
+    public static class ValidResourceTypeConstant
     {
         public static List<string> Image = new List<string> { ".jpg", ".jpeg", ".png", ".svg", ".gif" };
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace XinRevolution.Manager.Models
+namespace XinRevolution.Manager.Constants
 {
-    public static class ConfigurationKeyModel
+    public static class ConfigurationKeyConstant
     {
         public static string IssueItemContainer = "BlobContainers:IssueItem";
 

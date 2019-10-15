@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
+using XinRevolution.Manager.Constants;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -18,7 +19,7 @@ namespace XinRevolution.Manager.Services
 
         public IssueRelativeLinkService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
         {
-            _containerName = configuration.GetValue<string>(ConfigurationKeyModel.IssueRelativeLinkContainer);
+            _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.IssueRelativeLinkContainer);
             _cloudService = cloudService;
         }
 
@@ -61,7 +62,7 @@ namespace XinRevolution.Manager.Services
                     throw new Exception($"資源檔案異常");
 
                 var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                if (!ValidResourceTypeModel.Image.Contains(extension))
+                if (!ValidResourceTypeConstant.Image.Contains(extension))
                     throw new Exception($"不支援該類型資源檔案");
 
                 var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
@@ -115,7 +116,7 @@ namespace XinRevolution.Manager.Services
                 if (metaData.ResourceFile != null && metaData.ResourceFile.Length > 0)
                 {
                     var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeModel.Image.Contains(extension))
+                    if (!ValidResourceTypeConstant.Image.Contains(extension))
                         throw new Exception($"不支援該類型資源檔案");
 
                     originResourceUrl = metaData.ResourceUrl;
