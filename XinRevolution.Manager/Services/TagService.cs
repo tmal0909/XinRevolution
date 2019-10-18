@@ -19,8 +19,8 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                _unitOfWork.GetRepository<TagEntity>().Delete(ToEntity(metaData));
                 _unitOfWork.GetRepository<BlogTagEntity>().Delete(x => x.TagId == metaData.Id);
+                _unitOfWork.GetRepository<TagEntity>().Delete(ToEntity(metaData));
 
                 if (_unitOfWork.Commit() <= 0)
                     throw new Exception($"無法刪除資料列");

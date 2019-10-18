@@ -45,6 +45,7 @@ namespace XinRevolution.Manager
             services.AddScoped<IssueItemService>();
             services.AddScoped<IssueRelativeLinkService>();
             services.AddScoped<TagService>();
+            services.AddScoped<BlogService>();
         }
 
         public void Configure(IApplicationBuilder app, XinRevolutionContext dbContext)

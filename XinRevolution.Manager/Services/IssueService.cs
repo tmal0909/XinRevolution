@@ -20,14 +20,14 @@ namespace XinRevolution.Manager.Services
             try
             {
                 var dumpResources = new List<DumpResourceEntity>();
-                var issueItems = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == metaData.Id);
                 var issueRelativeLinks = _unitOfWork.GetRepository<IssueRelativeLinkEntity>().GetAll(x => x.IssueId == metaData.Id);
+                var issueItems = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == metaData.Id);
 
-                dumpResources.AddRange(issueItems.Select(x => new DumpResourceEntity { ResourceUrl = x.ResourceUrl, DumpStatus = false }));
                 dumpResources.AddRange(issueRelativeLinks.Select(x => new DumpResourceEntity { ResourceUrl = x.ResourceUrl, DumpStatus = false }));
+                dumpResources.AddRange(issueItems.Select(x => new DumpResourceEntity { ResourceUrl = x.ResourceUrl, DumpStatus = false }));
 
-                _unitOfWork.GetRepository<IssueItemEntity>().Delete(x => x.IssueId == metaData.Id);
                 _unitOfWork.GetRepository<IssueRelativeLinkEntity>().Delete(x => x.IssueId == metaData.Id);
+                _unitOfWork.GetRepository<IssueItemEntity>().Delete(x => x.IssueId == metaData.Id);
                 _unitOfWork.GetRepository<IssueEntity>().Delete(ToEntity(metaData));
 
                 if (dumpResources.Count > 0)

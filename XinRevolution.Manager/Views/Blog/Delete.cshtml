@@ -1,0 +1,46 @@
+﻿@model BlogMD
+
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Issue" asp-action="Index">部落格管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">刪除</li>
+        </ol>
+    </nav>
+</div>
+
+<div>
+    <form asp-controller="Blog" asp-action="Delete" method="post" autocomplete="off" enctype="multipart/form-data">
+        <input asp-for="Id" />
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label" asp-for="Name"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="Name" readonly />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label" asp-for="ReleaseDate"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="ReleaseDate" readonly />
+                <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+            </div>
+        </div>
+
+        <div class="form-group row justify-content-center">
+            <span class="text-danger">@ViewBag.ErrorMessage</span>
+        </div>
+
+        <div class="form-group row justify-content-center">
+            <button class="btn btn-primary" type="submit">送出</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        initDatePicker($('#ReleaseDate'));
+    </script>
+}
