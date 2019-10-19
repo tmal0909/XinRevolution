@@ -15,7 +15,7 @@
                 <th>部落格名稱</th>
                 <th>發行日期</th>
                 <th>更新時間</th>
-                <th>標籤管理</th>
+                <th>標籤設定</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -23,11 +23,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-controller="BlogPost" asp-action="Index" asp-route-blogId="@item.Id" title="部落格內容管理">@item.Name</a></td>
+                    <td><a asp-controller="BlogPost" asp-action="Index" asp-route-blogId="@item.Id" title="內容管理">@item.Name</a></td>
                     <td>@item.ReleaseDate</td>
                     <td>@item.UtcUpdateTime.ToLocalTime()</td>
                     <td>
-                        <a class="icon-detail" asp-controller="BlogTag" asp-action="Index" asp-route-issueId="@item.Id" title="部落格標籤"></a>
+                        <a class="icon-detail" asp-controller="BlogTag" asp-action="Index" asp-route-blogId="@item.Id" title="標籤設定"></a>
                     </td>
                     <td>
                         <a class="icon-update" asp-controller="Blog" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>

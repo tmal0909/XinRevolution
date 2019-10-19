@@ -45,6 +45,7 @@ namespace XinRevolution.Manager.Controllers
             if (!result.Status)
             {
                 ViewBag.ErrorMessage = result.Message;
+                ViewBag.IssueId = result.Data.IssueId;
 
                 return View(result.Data);
             }
@@ -72,6 +73,7 @@ namespace XinRevolution.Manager.Controllers
             if (!result.Status)
             {
                 ViewBag.ErrorMessage = result.Message;
+                ViewBag.IssueId = result.Data.IssueId;
 
                 return View(result.Data);
             }
@@ -99,6 +101,7 @@ namespace XinRevolution.Manager.Controllers
             if (!result.Status)
             {
                 ViewBag.ErrorMessage = result.Message;
+                ViewBag.IssueId = result.Data.IssueId;
 
                 return View(result.Data);
             }

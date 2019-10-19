@@ -23,15 +23,12 @@ namespace XinRevolution.Manager.Services
             _cloudService = cloudService;
         }
 
-        public ServiceResultModel<IEnumerable<IssueItemEntity>> Find(int issueId = -1)
+        public ServiceResultModel<IEnumerable<IssueItemEntity>> Find(int issueId)
         {
             var result = new ServiceResultModel<IEnumerable<IssueItemEntity>>();
 
             try
             {
-                if (issueId == -1)
-                    return base.Find();
-
                 var entities = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == issueId);
 
                 result.Status = true;

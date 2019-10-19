@@ -13,6 +13,8 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, )
+
         TEntity Single(object key);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition);
