@@ -11,13 +11,27 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll();
 
+        IEnumerable<TEntity> GetAll(string include);
+
+        IEnumerable<TEntity> GetAll(IEnumerable<string> includes);
+
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, )
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, string include);
+
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes);
 
         TEntity Single(object key);
 
+        TEntity Single(object key, string include);
+
+        TEntity Single(object key, IEnumerable<string> includes);
+
         TEntity Single(Expression<Func<TEntity, bool>> condition);
+
+        TEntity Single(Expression<Func<TEntity, bool>> condition, string include);
+
+        TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes);
 
         TEntity Insert(TEntity entity);
 

@@ -18,12 +18,46 @@ namespace XinRevolution.Repository
 
         public IEnumerable<TEntity> GetAll()
         {
-            return Context.Set<TEntity>().AsNoTracking();
+            return Context.Set<TEntity>();
+        }
+
+        public IEnumerable<TEntity> GetAll(string include)
+        {
+            return Context.Set<TEntity>().Include(include);
+        }
+
+        public IEnumerable<TEntity> GetAll(IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result;
         }
 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition)
         {
-            return Context.Set<TEntity>().AsNoTracking().Where(condition);
+            return Context.Set<TEntity>().Where(condition);
+        }
+
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, string include)
+        {
+            return Context.Set<TEntity>().Include(include).Where(condition);
+        }
+
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().Where(condition).AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result;
         }
 
         public TEntity Single(object key)
@@ -31,9 +65,45 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().Find(key);
         }
 
+        public TEntity Single(object key, string include)
+        {
+            var result = Context.Set<TEntity>().Include(include);
+
+            return ((DbSet<TEntity>)result).Find(key);
+        }
+
+        public TEntity Single(object key, IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return ((DbSet<TEntity>)result).Find(key);
+        }
+
         public TEntity Single(Expression<Func<TEntity, bool>> condition)
         {
             return Context.Set<TEntity>().SingleOrDefault(condition);
+        }
+
+        public TEntity Single(Expression<Func<TEntity, bool>> condition, string include)
+        {
+            return Context.Set<TEntity>().Include(include).SingleOrDefault(condition);
+        }
+
+        public TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result.SingleOrDefault(condition);
         }
 
         public TEntity Insert(TEntity entity)
