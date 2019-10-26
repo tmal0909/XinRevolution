@@ -33,6 +33,8 @@ namespace XinRevolution.Manager.Services
             {
                 _unitOfWork.RollBack();
 
+                metaData.StatusOptions = GetOptions();
+
                 result.Status = true;
                 result.Message = $"操作失敗 : {ex.Message}";
                 result.Data = metaData;
@@ -58,11 +60,16 @@ namespace XinRevolution.Manager.Services
                 Id = entity.Id,
                 Name = entity.Name,
                 Status = entity.Status,
-                StatusOptions = new List<SelectListItem>
-                {
-                    new SelectListItem{ Text = $"開啟", Value = $"true" },
-                    new SelectListItem{ Text = $"關閉", Value = $"false" }
-                }
+                StatusOptions = GetOptions()
+            };
+        }
+
+        public List<SelectListItem> GetOptions()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem{ Text = $"開啟", Value = $"true" },
+                new SelectListItem{ Text = $"關閉", Value = $"false" }
             };
         }
     }

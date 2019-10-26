@@ -44,6 +44,7 @@ namespace XinRevolution.Manager.Controllers
 
             if (!result.Status)
             {
+                result.Data.TagOptions = _service.GetOptions();
                 ViewBag.ErrorMessage = result.Message;
                 ViewBag.BlogId = result.Data.BlogId;
 
@@ -72,6 +73,7 @@ namespace XinRevolution.Manager.Controllers
 
             if (!result.Status)
             {
+                result.Data.TagOptions = _service.GetOptions();
                 ViewBag.ErrorMessage = result.Message;
                 ViewBag.BlogId = result.Data.BlogId;
 

@@ -10,8 +10,8 @@ using XinRevolution.Database;
 namespace XinRevolution.Database.Migrations
 {
     [DbContext(typeof(XinRevolutionContext))]
-    [Migration("20191015162910_AddBlog")]
-    partial class AddBlog
+    [Migration("20191024171827_updateblogpost")]
+    partial class updateblogpost
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,9 @@ namespace XinRevolution.Database.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<short>("ReferenceType")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("Sort")
                         .HasColumnType("smallint");
 
                     b.Property<DateTime>("UtcUpdateTime")

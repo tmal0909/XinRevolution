@@ -10,5 +10,7 @@ namespace XinRevolution.Manager.Constants
         public static string IssueItemContainer = "BlobContainers:IssueItem";
 
         public static string IssueRelativeLinkContainer = "BlobContainers:IssueRelativeLink";
+
+        public static string BlogPostContainer = "BlobContainers:BlogPost";
     }
 }

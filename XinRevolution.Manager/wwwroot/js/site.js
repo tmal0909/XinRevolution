@@ -55,3 +55,11 @@ function initDatePicker($dateInput) {
         language: 'zh-TW'
     });
 }
+
+// 切換部落格輸入視窗
+function showBlogReferenceInputBlock($referenceType) {
+    if ($referenceType.val() === '0')
+        $('#TextReferenceBlock').removeClass('d-none');
+    else
+        $('#MediaReferenceBlock').removeClass('d-none');
+}

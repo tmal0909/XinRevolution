@@ -22,6 +22,10 @@ namespace XinRevolution.Database.Entity
         public string ReferenceContent { get; set; }
 
         [Required]
+        [Column(TypeName = "smallint")]
+        public int Sort { get; set; }
+
+        [Required]
         [Column(TypeName = "int")]
         public int BlogId { get; set; }
 

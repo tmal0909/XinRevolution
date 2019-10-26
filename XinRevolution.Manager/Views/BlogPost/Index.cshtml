@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BlogPostEntity>
+
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">部落格管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">內文管理</li>
+        </ol>
+    </nav>
+</div>
+
+<div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>內文順序</th>
+                <th>資源類型</th>
+                <th>資源內文</th>
+                <th>更新時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderBy(x => x.Sort))
+            {
+                <tr>
+                    <td>@item.Sort</td>
+                    <td>@GetReferenceTypeName(item.ReferenceType)</td>
+                    <td>@item.ReferenceContent</td>
+                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
+                    <td>
+                        <a class="icon-update" asp-controller="BlogPost" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                        <a class="icon-delete" asp-controller="BlogPost" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions{
+    public string GetReferenceTypeName(ReferenceTypeEnum type)
+    {
+        return EnumHelper<ReferenceTypeEnum>.GetDisplayValue(type);
+    }
+}
+
+@section Scripts{
+    <script>
+        initDataTable($('table'), '/BlogPost/Create?blogId={0}'.format(@ViewBag.BlogId));
+    </script>
+}

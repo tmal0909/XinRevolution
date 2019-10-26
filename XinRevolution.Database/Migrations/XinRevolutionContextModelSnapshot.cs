@@ -62,6 +62,9 @@ namespace XinRevolution.Database.Migrations
                     b.Property<short>("ReferenceType")
                         .HasColumnType("smallint");
 
+                    b.Property<short>("Sort")
+                        .HasColumnType("smallint");
+
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime")

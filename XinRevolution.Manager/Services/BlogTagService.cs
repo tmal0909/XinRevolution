@@ -53,15 +53,21 @@ namespace XinRevolution.Manager.Services
                 Id = entity.Id,
                 BlogId = entity.BlogId,
                 TagId = entity.TagId,
-                TagOptions = _unitOfWork.GetRepository<TagEntity>()
-                    .GetAll()
-                    .Select(x => new SelectListItem
-                    {
-                        Text = x.Name,
-                        Value = x.Id.ToString()
-                    })
-                    .ToList()
+                TagOptions = GetOptions()
             };
+        }
+
+        public List<SelectListItem> GetOptions()
+        {
+            return _unitOfWork
+                .GetRepository<TagEntity>()
+                .GetAll()
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                })
+                .ToList();
         }
     }
 }

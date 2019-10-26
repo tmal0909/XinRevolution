@@ -10,8 +10,8 @@ using XinRevolution.Database;
 namespace XinRevolution.Database.Migrations
 {
     [DbContext(typeof(XinRevolutionContext))]
-    [Migration("20191004151310_Initialize")]
-    partial class Initialize
+    [Migration("20191022164749_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,99 @@ namespace XinRevolution.Database.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.BlogEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.BlogPostEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediaReferenceContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<short>("ReferenceType")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("Sort")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("TextReferenceContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Id", "BlogId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogPosts");
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.BlogTagEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Id", "BlogId", "TagId");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogTags");
+                });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.DumpResourceEntity", b =>
                 {
@@ -106,7 +199,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Title", "ReleaseDate", "IssueId");
+                    b.HasAlternateKey("Id", "IssueId");
 
                     b.HasIndex("IssueId");
 
@@ -142,11 +235,37 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ResourceUrl", "IssueId");
+                    b.HasAlternateKey("Id", "IssueId");
 
                     b.HasIndex("IssueId");
 
                     b.ToTable("IssueRelativeLinks");
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.TagEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.UserEntity", b =>
@@ -203,6 +322,27 @@ namespace XinRevolution.Database.Migrations
                             Phone = "12345678",
                             UtcUpdateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.BlogPostEntity", b =>
+                {
+                    b.HasOne("XinRevolution.Database.Entity.BlogEntity", "Blog")
+                        .WithMany("BlogPosts")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.BlogTagEntity", b =>
+                {
+                    b.HasOne("XinRevolution.Database.Entity.BlogEntity", "Blog")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("XinRevolution.Database.Entity.TagEntity", "Tag")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.IssueItemEntity", b =>

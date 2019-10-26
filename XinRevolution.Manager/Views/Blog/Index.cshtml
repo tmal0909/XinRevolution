@@ -23,7 +23,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-controller="BlogPost" asp-action="Index" asp-route-blogId="@item.Id" title="內容管理">@item.Name</a></td>
+                    <td><a asp-controller="BlogPost" asp-action="Index" asp-route-blogId="@item.Id" title="內文管理">@item.Name</a></td>
                     <td>@item.ReleaseDate</td>
                     <td>@item.UtcUpdateTime.ToLocalTime()</td>
                     <td>

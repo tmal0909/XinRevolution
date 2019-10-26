@@ -46,6 +46,7 @@ namespace XinRevolution.Manager
             services.AddScoped<IssueRelativeLinkService>();
             services.AddScoped<TagService>();
             services.AddScoped<BlogService>();
+            services.AddScoped<BlogPostService>();
             services.AddScoped<BlogTagService>();
         }
 
