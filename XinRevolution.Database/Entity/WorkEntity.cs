@@ -25,6 +25,10 @@ namespace XinRevolution.Database.Entity
         public string ResourceUrl { get; set; }
 
         [Required]
+        [Column(TypeName = "int")]
+        public int Sort { get; set; }
+
+        [Required]
         [Column(TypeName = "nvarchar(50)")]
         public string Controller { get; set; }
 

@@ -121,6 +121,14 @@ namespace XinRevolution.Database
                 Mail = "dev@mail.com",
                 Address = "12345678"
             });
+
+            modelBuilder.Entity<WorkEntity>().HasData(new WorkEntity {
+                Id = 1,
+                Name = "焰世代",
+                Intro = "焰世代作品簡介",
+                ResourceUrl = "default",
+                Controller = "FireGeneration"
+            });
         }
 
         #endregion

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XinRevolution.Database;
 
 namespace XinRevolution.Database.Migrations
 {
     [DbContext(typeof(XinRevolutionContext))]
-    partial class XinRevolutionContextModelSnapshot : ModelSnapshot
+    [Migration("20191027173604_seeddataofwork")]
+    partial class seeddataofwork
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,9 +465,6 @@ namespace XinRevolution.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int>("Sort")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime")
@@ -485,7 +484,6 @@ namespace XinRevolution.Database.Migrations
                             Intro = "焰世代作品簡介",
                             Name = "焰世代",
                             ResourceUrl = "default",
-                            Sort = 0,
                             UtcUpdateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
