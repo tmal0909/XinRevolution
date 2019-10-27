@@ -41,6 +41,23 @@ namespace XinRevolution.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FGGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    BackgroundResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FGGroups", x => x.Id);
+                    table.UniqueConstraint("AK_FGGroups_Name", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Issues",
                 columns: table => new
                 {
@@ -93,6 +110,25 @@ namespace XinRevolution.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Works",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Intro = table.Column<string>(type: "nvarchar(500)", nullable: false),
+                    ResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    Sort = table.Column<int>(type: "int", nullable: false),
+                    Controller = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Works", x => x.Id);
+                    table.UniqueConstraint("AK_Works_Name", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlogPosts",
                 columns: table => new
                 {
@@ -112,6 +148,34 @@ namespace XinRevolution.Database.Migrations
                         name: "FK_BlogPosts_Blogs_BlogId",
                         column: x => x.BlogId,
                         principalTable: "Blogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FGGroupRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    CoverMainResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    CoverViceResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    CharacterMainResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    CharacterViceResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    RelativeLinkUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    Sort = table.Column<short>(type: "smallint", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FGGroupRoles", x => x.Id);
+                    table.UniqueConstraint("AK_FGGroupRoles_Id_GroupId", x => new { x.Id, x.GroupId });
+                    table.ForeignKey(
+                        name: "FK_FGGroupRoles_FGGroups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "FGGroups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,10 +257,40 @@ namespace XinRevolution.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "FGRoleEquipments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Intro = table.Column<string>(type: "nvarchar(500)", nullable: false),
+                    MainResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    ViceResourceUrl = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FGRoleEquipments", x => x.Id);
+                    table.UniqueConstraint("AK_FGRoleEquipments_Id_RoleId", x => new { x.Id, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_FGRoleEquipments_FGGroupRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "FGGroupRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Account", "Address", "Mail", "Name", "Password", "Phone" },
                 values: new object[] { 1, "dev", "12345678", "dev@mail.com", "developer", "dev", "12345678" });
+
+            migrationBuilder.InsertData(
+                table: "Works",
+                columns: new[] { "Id", "Controller", "Intro", "Name", "ResourceUrl", "Sort" },
+                values: new object[] { 1, "FireGeneration", "焰世代作品簡介", "焰世代", "default", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogPosts_BlogId",
@@ -212,6 +306,16 @@ namespace XinRevolution.Database.Migrations
                 name: "IX_BlogTags_TagId",
                 table: "BlogTags",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FGGroupRoles_GroupId",
+                table: "FGGroupRoles",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FGRoleEquipments_RoleId",
+                table: "FGRoleEquipments",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueItems_IssueId",
@@ -236,6 +340,9 @@ namespace XinRevolution.Database.Migrations
                 name: "DumpResources");
 
             migrationBuilder.DropTable(
+                name: "FGRoleEquipments");
+
+            migrationBuilder.DropTable(
                 name: "IssueItems");
 
             migrationBuilder.DropTable(
@@ -245,13 +352,22 @@ namespace XinRevolution.Database.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
+                name: "Works");
+
+            migrationBuilder.DropTable(
                 name: "Blogs");
 
             migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
+                name: "FGGroupRoles");
+
+            migrationBuilder.DropTable(
                 name: "Issues");
+
+            migrationBuilder.DropTable(
+                name: "FGGroups");
         }
     }
 }

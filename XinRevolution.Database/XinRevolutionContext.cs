@@ -28,6 +28,12 @@ namespace XinRevolution.Database
 
         public DbSet<WorkEntity> Works { get; set; }
 
+        public DbSet<FGGroupEntity> FGGroups { get; set; }
+
+        public DbSet<FGGroupRoleEntity> FGGroupRoles { get; set; }
+
+        public DbSet<FGRoleEquipmentEntity> FGRoleEquipments { get; set; }
+
         #endregion
 
         #region Constructor

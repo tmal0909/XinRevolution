@@ -162,7 +162,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("FGGroupEntity");
+                    b.ToTable("FGGroups");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGGroupRoleEntity", b =>
@@ -213,7 +213,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("FGGroupRoleEntity");
+                    b.ToTable("FGGroupRoles");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGRoleEquipmentEntity", b =>
@@ -253,7 +253,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("FGRoleEquipmentEntity");
+                    b.ToTable("FGRoleEquipments");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.IssueEntity", b =>

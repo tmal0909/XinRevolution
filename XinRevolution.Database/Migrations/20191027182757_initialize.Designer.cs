@@ -10,8 +10,8 @@ using XinRevolution.Database;
 namespace XinRevolution.Database.Migrations
 {
     [DbContext(typeof(XinRevolutionContext))]
-    [Migration("20191027175512_workaddsortcolumn")]
-    partial class workaddsortcolumn
+    [Migration("20191027182757_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,7 +164,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("FGGroupEntity");
+                    b.ToTable("FGGroups");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGGroupRoleEntity", b =>
@@ -215,7 +215,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("FGGroupRoleEntity");
+                    b.ToTable("FGGroupRoles");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGRoleEquipmentEntity", b =>
@@ -255,7 +255,7 @@ namespace XinRevolution.Database.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("FGRoleEquipmentEntity");
+                    b.ToTable("FGRoleEquipments");
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.IssueEntity", b =>

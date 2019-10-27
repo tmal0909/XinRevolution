@@ -60,6 +60,23 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Issue" asp-action="Index">追蹤議題管理</a>
                 </li>
+                <li class="nav-item">
+                    <div class="accordion" id="menu-accordion-firegeneration">
+                        <div class="accordion-head" id="menu-accordion-firegeneration-head">
+                            <a href="#" data-toggle="collapse" data-target="#menu-accordion-firegeneration-content" aria-expanded="false" aria-controls="menu-accordion-firegeneration-content">焰世代管理</a>
+                        </div>
+
+                        <div class="acoordion-content collapse" id="menu-accordion-firegeneration-content" aria-labelledby="menu-accordion-firegeneration-head" data-parent="#menu-accordion-firegeneration">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="" asp-action="Index">群組角色管理</a>
+                                    <a class="nav-link" asp-controller="" asp-action="Index">世界觀管理</a>
+                                    <a class="nav-link" asp-controller="" asp-action="Index">時間軸管理</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </aside>
 
