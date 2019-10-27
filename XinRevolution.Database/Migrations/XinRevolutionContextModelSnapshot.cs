@@ -134,6 +134,128 @@ namespace XinRevolution.Database.Migrations
                     b.ToTable("DumpResources");
                 });
 
+            modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGGroupEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BackgroundResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("FGGroupEntity");
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGGroupRoleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CharacterMainResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CharacterViceResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CoverMainResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CoverViceResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("RelativeLinkUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<short>("Sort")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Id", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("FGGroupRoleEntity");
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGRoleEquipmentEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Intro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("MainResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.Property<string>("ViceResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Id", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("FGRoleEquipmentEntity");
+                });
+
             modelBuilder.Entity("XinRevolution.Database.Entity.IssueEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -318,6 +440,41 @@ namespace XinRevolution.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("XinRevolution.Database.Entity.WorkEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Controller")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Intro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("UtcUpdateTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
+
+                    b.ToTable("Works");
+                });
+
             modelBuilder.Entity("XinRevolution.Database.Entity.BlogPostEntity", b =>
                 {
                     b.HasOne("XinRevolution.Database.Entity.BlogEntity", "Blog")
@@ -336,6 +493,22 @@ namespace XinRevolution.Database.Migrations
                     b.HasOne("XinRevolution.Database.Entity.TagEntity", "Tag")
                         .WithMany("BlogTags")
                         .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGGroupRoleEntity", b =>
+                {
+                    b.HasOne("XinRevolution.Database.Entity.FireGeneration.FGGroupEntity", "Group")
+                        .WithMany("Roles")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("XinRevolution.Database.Entity.FireGeneration.FGRoleEquipmentEntity", b =>
+                {
+                    b.HasOne("XinRevolution.Database.Entity.FireGeneration.FGGroupRoleEntity", "Role")
+                        .WithMany("Equipments")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

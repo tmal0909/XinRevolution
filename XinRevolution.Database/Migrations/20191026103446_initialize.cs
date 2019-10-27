@@ -99,8 +99,7 @@ namespace XinRevolution.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ReferenceType = table.Column<short>(type: "smallint", nullable: false),
-                    TextReferenceContent = table.Column<string>(type: "nvarchar(500)", nullable: false),
-                    MediaReferenceContent = table.Column<string>(type: "nvarchar(500)", nullable: false),
+                    ReferenceContent = table.Column<string>(type: "nvarchar(500)", nullable: false),
                     Sort = table.Column<short>(type: "smallint", nullable: false),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     UtcUpdateTime = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "getutcdate()")

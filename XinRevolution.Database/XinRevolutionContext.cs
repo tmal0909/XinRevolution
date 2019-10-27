@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using XinRevolution.Database.Entity;
+using XinRevolution.Database.Entity.FireGeneration;
 
 namespace XinRevolution.Database
 {
     public class XinRevolutionContext : DbContext
     {
+        #region DbSet
+
         public DbSet<UserEntity> Users { get; set; }
 
         public DbSet<DumpResourceEntity> DumpResources { get; set; }
@@ -26,7 +26,17 @@ namespace XinRevolution.Database
 
         public DbSet<BlogTagEntity> BlogTags { get; set; }
 
+        public DbSet<WorkEntity> Works { get; set; }
+
+        #endregion
+
+        #region Constructor
+
         public XinRevolutionContext(DbContextOptions<XinRevolutionContext> options) : base(options) { }
+
+        #endregion
+
+        #region Fluent API
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +58,10 @@ namespace XinRevolution.Database
             modelBuilder.Entity<BlogEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<BlogPostEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<BlogTagEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<WorkEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGGroupEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGGroupRoleEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGRoleEquipmentEntity>().HasKey(x => x.Id);
         }
 
         private void DefineAlternateKey(ModelBuilder modelBuilder)
@@ -61,6 +75,10 @@ namespace XinRevolution.Database
             modelBuilder.Entity<BlogEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<BlogPostEntity>().HasAlternateKey(x => new { x.Id, x.BlogId });
             modelBuilder.Entity<BlogTagEntity>().HasAlternateKey(x => new { x.Id, x.BlogId, x.TagId });
+            modelBuilder.Entity<WorkEntity>().HasAlternateKey(x => new { x.Name });
+            modelBuilder.Entity<FGGroupEntity>().HasAlternateKey(x => new { x.Name });
+            modelBuilder.Entity<FGGroupRoleEntity>().HasAlternateKey(x => new { x.Id, x.GroupId });
+            modelBuilder.Entity<FGRoleEquipmentEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
         }
 
         private void DefineDefaultValue(ModelBuilder modelBuilder)
@@ -74,6 +92,10 @@ namespace XinRevolution.Database
             modelBuilder.Entity<BlogEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<BlogPostEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<BlogTagEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<WorkEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGGroupEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGGroupRoleEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGRoleEquipmentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
         private void DefineRelation(ModelBuilder modelBuilder)
@@ -83,6 +105,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<BlogPostEntity>().HasOne(x => x.Blog).WithMany(x => x.BlogPosts).HasForeignKey(x => x.BlogId);
             modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Blog).WithMany(x => x.BlogTags).HasForeignKey(x => x.BlogId);
             modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Tag).WithMany(x => x.BlogTags).HasForeignKey(x => x.TagId);
+            modelBuilder.Entity<FGGroupRoleEntity>().HasOne(x => x.Group).WithMany(x => x.Roles).HasForeignKey(x => x.GroupId);
+            modelBuilder.Entity<FGRoleEquipmentEntity>().HasOne(x => x.Role).WithMany(x => x.Equipments).HasForeignKey(x => x.RoleId);
         }
 
         private void DefineSeedData(ModelBuilder modelBuilder)
@@ -98,5 +122,7 @@ namespace XinRevolution.Database
                 Address = "12345678"
             });
         }
+
+        #endregion
     }
 }
