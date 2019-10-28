@@ -141,10 +141,6 @@ namespace XinRevolution.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BackgroundResourceUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(300)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
@@ -152,6 +148,13 @@ namespace XinRevolution.Database.Migrations
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ResourceUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("Sort")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UtcUpdateTime")
                         .ValueGeneratedOnAddOrUpdate()

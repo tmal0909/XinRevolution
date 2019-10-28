@@ -19,7 +19,11 @@ namespace XinRevolution.Database.Entity.FireGeneration
 
         [Required]
         [Column(TypeName = "nvarchar(300)")]
-        public string BackgroundResourceUrl { get; set; }
+        public string ResourceUrl { get; set; }
+
+        [Required]
+        [Column(TypeName = "int")]
+        public int Sort { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(50)")]

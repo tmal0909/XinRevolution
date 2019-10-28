@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using XinRevolution.CloudService.AzureService;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database;
 using XinRevolution.Manager.Services;
+using XinRevolution.Manager.Services.FireGeneration;
 using XinRevolution.Repository;
 using XinRevolution.Repository.Interface;
 
@@ -49,6 +51,8 @@ namespace XinRevolution.Manager
             services.AddScoped<BlogPostService>();
             services.AddScoped<BlogTagService>();
             services.AddScoped<WorkService>();
+
+            services.AddScoped<FGGroupService>();
         }
 
         public void Configure(IApplicationBuilder app, XinRevolutionContext dbContext)
