@@ -31,6 +31,10 @@ namespace XinRevolution.Database.Entity.FireGeneration
 
         [Required]
         [Column(TypeName = "int")]
+        public int GroupId { get; set; }
+
+        [Required]
+        [Column(TypeName = "int")]
         public int RoleId { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

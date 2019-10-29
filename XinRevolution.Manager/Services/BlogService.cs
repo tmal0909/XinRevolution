@@ -31,7 +31,7 @@ namespace XinRevolution.Manager.Services
                 _unitOfWork.GetRepository<BlogEntity>().Delete(ToEntity(metaData));
 
                 if (dumpResources.Count > 0)
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Delete(dumpResources);
+                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(dumpResources);
 
                 if (_unitOfWork.Commit() <= 0)
                     throw new Exception($"無法刪除資料列");
