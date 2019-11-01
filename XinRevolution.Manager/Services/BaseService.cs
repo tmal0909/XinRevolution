@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
 
@@ -165,6 +168,25 @@ namespace XinRevolution.Manager.Services
             return result;
         }
 
+        protected virtual string UploadResource(IAzureBlobService cloudService, string containerName, IFormFile ResourceFile, List<string> ValidResourceType)
+        {
+            if (string.IsNullOrEmpty(containerName))
+                throw new Exception($"容器名稱異常");
+            
+            if (ResourceFile == null || ResourceFile.Length <= 0)
+                throw new Exception($"資源檔案異常");
+
+            var extension = Path.GetExtension(ResourceFile.FileName).ToLower();
+            if (!ValidResourceType.Contains(extension))
+                throw new Exception($"不支援該類型資源檔案");
+
+            var uploadResult = cloudService.Upload(containerName, ResourceFile);
+            if (!uploadResult.Status)
+                throw new Exception(uploadResult.Message);
+
+            return uploadResult.Data;
+        }
+        
         protected abstract TEntity ToEntity(TMetaData metaData);
 
         protected abstract TMetaData ToMetaData(TEntity entity);

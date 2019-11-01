@@ -18,6 +18,10 @@ namespace XinRevolution.Database.Entity.FireGeneration
         public string Name { get; set; }
 
         [Required]
+        [Column(TypeName = "nvarchar(500)")]
+        public string Intro { get; set; }
+
+        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string CoverMainResourceUrl { get; set; }
 
