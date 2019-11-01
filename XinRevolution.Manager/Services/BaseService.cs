@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
+using XinRevolution.Database.Entity;
+using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
 
@@ -12,10 +15,12 @@ namespace XinRevolution.Manager.Services
     public abstract class BaseService<TEntity, TMetaData> where TEntity : class, new() where TMetaData : class
     {
         protected readonly IUnitOfWork<DbContext> _unitOfWork;
+        protected readonly IAzureBlobService _cloudService;
 
-        public BaseService(IUnitOfWork<DbContext> unitOfWork)
+        public BaseService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService)
         {
             _unitOfWork = unitOfWork;
+            _cloudService = cloudService;
         }
 
         public ServiceResultModel<IEnumerable<TEntity>> Find()
@@ -168,27 +173,54 @@ namespace XinRevolution.Manager.Services
             return result;
         }
 
-        protected virtual string UploadResource(IAzureBlobService cloudService, string containerName, IFormFile ResourceFile, List<string> ValidResourceType)
+        protected abstract TEntity ToEntity(TMetaData metaData);
+
+        protected abstract TMetaData ToMetaData(TEntity entity);
+
+        protected string UploadResource(string containerName, IFormFile resourceFile, ResourceTypeEnum validResourceType)
         {
             if (string.IsNullOrEmpty(containerName))
                 throw new Exception($"容器名稱異常");
-            
-            if (ResourceFile == null || ResourceFile.Length <= 0)
+
+            if (resourceFile == null || resourceFile.Length <= 0)
                 throw new Exception($"資源檔案異常");
 
-            var extension = Path.GetExtension(ResourceFile.FileName).ToLower();
-            if (!ValidResourceType.Contains(extension))
-                throw new Exception($"不支援該類型資源檔案");
+            var extension = Path.GetExtension(resourceFile.FileName).ToLower();
 
-            var uploadResult = cloudService.Upload(containerName, ResourceFile);
+            switch (validResourceType)
+            {
+                case ResourceTypeEnum.Image:
+                    if (!ValidResourceTypeConstant.Image.Contains(extension))
+                        throw new Exception($"不支援該類型資源檔案");
+                    break;
+
+                case ResourceTypeEnum.Video:
+                    if (!ValidResourceTypeConstant.Video.Contains(extension))
+                        throw new Exception($"不支援該類型資源檔案");
+                    break;
+
+                case ResourceTypeEnum.Media:
+                    if (!ValidResourceTypeConstant.Media.Contains(extension))
+                        throw new Exception($"不支援該類型資源檔案");
+                    break;
+            }
+
+            var uploadResult = _cloudService.Upload(containerName, resourceFile);
             if (!uploadResult.Status)
                 throw new Exception(uploadResult.Message);
 
             return uploadResult.Data;
         }
-        
-        protected abstract TEntity ToEntity(TMetaData metaData);
 
-        protected abstract TMetaData ToMetaData(TEntity entity);
+        protected void DumpResource(string resourceUrl)
+        {
+            _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
+            {
+                ResourceUrl = resourceUrl,
+                DumpStatus = false
+            });
+
+            return;
+        }
     }
 }
