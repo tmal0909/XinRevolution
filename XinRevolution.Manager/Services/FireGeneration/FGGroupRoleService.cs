@@ -16,12 +16,10 @@ namespace XinRevolution.Manager.Services.FireGeneration
     public class FGGroupRoleService : BaseService<FGGroupRoleEntity, FGGroupRoleMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public FGGroupRoleService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public FGGroupRoleService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.FGGroupRoleContainer);
-            _cloudService = cloudService;
         }
 
         public override ServiceResultModel<FGGroupRoleMD> Create(FGGroupRoleMD metaData)
@@ -32,11 +30,6 @@ namespace XinRevolution.Manager.Services.FireGeneration
             {
                 if (metaData.GroupId <= 0)
                     throw new Exception($"資料異常");
-
-                metaData.CoverMainResourceUrl = UploadResource(_cloudService, _containerName, metaData.CoverMainResourceFile, ValidResourceTypeConstant.Image);
-                metaData.CoverViceResourceUrl = UploadResource(_cloudService, _containerName, metaData.CoverViceResourceFile, ValidResourceTypeConstant.Image);
-                metaData.CharacterViceResourceUrl = UploadResource(_cloudService, _containerName, metaData.CharacterMainResourceFile, ValidResourceTypeConstant.Image);
-                metaData.CharacterViceResourceUrl = UploadResource(_cloudService, _containerName, metaData.CharacterViceResourceFile, ValidResourceTypeConstant.Image);
 
                 _unitOfWork.GetRepository<FGGroupRoleEntity>().Insert(ToEntity(metaData));
 
@@ -112,49 +105,6 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
             try
             {
-                if (metaData.CoverMainResourceFile != null)
-                {
-                    metaData.CoverMainResourceUrl = UploadResource(_cloudService, _containerName, metaData.CoverMainResourceFile, ValidResourceTypeConstant.Image);
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.CoverMainResourceUrl,
-                        DumpStatus = false
-                    });
-                }
-
-                if (metaData.CoverViceResourceFile != null)
-                {
-                    metaData.CoverViceResourceUrl = UploadResource(_cloudService, _containerName, metaData.CoverViceResourceFile, ValidResourceTypeConstant.Image);
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.CoverViceResourceUrl,
-                        DumpStatus = false
-                    });
-                }
-
-                if (metaData.CharacterMainResourceFile != null)
-                {
-                    metaData.CharacterMainResourceUrl = UploadResource(_cloudService, _containerName, metaData.CharacterMainResourceFile, ValidResourceTypeConstant.Image);
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.CharacterMainResourceUrl,
-                        DumpStatus = false
-                    });
-                }
-
-                if (metaData.CharacterViceResourceFile != null)
-                {
-                    metaData.CharacterViceResourceUrl = UploadResource(_cloudService, _containerName, metaData.CharacterViceResourceFile, ValidResourceTypeConstant.Image);
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.CharacterViceResourceUrl,
-                        DumpStatus = false
-                    });
-                }
 
                 _unitOfWork.GetRepository<FGGroupRoleMD>().Update(metaData);
 

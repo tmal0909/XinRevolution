@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
@@ -11,7 +12,7 @@ namespace XinRevolution.Manager.Services
 {
     public class TagService : BaseService<TagEntity, TagMD>
     {
-        public TagService(IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork) { }
+        public TagService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService) : base(unitOfWork, cloudService) { }
 
         public override ServiceResultModel<TagMD> Delete(TagMD metaData)
         {

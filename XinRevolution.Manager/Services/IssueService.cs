@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
@@ -11,7 +12,7 @@ namespace XinRevolution.Manager.Services
 {
     public class IssueService : BaseService<IssueEntity, IssueMD>
     {
-        public IssueService(IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork) { }
+        public IssueService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService) : base(unitOfWork, cloudService) { }
 
         public override ServiceResultModel<IssueMD> Delete(IssueMD metaData)
         {

@@ -15,12 +15,10 @@ namespace XinRevolution.Manager.Services.FireGeneration
     public class FGGroupService : BaseService<FGGroupEntity, FGGroupMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public FGGroupService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public FGGroupService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.FGGroupContainer);
-            _cloudService = cloudService;
         }
 
         public override ServiceResultModel<FGGroupMD> Create(FGGroupMD metaData)

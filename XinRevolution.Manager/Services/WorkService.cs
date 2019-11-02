@@ -14,12 +14,10 @@ namespace XinRevolution.Manager.Services
     public class WorkService : BaseService<WorkEntity, WorkMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public WorkService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public WorkService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.WorkContainer);
-            _cloudService = cloudService;
         }
 
         public override ServiceResultModel<WorkMD> Update(WorkMD metaData)

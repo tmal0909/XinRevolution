@@ -15,12 +15,10 @@ namespace XinRevolution.Manager.Services
     public class IssueItemService : BaseService<IssueItemEntity, IssueItemMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public IssueItemService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public IssueItemService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.IssueItemContainer);
-            _cloudService = cloudService;
         }
 
         public ServiceResultModel<IEnumerable<IssueItemEntity>> Find(int issueId)

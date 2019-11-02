@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
@@ -9,7 +10,7 @@ namespace XinRevolution.Manager.Services
 {
     public class UserService : BaseService<UserEntity, UserMD>
     {
-        public UserService(IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork) { }
+        public UserService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService) : base(unitOfWork, cloudService) { }
 
         public ServiceResultModel<UserEntity> Login(UserMD metaData)
         {

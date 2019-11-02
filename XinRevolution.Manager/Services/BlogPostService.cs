@@ -8,6 +8,7 @@ using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Enum;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -17,12 +18,10 @@ namespace XinRevolution.Manager.Services
     public class BlogPostService : BaseService<BlogPostEntity, BlogPostMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public BlogPostService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public BlogPostService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.BlogPostContainer);
-            _cloudService = cloudService;
         }
 
         public ServiceResultModel<IEnumerable<BlogPostEntity>> Find(int blogId)
@@ -59,19 +58,8 @@ namespace XinRevolution.Manager.Services
 
                 if (metaData.ReferenceType != ReferenceTypeEnum.Text)
                 {
-                    if (metaData.ResourceFile == null || metaData.ResourceFile.Length <= 0)
-                        throw new Exception($"資源檔案異常");
-
-                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeConstant.Image.Contains(extension) && !ValidResourceTypeConstant.Video.Contains(extension))
-                        throw new Exception($"不支援該類型資源檔案");
-
-                    var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                    if (!uploadResult.Status)
-                        throw new Exception(uploadResult.Message);
-
+                    metaData.MediaReferenceContent = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Media);
                     resourceChange = true;
-                    metaData.MediaReferenceContent = uploadResult.Data;
                 }
 
                 _unitOfWork.GetRepository<BlogPostEntity>().Insert(ToEntity(metaData));
@@ -89,11 +77,8 @@ namespace XinRevolution.Manager.Services
 
                 if (resourceChange)
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.MediaReferenceContent,
-                        DumpStatus = false
-                    });
+                    DumpResource(metaData.MediaReferenceContent);
+                    _unitOfWork.Commit();
 
                     metaData.MediaReferenceContent = string.Empty;
                 }
@@ -110,33 +95,16 @@ namespace XinRevolution.Manager.Services
         {
             var result = new ServiceResultModel<BlogPostMD>();
             var sourceData = _unitOfWork.GetRepository<BlogPostEntity>().Single(metaData.Id);
-            var resourceChange = false;
 
             try
             {
-                if (metaData.ReferenceType != ReferenceTypeEnum.Text)
+                if (metaData.ReferenceType != ReferenceTypeEnum.Text && metaData.ResourceFile != null)
                 {
-                    if (metaData.ResourceFile == null || metaData.ResourceFile.Length <= 0)
-                        throw new Exception($"資源檔案異常");
+                    metaData.MediaReferenceContent = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Media);
 
-                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeConstant.Image.Contains(extension) && !ValidResourceTypeConstant.Video.Contains(extension))
-                        throw new Exception($"不支援該類型資源檔案");
-
-                    var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                    if (!uploadResult.Status)
-                        throw new Exception(uploadResult.Message);
-
-                    resourceChange = true;
-                    metaData.MediaReferenceContent = uploadResult.Data;
+                    if (sourceData.ReferenceType != ReferenceTypeEnum.Text)
+                        DumpResource(sourceData.ReferenceContent);
                 }
-                
-                if (resourceChange && sourceData.ReferenceType != ReferenceTypeEnum.Text)
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.ReferenceContent,
-                        DumpStatus = false
-                    });
 
                 _unitOfWork.GetRepository<BlogPostEntity>().Update(ToEntity(metaData));
 
@@ -151,15 +119,12 @@ namespace XinRevolution.Manager.Services
             {
                 _unitOfWork.RollBack();
 
-                if (resourceChange)
+                if (metaData.ResourceFile != null && metaData.MediaReferenceContent != sourceData.ReferenceContent)
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.MediaReferenceContent,
-                        DumpStatus = false
-                    });
-
+                    DumpResource(metaData.MediaReferenceContent);
                     metaData.MediaReferenceContent = sourceData.ReferenceType != ReferenceTypeEnum.Text ? sourceData.ReferenceContent : string.Empty;
+
+                    _unitOfWork.Commit();
                 }
 
                 result.Status = false;
@@ -179,11 +144,7 @@ namespace XinRevolution.Manager.Services
                 _unitOfWork.GetRepository<BlogPostEntity>().Delete(ToEntity(metaData));
 
                 if (metaData.ReferenceType != ReferenceTypeEnum.Text)
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.MediaReferenceContent,
-                        DumpStatus = false
-                    });
+                    DumpResource(metaData.MediaReferenceContent);
 
                 if (_unitOfWork.Commit() <= 0)
                     throw new Exception($"無法刪除資料列");

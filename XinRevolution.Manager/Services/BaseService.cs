@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
@@ -221,6 +222,17 @@ namespace XinRevolution.Manager.Services
             });
 
             return;
+        }
+
+        protected void DumpResource(IEnumerable<string> resourceUrls)
+        {
+            _unitOfWork.GetRepository<DumpResourceEntity>().Insert(
+                resourceUrls.Select(x => new DumpResourceEntity
+                {
+                    ResourceUrl = x,
+                    DumpStatus = false,
+                })
+            );
         }
     }
 }

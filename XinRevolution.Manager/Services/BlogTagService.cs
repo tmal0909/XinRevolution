@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
@@ -12,7 +13,7 @@ namespace XinRevolution.Manager.Services
 {
     public class BlogTagService : BaseService<BlogTagEntity, BlogTagMD>
     {
-        public BlogTagService(IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork) { }
+        public BlogTagService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService) : base(unitOfWork, cloudService) { }
 
         public ServiceResultModel<IEnumerable<BlogTagEntity>> Find(int blogId)
         {

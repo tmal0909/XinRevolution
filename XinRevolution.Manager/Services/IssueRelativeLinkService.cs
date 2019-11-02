@@ -15,12 +15,10 @@ namespace XinRevolution.Manager.Services
     public class IssueRelativeLinkService : BaseService<IssueRelativeLinkEntity, IssueRelativeLinkMD>
     {
         private readonly string _containerName;
-        private readonly IAzureBlobService _cloudService;
 
-        public IssueRelativeLinkService(IConfiguration configuration, IAzureBlobService cloudService, IUnitOfWork<DbContext> unitOfWork) : base(unitOfWork)
+        public IssueRelativeLinkService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService, IConfiguration configuration) : base(unitOfWork, cloudService)
         {
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.IssueRelativeLinkContainer);
-            _cloudService = cloudService;
         }
 
         public ServiceResultModel<IEnumerable<IssueRelativeLinkEntity>> Find(int issueId)
