@@ -47,17 +47,95 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<BlogPostMD> Create(BlogPostMD metaData)
         {
-            throw new NotImplementedException();
+            var result = new ServiceResultModel<BlogPostMD>();
+
+            try
+            {
+                if (metaData.ReferenceType != ReferenceTypeEnum.Text)
+                    metaData.MediaReferenceContent = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Media);
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"操作失敗 : {ex.Message}";
+                result.Data = metaData;
+
+                return result;
+            }
+
+            result = base.Create(metaData);
+
+            if (!result.Status)
+            {
+                if (metaData.ResourceFile != null)
+                {
+                    DumpResource(metaData.MediaReferenceContent);
+                    _unitOfWork.Commit();
+
+                    metaData.MediaReferenceContent = string.Empty;
+                }
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<BlogPostMD> Update(BlogPostMD metaData)
         {
-            throw new NotImplementedException();
+            var result = new ServiceResultModel<BlogPostMD>();
+            var sourceData = _unitOfWork.GetRepository<BlogPostEntity>().Single(metaData.Id);
+
+            try
+            {
+                if (metaData.ReferenceType != ReferenceTypeEnum.Text && metaData.ResourceFile != null)
+                    metaData.MediaReferenceContent = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Media);
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"操作失敗 : {ex.Message}";
+                result.Data = metaData;
+
+                return result;
+            }
+
+            result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (sourceData.ReferenceType != ReferenceTypeEnum.Text)
+                {
+                    DumpResource(sourceData.ReferenceContent);
+                    _unitOfWork.Commit();
+                }
+            }
+            else
+            {
+                if(metaData.ResourceFile != null)
+                {
+                    DumpResource(metaData.MediaReferenceContent);
+                    _unitOfWork.Commit();
+
+                    metaData.MediaReferenceContent = string.Empty;
+                }
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<BlogPostMD> Delete(BlogPostMD metaData)
         {
-            throw new NotImplementedException();
+            var result = base.Delete(metaData);
+
+            if (result.Status)
+            {
+                if(metaData.ReferenceType != ReferenceTypeEnum.Text)
+                {
+                    DumpResource(metaData.MediaReferenceContent);
+                    _unitOfWork.Commit();
+                }
+            }
+
+            return result;
         }
 
         protected override BlogPostEntity ToEntity(BlogPostMD metaData)
