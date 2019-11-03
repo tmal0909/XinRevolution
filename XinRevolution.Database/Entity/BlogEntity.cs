@@ -25,8 +25,7 @@ namespace XinRevolution.Database.Entity
         [Required]
         [Column(TypeName = "datetime")]
         public DateTime UtcUpdateTime { get; set; }
-
-
+        
         public List<BlogPostEntity> BlogPosts { get; set; }
 
         public List<BlogTagEntity> BlogTags { get; set; }

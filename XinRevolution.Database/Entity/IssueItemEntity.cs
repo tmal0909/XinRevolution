@@ -37,7 +37,6 @@ namespace XinRevolution.Database.Entity
         [Column(TypeName = "datetime")]
         public DateTime UtcUpdateTime { get; set; }
 
-
         public IssueEntity Issue { get; set; }
     }
 }

@@ -33,8 +33,7 @@ namespace XinRevolution.Database.Entity
         [Required]
         [Column(TypeName = "datetime")]
         public DateTime UtcUpdateTime { get; set; }
-
-
+        
         public BlogEntity Blog { get; set; }
     }
 }
