@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using XinRevolution.Manager.Services.FireGeneration;
 
 namespace XinRevolution.Manager.Controllers.FireGeneration
@@ -18,22 +14,50 @@ namespace XinRevolution.Manager.Controllers.FireGeneration
 
         public IActionResult Index(int groupId)
         {
-            return View();
+            var result = _service.Find(groupId);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.GroupId = groupId;
+
+            return View(result.Data);
         }
 
         public IActionResult Create(int groupId)
         {
-            return View();
+            var result = _service.FindMetaData();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.GroupId = groupId;
+
+            return View(result.Data);
         }
 
         public IActionResult Update(int id)
         {
-            return View();
+            var result = _service.FindMetaData(id);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.GroupId = result.Data.GroupId;
+
+            return View(result.Data);
         }
 
         public IActionResult Delete(int id)
         {
-            return View();
+            var result = _service.FindMetaData(id);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            ViewBag.GroupId = result.Data.GroupId;
+
+            return View(result.Data);
         }
     }
 }
