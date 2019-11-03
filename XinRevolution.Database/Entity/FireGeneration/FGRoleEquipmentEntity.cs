@@ -21,14 +21,14 @@ namespace XinRevolution.Database.Entity.FireGeneration
         public string Intro { get; set; }
 
         [Column(TypeName = "nvarchar(300)")]
-        public string MainResourceUrl { get; set; }
+        public string DisplayResourceUrl { get; set; }
 
         [Column(TypeName = "nvarchar(300)")]
-        public string ViceResourceUrl { get; set; }
+        public string MainResourceUrl { get; set; }
 
         [Required]
-        [Column(TypeName = "int")]
-        public int GroupId { get; set; }
+        [Column(TypeName = "smallint")]
+        public int Sort { get; set; }
 
         [Required]
         [Column(TypeName = "int")]

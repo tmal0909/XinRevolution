@@ -32,6 +32,8 @@ namespace XinRevolution.Database
 
         public DbSet<FGGroupRoleEntity> FGGroupRoles { get; set; }
 
+        public DbSet<FGRoleResourceEntity> FGRoleResources { get; set; }
+
         public DbSet<FGRoleEquipmentEntity> FGRoleEquipments { get; set; }
 
         #endregion
@@ -67,6 +69,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<WorkEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGGroupEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGGroupRoleEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGRoleResourceEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasKey(x => x.Id);
         }
 
@@ -84,6 +87,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<WorkEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGGroupEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGGroupRoleEntity>().HasAlternateKey(x => new { x.Id, x.GroupId });
+            modelBuilder.Entity<FGRoleResourceEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
         }
 
@@ -101,6 +105,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<WorkEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGGroupEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGGroupRoleEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGRoleResourceEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGRoleEquipmentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
@@ -112,6 +117,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Blog).WithMany(x => x.BlogTags).HasForeignKey(x => x.BlogId);
             modelBuilder.Entity<BlogTagEntity>().HasOne(x => x.Tag).WithMany(x => x.BlogTags).HasForeignKey(x => x.TagId);
             modelBuilder.Entity<FGGroupRoleEntity>().HasOne(x => x.Group).WithMany(x => x.Roles).HasForeignKey(x => x.GroupId);
+            modelBuilder.Entity<FGRoleResourceEntity>().HasOne(x => x.Role).WithMany(x => x.Resources).HasForeignKey(x => x.RoleId);
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasOne(x => x.Role).WithMany(x => x.Equipments).HasForeignKey(x => x.RoleId);
         }
 

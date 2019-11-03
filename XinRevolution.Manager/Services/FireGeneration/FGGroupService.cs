@@ -6,6 +6,7 @@ using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Entity.FireGeneration;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas.FireGeneration;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -23,53 +24,32 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupMD> Create(FGGroupMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupMD>();
-            var resourceChange = false;
-
             try
             {
-                if (metaData.ResourceFile == null || metaData.ResourceFile.Length <= 0)
-                    throw new Exception($"資源檔案異常");
-
-                var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                if (!ValidResourceTypeConstant.Image.Contains(extension))
-                    throw new Exception($"不支援該類型資源檔案");
-
-                var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                if (!uploadResult.Status)
-                    throw new Exception(uploadResult.Message);
-
-                resourceChange = true;
-                metaData.ResourceUrl = uploadResult.Data;
-
-                _unitOfWork.GetRepository<FGGroupEntity>().Insert(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法新增資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
-
-                if (resourceChange)
+                return new ServiceResultModel<FGGroupMD>
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                    _unitOfWork.Commit();
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
+            }
 
-                    metaData.ResourceUrl = string.Empty;
+            var result = base.Create(metaData);
+
+            if (!result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(metaData.ResourceUrl))
+                {
+                    DumpResource(metaData.ResourceUrl);
+                    DB.Commit();
                 }
 
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                metaData.ResourceUrl = string.Empty;
             }
 
             return result;
@@ -77,60 +57,42 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupMD> Update(FGGroupMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupMD>();
-            var sourceData = _unitOfWork.GetRepository<FGGroupEntity>().Single(metaData.Id);
-            var resourceChange = false;
+            var sourceData = DB.GetRepository<FGGroupEntity>().Single(metaData.Id);
 
             try
             {
-                if (metaData.ResourceFile != null && metaData.ResourceFile.Length > 0)
-                {
-                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeConstant.Image.Contains(extension))
-                        throw new Exception($"不支援該類型資源檔案");
-
-                    var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                    if (!uploadResult.Status)
-                        throw new Exception(uploadResult.Message);
-
-                    resourceChange = true;
-                    metaData.ResourceUrl = uploadResult.Data;
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = sourceData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                }
-
-                _unitOfWork.GetRepository<FGGroupEntity>().Update(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法更新資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
-
-                if (resourceChange)
+                return new ServiceResultModel<FGGroupMD>
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                    _unitOfWork.Commit();
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
+            }
 
-                    metaData.ResourceUrl = sourceData.ResourceUrl;
+            var result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(sourceData.ResourceUrl))
+                {
+                    DumpResource(sourceData.ResourceUrl);
+                    DB.Commit();
+                }
+            }
+            else
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
                 }
 
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                result.Data.ResourceUrl = sourceData.ResourceUrl;
             }
 
             return result;
@@ -138,35 +100,23 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupMD> Delete(FGGroupMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupMD>();
-
             try
             {
-                // TODO : Remove Relative Row Data & Resource of Character and Equipments
-                _unitOfWork.GetRepository<FGGroupEntity>().Delete(ToEntity(metaData));
-
+                // TODO : DELETE ROLE & EQUIPTMENT
                 if (!string.IsNullOrEmpty(metaData.ResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                    DumpResource(metaData.ResourceUrl);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                return new ServiceResultModel<FGGroupMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
             }
+
+            var result = base.Delete(metaData);
 
             return result;
         }

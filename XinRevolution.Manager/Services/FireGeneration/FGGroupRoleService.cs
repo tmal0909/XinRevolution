@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Entity.FireGeneration;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas.FireGeneration;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -24,75 +26,52 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupRoleMD> Create(FGGroupRoleMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupRoleMD>();
-
             try
             {
-                if (metaData.GroupId <= 0)
-                    throw new Exception($"資料異常");
+                if (metaData.CoverMainResourceFile != null)
+                    metaData.CoverMainResourceUrl = UploadResource(_containerName, metaData.CoverMainResourceFile, ResourceTypeEnum.Image);
 
-                _unitOfWork.GetRepository<FGGroupRoleEntity>().Insert(ToEntity(metaData));
+                if (metaData.CoverViceResourceFile != null)
+                    metaData.CoverViceResourceUrl = UploadResource(_containerName, metaData.CoverViceResourceFile, ResourceTypeEnum.Image);
 
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法新增資料列");
+                if (metaData.CharacterMainResourceFile != null)
+                    metaData.CharacterMainResourceUrl = UploadResource(_containerName, metaData.CharacterMainResourceFile, ResourceTypeEnum.Image);
 
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                if (metaData.CharacterViceResourceFile != null)
+                    metaData.CharacterViceResourceUrl = UploadResource(_containerName, metaData.CharacterViceResourceFile, ResourceTypeEnum.Image);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
+                metaData.CoverMainResourceUrl = string.Empty;
+                metaData.CoverViceResourceUrl = string.Empty;
+                metaData.CharacterMainResourceUrl = string.Empty;
+                metaData.CharacterViceResourceUrl = string.Empty;
 
-                if (!string.IsNullOrEmpty(metaData.CoverMainResourceUrl))
+                return new ServiceResultModel<FGGroupRoleMD>
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverMainResourceUrl,
-                        DumpStatus = false
-                    });
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
+            }
 
-                    metaData.CoverMainResourceUrl = string.Empty;
-                }
+            var result = base.Create(metaData);
 
-                if (!string.IsNullOrEmpty(metaData.CoverViceResourceUrl))
+            if (!result.Status)
+            {
+                DumpResource(new List<string>
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverViceResourceUrl,
-                        DumpStatus = false
-                    });
+                    metaData.CoverMainResourceUrl,
+                    metaData.CoverViceResourceUrl,
+                    metaData.CharacterMainResourceUrl,
+                    metaData.CharacterViceResourceUrl
+                });
+                DB.Commit();
 
-                    metaData.CoverViceResourceUrl = string.Empty;
-                }
-
-                if (!string.IsNullOrEmpty(metaData.CharacterMainResourceUrl))
-                {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterMainResourceUrl,
-                        DumpStatus = false
-                    });
-
-                    metaData.CharacterMainResourceUrl = string.Empty;
-                }
-
-                if (!string.IsNullOrEmpty(metaData.CharacterViceResourceUrl))
-                {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterViceResourceUrl,
-                        DumpStatus = false
-                    });
-
-                    metaData.CharacterViceResourceUrl = string.Empty;
-                }
-
-                _unitOfWork.Commit();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                metaData.CoverMainResourceUrl = string.Empty;
+                metaData.CoverViceResourceUrl = string.Empty;
+                metaData.CharacterMainResourceUrl = string.Empty;
+                metaData.CharacterViceResourceUrl = string.Empty;
             }
 
             return result;
@@ -100,74 +79,92 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupRoleMD> Update(FGGroupRoleMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupRoleMD>();
-            var sourceData = _unitOfWork.GetRepository<FGGroupRoleEntity>().Single(x => x.Id == metaData.Id);
+            var sourceData = DB.GetRepository<FGGroupRoleEntity>().Single(metaData.Id);
 
             try
             {
+                if (metaData.CoverMainResourceFile != null)
+                    metaData.CoverMainResourceUrl = UploadResource(_containerName, metaData.CoverMainResourceFile, ResourceTypeEnum.Image);
 
-                _unitOfWork.GetRepository<FGGroupRoleMD>().Update(metaData);
+                if (metaData.CoverViceResourceFile != null)
+                    metaData.CoverViceResourceUrl = UploadResource(_containerName, metaData.CoverViceResourceFile, ResourceTypeEnum.Image);
 
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法更新資料列");
+                if (metaData.CharacterMainResourceFile != null)
+                    metaData.CharacterMainResourceUrl = UploadResource(_containerName, metaData.CharacterMainResourceFile, ResourceTypeEnum.Image);
 
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                if (metaData.CharacterViceResourceFile != null)
+                    metaData.CharacterViceResourceUrl = UploadResource(_containerName, metaData.CharacterViceResourceFile, ResourceTypeEnum.Image);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
-
-                if (metaData.CoverMainResourceUrl.Equals(sourceData.CoverMainResourceUrl))
+                if (!sourceData.CoverMainResourceUrl.Equals(metaData.CoverMainResourceUrl, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverMainResourceUrl,
-                        DumpStatus = false
-                    });
-
+                    DumpResource(metaData.CoverMainResourceUrl);
                     metaData.CoverMainResourceUrl = sourceData.CoverMainResourceUrl;
                 }
 
-                if (metaData.CoverViceResourceUrl.Equals(sourceData.CoverViceResourceUrl))
+                if (!sourceData.CoverViceResourceUrl.Equals(metaData.CoverViceResourceUrl, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverViceResourceUrl,
-                        DumpStatus = false
-                    });
-
-                    metaData.CoverViceResourceUrl = sourceData.CoverViceResourceUrl;
+                    DumpResource(metaData.CoverViceResourceUrl);
+                    metaData.CoverViceResourceUrl = sourceData.CoverMainResourceUrl;
                 }
 
-                if (metaData.CharacterMainResourceUrl.Equals(sourceData.CharacterMainResourceUrl))
+                if (!sourceData.CharacterMainResourceUrl.Equals(metaData.CharacterMainResourceUrl, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterMainResourceUrl,
-                        DumpStatus = false
-                    });
-
-                    metaData.CharacterMainResourceUrl = sourceData.CharacterMainResourceUrl;
+                    DumpResource(metaData.CharacterMainResourceUrl);
+                    metaData.CharacterMainResourceUrl = sourceData.CoverMainResourceUrl;
                 }
 
-                if (metaData.CharacterViceResourceUrl.Equals(sourceData.CharacterViceResourceUrl))
+                if (!sourceData.CharacterViceResourceUrl.Equals(metaData.CharacterViceResourceUrl, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterViceResourceUrl,
-                        DumpStatus = false
-                    });
-
-                    metaData.CharacterViceResourceUrl = sourceData.CharacterViceResourceUrl;
+                    DumpResource(metaData.CharacterViceResourceUrl);
+                    metaData.CharacterViceResourceUrl = sourceData.CoverMainResourceUrl;
                 }
 
-                _unitOfWork.Commit();
+                return new ServiceResultModel<FGGroupRoleMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
+            }
 
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+            var result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (metaData.CoverMainResourceFile != null && !string.IsNullOrEmpty(sourceData.CoverMainResourceUrl))
+                    DumpResource(sourceData.CoverMainResourceUrl);
+
+                if(metaData.CoverViceResourceFile != null && !string.IsNullOrEmpty(sourceData.CoverViceResourceUrl))
+                    DumpResource(sourceData.CoverMainResourceUrl);
+
+                if (metaData.CharacterMainResourceFile != null && !string.IsNullOrEmpty(sourceData.CharacterMainResourceUrl))
+                    DumpResource(sourceData.CharacterMainResourceUrl);
+
+                if (metaData.CharacterViceResourceFile != null && !string.IsNullOrEmpty(sourceData.CharacterViceResourceUrl))
+                    DumpResource(sourceData.CharacterViceResourceUrl);
+
+                DB.Commit();
+            }
+            else
+            {
+                if (metaData.CoverMainResourceFile != null && !string.IsNullOrEmpty(result.Data.CoverMainResourceUrl))
+                    DumpResource(result.Data.CoverMainResourceUrl);
+
+                if (metaData.CoverViceResourceFile != null && !string.IsNullOrEmpty(result.Data.CoverViceResourceUrl))
+                    DumpResource(result.Data.CoverMainResourceUrl);
+
+                if (metaData.CharacterMainResourceFile != null && !string.IsNullOrEmpty(result.Data.CharacterMainResourceUrl))
+                    DumpResource(result.Data.CharacterMainResourceUrl);
+
+                if (metaData.CharacterViceResourceFile != null && !string.IsNullOrEmpty(result.Data.CharacterViceResourceUrl))
+                    DumpResource(result.Data.CharacterViceResourceUrl);
+
+                DB.Commit();
+
+                result.Data.CoverMainResourceUrl = sourceData.CoverMainResourceUrl;
+                result.Data.coverviceur
             }
 
             return result;
@@ -175,57 +172,7 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGGroupRoleMD> Delete(FGGroupRoleMD metaData)
         {
-            var result = new ServiceResultModel<FGGroupRoleMD>();
-
-            try
-            {
-                _unitOfWork.GetRepository<FGGroupRoleEntity>().Delete(ToEntity(metaData));
-
-                if (!string.IsNullOrEmpty(metaData.CoverMainResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverMainResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (!string.IsNullOrEmpty(metaData.CoverViceResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CoverViceResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (!string.IsNullOrEmpty(metaData.CharacterMainResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterMainResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (!string.IsNullOrEmpty(metaData.CharacterViceResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.CharacterViceResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         protected override FGGroupRoleEntity ToEntity(FGGroupRoleMD metaData)

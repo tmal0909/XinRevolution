@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using XinRevolution.Database.Enum.FireGeneration;
 
 namespace XinRevolution.Database.Entity.FireGeneration
 {
-    public class FGGroupRoleEntity
+    public class FGRoleResourceEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,33 +15,26 @@ namespace XinRevolution.Database.Entity.FireGeneration
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "nvarchar(50)")]
-        public string Name { get; set; }
+        [Column(TypeName = "smallint")]
+        public RoleResourceTypeEnum Type { get; set; }
 
         [Required]
-        [Column(TypeName = "nvarchar(500)")]
-        public string Intro { get; set; }
-        
         [Column(TypeName = "nvarchar(300)")]
-        public string RelativeLinkUrl { get; set; }
-        
+        public string ResourceUrl { get; set; }
+
         [Required]
         [Column(TypeName = "smallint")]
         public int Sort { get; set; }
 
         [Required]
         [Column(TypeName = "int")]
-        public int GroupId { get; set; }
+        public int RoleId { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Required]
         [Column(TypeName = "datetime")]
         public DateTime UtcUpdateTime { get; set; }
 
-        public FGGroupEntity Group { get; set; }
-
-        public List<FGRoleResourceEntity> Resources { get; set; }
-
-        public List<FGRoleEquipmentEntity> Equipments { get; set; }
+        public FGGroupRoleEntity Role { get; set; }
     }
 }
