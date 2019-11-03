@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace XinRevolution.Manager.MetaDatas.FireGeneration
@@ -20,26 +19,6 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
         [Display(Name = "角色簡介", Prompt = "請輸入角色簡介")]
         public string Intro { get; set; }
 
-        [Required(ErrorMessage = "請選擇封面圖案(主)")]
-        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "封面圖案(主)", Prompt = "請選擇封面圖案(主)連結")]
-        public string CoverMainResourceUrl { get; set; }
-
-        [Required(ErrorMessage = "請選擇封面圖案(副)")]
-        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "封面圖案(副)", Prompt = "請選擇封面圖案(副)連結")]
-        public string CoverViceResourceUrl { get; set; }
-
-        [Required(ErrorMessage = "請選擇角色圖案(主)")]
-        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "角色圖案(主)", Prompt = "請選擇角色圖案(主)連結")]
-        public string CharacterMainResourceUrl { get; set; }
-
-        [Required(ErrorMessage = "請選擇角色圖案(副)")]
-        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "角色圖案(副)", Prompt = "請選擇角色圖案(副)連結")]
-        public string CharacterViceResourceUrl { get; set; }
-
         [Required(ErrorMessage = "請輸入相關連結")]
         [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "相關連結", Prompt = "請輸入相關連結")]
@@ -52,17 +31,5 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
         [HiddenInput]
         [Required(ErrorMessage = "請攜帶外部鍵值")]
         public int GroupId { get; set; }
-
-        [Display(Name = "瀏覽資源")]
-        public IFormFile CoverMainResourceFile { get; set; }
-
-        [Display(Name = "瀏覽資源")]
-        public IFormFile CoverViceResourceFile { get; set; }
-
-        [Display(Name = "瀏覽資源")]
-        public IFormFile CharacterMainResourceFile { get; set; }
-
-        [Display(Name = "瀏覽資源")]
-        public IFormFile CharacterViceResourceFile { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace XinRevolution.Database.Enum.FireGeneration
 {
-    public enum RoleResourceTypeEnum
+    public enum FGRoleResourceTypeEnum
     {
         [Display(Name = "封面(主)")]
         Main1,

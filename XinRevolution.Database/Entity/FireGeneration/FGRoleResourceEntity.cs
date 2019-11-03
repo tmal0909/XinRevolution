@@ -16,7 +16,7 @@ namespace XinRevolution.Database.Entity.FireGeneration
 
         [Required]
         [Column(TypeName = "smallint")]
-        public RoleResourceTypeEnum Type { get; set; }
+        public FGRoleResourceTypeEnum Type { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(300)")]
