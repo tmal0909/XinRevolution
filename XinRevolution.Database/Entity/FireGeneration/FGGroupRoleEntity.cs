@@ -21,23 +21,18 @@ namespace XinRevolution.Database.Entity.FireGeneration
         [Column(TypeName = "nvarchar(500)")]
         public string Intro { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string CoverMainResourceUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string CoverViceResourceUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string CharacterMainResourceUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string CharacterViceResourceUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string RelativeLinkUrl { get; set; }
         

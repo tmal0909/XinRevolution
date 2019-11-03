@@ -6,6 +6,7 @@ using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;

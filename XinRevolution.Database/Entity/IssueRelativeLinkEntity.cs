@@ -16,7 +16,6 @@ namespace XinRevolution.Database.Entity
         [Column(TypeName = "nvarchar(300)")]
         public string LinkUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string ResourceUrl { get; set; }
 

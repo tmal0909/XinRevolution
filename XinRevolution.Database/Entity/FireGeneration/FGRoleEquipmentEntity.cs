@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,11 +20,9 @@ namespace XinRevolution.Database.Entity.FireGeneration
         [Column(TypeName = "nvarchar(500)")]
         public string Intro { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string MainResourceUrl { get; set; }
 
-        [Required]
         [Column(TypeName = "nvarchar(300)")]
         public string ViceResourceUrl { get; set; }
 
