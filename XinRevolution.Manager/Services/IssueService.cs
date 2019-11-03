@@ -16,7 +16,35 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<IssueMD> Delete(IssueMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dumpResources = new List<string>();
+                dumpResources.AddRange(DB.GetRepository<IssueRelativeLinkEntity>()
+                    .GetAll(x => x.IssueId == metaData.Id && !string.IsNullOrEmpty(x.ResourceUrl))
+                    .Select(x => x.ResourceUrl));
+                dumpResources.AddRange(DB.GetRepository<IssueItemEntity>()
+                    .GetAll(x => x.IssueId == metaData.Id && !string.IsNullOrEmpty(x.ResourceUrl))
+                    .Select(x => x.ResourceUrl));
+
+                if (dumpResources.Count() > 0)
+                    DumpResource(dumpResources);
+
+                DB.GetRepository<IssueRelativeLinkEntity>().Delete(x => x.IssueId == metaData.Id);
+                DB.GetRepository<IssueItemEntity>().Delete(x => x.IssueId == metaData.Id);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResultModel<IssueMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Delete(metaData);
+
+            return result;
         }
 
         protected override IssueEntity ToEntity(IssueMD metaData)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Enum;
+using XinRevolution.Extension;
 using XinRevolution.Manager.Constants;
 using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas;
@@ -29,7 +30,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entities = _unitOfWork.GetRepository<BlogPostEntity>().GetAll(x => x.BlogId == blogId);
+                var entities = DB.GetRepository<BlogPostEntity>().GetAll(x => x.BlogId == blogId);
 
                 result.Status = true;
                 result.Message = $"操作成功";
@@ -47,8 +48,6 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<BlogPostMD> Create(BlogPostMD metaData)
         {
-            var result = new ServiceResultModel<BlogPostMD>();
-
             try
             {
                 if (metaData.ReferenceType != ReferenceTypeEnum.Text)
@@ -56,24 +55,27 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                metaData.MediaReferenceContent = string.Empty;
 
-                return result;
+                return new ServiceResultModel<BlogPostMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
             }
 
-            result = base.Create(metaData);
+            var result = base.Create(metaData);
 
             if (!result.Status)
             {
-                if (metaData.ResourceFile != null)
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.MediaReferenceContent))
                 {
-                    DumpResource(metaData.MediaReferenceContent);
+                    DumpResource(result.Data.MediaReferenceContent);
                     _unitOfWork.Commit();
-
-                    metaData.MediaReferenceContent = string.Empty;
                 }
+
+                result.Data.MediaReferenceContent = string.Empty;
             }
 
             return result;
@@ -81,8 +83,7 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<BlogPostMD> Update(BlogPostMD metaData)
         {
-            var result = new ServiceResultModel<BlogPostMD>();
-            var sourceData = _unitOfWork.GetRepository<BlogPostEntity>().Single(metaData.Id);
+            var sourceData = DB.GetRepository<BlogPostEntity>().Single(metaData.Id);
 
             try
             {
@@ -91,18 +92,21 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                metaData.MediaReferenceContent = sourceData.ReferenceType != ReferenceTypeEnum.Text ? sourceData.ReferenceContent : string.Empty;
 
-                return result;
+                return new ServiceResultModel<BlogPostMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
             }
 
-            result = base.Update(metaData);
+            var result = base.Update(metaData);
 
             if (result.Status)
             {
-                if (sourceData.ReferenceType != ReferenceTypeEnum.Text)
+                if (sourceData.ReferenceType != ReferenceTypeEnum.Text && !string.IsNullOrEmpty(sourceData.ReferenceContent))
                 {
                     DumpResource(sourceData.ReferenceContent);
                     _unitOfWork.Commit();
@@ -110,13 +114,13 @@ namespace XinRevolution.Manager.Services
             }
             else
             {
-                if(metaData.ResourceFile != null)
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.MediaReferenceContent))
                 {
-                    DumpResource(metaData.MediaReferenceContent);
+                    DumpResource(result.Data.MediaReferenceContent);
                     _unitOfWork.Commit();
-
-                    metaData.MediaReferenceContent = string.Empty;
                 }
+
+                metaData.MediaReferenceContent = sourceData.ReferenceType != ReferenceTypeEnum.Text ? sourceData.ReferenceContent : string.Empty;
             }
 
             return result;
@@ -124,16 +128,22 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<BlogPostMD> Delete(BlogPostMD metaData)
         {
-            var result = base.Delete(metaData);
-
-            if (result.Status)
+            try
             {
-                if(metaData.ReferenceType != ReferenceTypeEnum.Text)
-                {
+                if (metaData.ReferenceType != ReferenceTypeEnum.Text && !string.IsNullOrEmpty(metaData.MediaReferenceContent))
                     DumpResource(metaData.MediaReferenceContent);
-                    _unitOfWork.Commit();
-                }
             }
+            catch (Exception ex)
+            {
+                return new ServiceResultModel<BlogPostMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Delete(metaData);
 
             return result;
         }
@@ -168,9 +178,9 @@ namespace XinRevolution.Manager.Services
         {
             return new List<SelectListItem>
             {
-                new SelectListItem { Text = $"文字", Value = ((int)ReferenceTypeEnum.Text).ToString() },
-                new SelectListItem { Text = $"圖片", Value = ((int)ReferenceTypeEnum.Image).ToString() },
-                new SelectListItem { Text = $"影片", Value = ((int)ReferenceTypeEnum.Video).ToString() }
+                new SelectListItem { Text = EnumHelper<ReferenceTypeEnum>.GetDisplayValue(ReferenceTypeEnum.Text), Value = ((int)ReferenceTypeEnum.Text).ToString() },
+                new SelectListItem { Text = EnumHelper<ReferenceTypeEnum>.GetDisplayValue(ReferenceTypeEnum.Image), Value = ((int)ReferenceTypeEnum.Image).ToString() },
+                new SelectListItem { Text = EnumHelper<ReferenceTypeEnum>.GetDisplayValue(ReferenceTypeEnum.Video), Value = ((int)ReferenceTypeEnum.Video).ToString() }
             };
         }
     }

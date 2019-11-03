@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
@@ -30,11 +29,13 @@ namespace XinRevolution.Manager.Services
             }
             catch (Exception ex)
             {
+                metaData.ResourceUrl = string.Empty;
+
                 return new ServiceResultModel<WorkMD>
                 {
                     Status = false,
                     Message = $"操作失敗 : {ex.Message}",
-                    Data = metaData
+                    Data = metaData,
                 };
             }
 
@@ -42,11 +43,13 @@ namespace XinRevolution.Manager.Services
 
             if (!result.Status)
             {
-                if(metaData.ResourceFile != null)
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
                 {
-                    DumpResource(metaData.ResourceUrl);
-                    _unitOfWork.Commit();
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
                 }
+
+                result.Data.ResourceUrl = string.Empty;
             }
 
             return result;
@@ -54,12 +57,69 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<WorkMD> Update(WorkMD metaData)
         {
-            throw new NotImplementedException();
+            var sourceData = DB.GetRepository<WorkEntity>().Single(metaData.Id);
+
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                metaData.ResourceUrl = sourceData.ResourceUrl;
+
+                return new ServiceResultModel<WorkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(sourceData.ResourceUrl))
+                {
+                    DumpResource(sourceData.ResourceUrl);
+                    DB.Commit();
+                }
+            }
+            else
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
+                }
+
+                result.Data.ResourceUrl = sourceData.ResourceUrl;
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<WorkMD> Delete(WorkMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(metaData.ResourceUrl))
+                    DumpResource(metaData.ResourceUrl);
+            }
+            catch(Exception ex)
+            {
+                return new ServiceResultModel<WorkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Delete(metaData);
+
+            return result;
         }
 
         protected override WorkEntity ToEntity(WorkMD metaData)

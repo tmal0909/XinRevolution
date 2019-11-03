@@ -18,7 +18,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entity = _unitOfWork.GetRepository<UserEntity>()
+                var entity = DB.GetRepository<UserEntity>()
                     .Single(x => x.Account.Equals(metaData.Account, StringComparison.CurrentCultureIgnoreCase));
 
                 if (entity == default(UserEntity))

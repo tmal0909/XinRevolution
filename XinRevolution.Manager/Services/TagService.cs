@@ -16,28 +16,21 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<TagMD> Delete(TagMD metaData)
         {
-            var result = new ServiceResultModel<TagMD>();
-
             try
             {
-                _unitOfWork.GetRepository<BlogTagEntity>().Delete(x => x.TagId == metaData.Id);
-                _unitOfWork.GetRepository<TagEntity>().Delete(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
+                DB.GetRepository<BlogTagEntity>().Delete(x => x.TagId == metaData.Id);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
+                return new ServiceResultModel<TagMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
             }
+
+            var result = base.Delete(metaData);
 
             return result;
         }

@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -27,7 +27,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entities = _unitOfWork.GetRepository<IssueRelativeLinkEntity>().GetAll(x => x.IssueId == issueId);
+                var entities = DB.GetRepository<IssueRelativeLinkEntity>().GetAll(x => x.IssueId == issueId);
 
                 result.Status = true;
                 result.Message = $"操作成功";
@@ -45,17 +45,104 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<IssueRelativeLinkMD> Create(IssueRelativeLinkMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                metaData.ResourceUrl = string.Empty;
+
+                return new ServiceResultModel<IssueRelativeLinkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Create(metaData);
+
+            if (!result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
+                }
+
+                result.Data.ResourceUrl = string.Empty;
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<IssueRelativeLinkMD> Update(IssueRelativeLinkMD metaData)
         {
-            throw new NotImplementedException();
+            var sourceData = DB.GetRepository<IssueRelativeLinkEntity>().Single(metaData.Id);
+
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                metaData.ResourceUrl = sourceData.ResourceUrl;
+
+                return new ServiceResultModel<IssueRelativeLinkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(sourceData.ResourceUrl))
+                {
+                    DumpResource(sourceData.ResourceUrl);
+                    DB.Commit();
+                }
+            }
+            else
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
+                }
+
+                result.Data.ResourceUrl = sourceData.ResourceUrl;
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<IssueRelativeLinkMD> Delete(IssueRelativeLinkMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(metaData.ResourceUrl))
+                    DumpResource(metaData.ResourceUrl);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResultModel<IssueRelativeLinkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Delete(metaData);
+
+            return result;
         }
 
         protected override IssueRelativeLinkEntity ToEntity(IssueRelativeLinkMD metaData)

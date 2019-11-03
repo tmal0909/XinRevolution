@@ -21,7 +21,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entities = _unitOfWork.GetRepository<BlogTagEntity>().GetAll(x => x.BlogId == blogId, nameof(BlogTagEntity.Tag));
+                var entities = DB.GetRepository<BlogTagEntity>().GetAll(x => x.BlogId == blogId, nameof(BlogTagEntity.Tag));
 
                 result.Status = true;
                 result.Message = $"操作成功";
@@ -60,7 +60,7 @@ namespace XinRevolution.Manager.Services
 
         public List<SelectListItem> GetOptions()
         {
-            return _unitOfWork
+            return DB
                 .GetRepository<TagEntity>()
                 .GetAll()
                 .Select(x => new SelectListItem

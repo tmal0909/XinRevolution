@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
@@ -28,7 +27,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entities = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == issueId);
+                var entities = DB.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == issueId);
 
                 result.Status = true;
                 result.Message = $"操作成功";
@@ -46,17 +45,104 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<IssueItemMD> Create(IssueItemMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                metaData.ResourceUrl = string.Empty;
+
+                return new ServiceResultModel<IssueItemMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Create(metaData);
+
+            if (!result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
+                }
+
+                result.Data.ResourceUrl = string.Empty;
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<IssueItemMD> Update(IssueItemMD metaData)
         {
-            throw new NotImplementedException();
+            var sourceData = DB.GetRepository<IssueItemEntity>().Single(metaData.Id);
+
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                metaData.ResourceUrl = sourceData.ResourceUrl;
+
+                return new ServiceResultModel<IssueItemMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Update(metaData);
+
+            if (result.Status)
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(sourceData.ResourceUrl))
+                {
+                    DumpResource(sourceData.ResourceUrl);
+                    DB.Commit();
+                }
+            }
+            else
+            {
+                if (metaData.ResourceFile != null && !string.IsNullOrEmpty(result.Data.ResourceUrl))
+                {
+                    DumpResource(result.Data.ResourceUrl);
+                    DB.Commit();
+                }
+
+                result.Data.ResourceUrl = sourceData.ResourceUrl;
+            }
+
+            return result;
         }
 
         public override ServiceResultModel<IssueItemMD> Delete(IssueItemMD metaData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!string.IsNullOrEmpty(metaData.ResourceUrl))
+                    DumpResource(metaData.ResourceUrl);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResultModel<IssueItemMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData,
+                };
+            }
+
+            var result = base.Delete(metaData);
+
+            return result;
         }
 
         protected override IssueItemEntity ToEntity(IssueItemMD metaData)
