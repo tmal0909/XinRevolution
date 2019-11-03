@@ -21,13 +21,13 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Tag.Name</td>
-                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
-                    <td>
-                        <a class="icon-delete" asp-controller="BlogTag" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@item.Tag.Name</td>
+                <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                <td>
+                    <a class="icon-delete" asp-controller="BlogTag" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

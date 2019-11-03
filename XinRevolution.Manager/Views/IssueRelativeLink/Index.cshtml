@@ -23,16 +23,16 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.LinkUrl</td>
-                    <td>@item.ResourceUrl</td>
-                    <td>@item.Note</td>
-                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
-                    <td>
-                        <a class="icon-update" asp-controller="IssueRelativeLink" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
-                        <a class="icon-delete" asp-controller="IssueRelativeLink" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@item.LinkUrl</td>
+                <td>@item.ResourceUrl</td>
+                <td>@item.Note</td>
+                <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                <td>
+                    <a class="icon-update" asp-controller="IssueRelativeLink" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                    <a class="icon-delete" asp-controller="IssueRelativeLink" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

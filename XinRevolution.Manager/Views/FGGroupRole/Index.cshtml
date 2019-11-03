@@ -18,7 +18,7 @@
                 <th>簡介</th>
                 <th>相關連結</th>
                 <th>更新時間</th>
-                <th>裝備</th>
+                <th>裝備管理</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -27,14 +27,14 @@
             {
                 <tr>
                     <td>@item.Sort</td>
-                    <td>@item.Name</td>
+                    <td><a asp-controller="FGRoleResource" asp-action="Index" asp-route-roleId="@item.Id">@item.Name</a></td>
                     <td>@item.Intro</td>
                     <td>@item.RelativeLinkUrl</td>
-                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
-                    <td><a class="icon-detail" asp-controller="" asp-action="" asp-route="" title="裝備管理"></a></td>
+                    <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                    <td><a class="icon-detail" href="#" title="裝備管理"></a></td>
                     <td>
-                        <a class="icon-update" asp-controller="FGGroup" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
-                        <a class="icon-delete" asp-controller="FGGroup" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                        <a class="icon-update" asp-controller="FGGroupRole" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                        <a class="icon-delete" asp-controller="FGGroupRole" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
                     </td>
                 </tr>
             }

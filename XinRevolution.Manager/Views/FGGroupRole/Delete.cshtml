@@ -18,7 +18,7 @@
         <div class="form-group row">
             <label class="col-2 col-form-label" asp-for="Name"></label>
             <div class="col-10">
-                <input class="form-control" asp-for="Name" />
+                <input class="form-control" asp-for="Name" readonly />
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="form-group row">
             <label class="col-2 col-form-label" asp-for="Intro"></label>
             <div class="col-10">
-                <input class="form-control" asp-for="Intro" />
+                <textarea class="form-control" asp-for="Intro" rows="10" readonly></textarea>
                 <span class="text-danger" asp-validation-for="Intro"></span>
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group row">
             <label class="col-2 col-form-label" asp-for="RelativeLinkUrl"></label>
             <div class="col-10">
-                <textarea class="form-control" asp-for="RelativeLinkUrl" rows="10"></textarea>
+                <input class="form-control" asp-for="RelativeLinkUrl" readonly />
                 <span class="text-danger" asp-validation-for="RelativeLinkUrl"></span>
             </div>
         </div>

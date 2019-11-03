@@ -21,15 +21,15 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@string.Format("{0}", item.Status? "開啟" : "關閉")</td>
-                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
-                    <td>
-                        <a class="icon-update" asp-controller="Tag" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
-                        <a class="icon-delete" asp-controller="Tag" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@item.Name</td>
+                <td>@string.Format("{0}", item.Status ? "開啟" : "關閉")</td>
+                <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                <td>
+                    <a class="icon-update" asp-controller="Tag" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                    <a class="icon-delete" asp-controller="Tag" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

@@ -19,6 +19,7 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
         [Display(Name = "角色簡介", Prompt = "請輸入角色簡介")]
         public string Intro { get; set; }
 
+        [DataType(DataType.Url)]
         [Required(ErrorMessage = "請輸入相關連結")]
         [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "相關連結", Prompt = "請輸入相關連結")]

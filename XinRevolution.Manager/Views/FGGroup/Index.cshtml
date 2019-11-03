@@ -23,17 +23,17 @@
         <tbody>
             @foreach (var item in Model.OrderBy(x => x.Sort))
             {
-                <tr>
-                    <td>@item.Sort</td>
-                    <td><a asp-controller="FGGroupRole" asp-action="Index" asp-route-groupId="@item.Id">@item.Name</a></td>
-                    <td>@item.ResourceUrl</td>
-                    <td>@item.Note</td>
-                    <td>@item.UtcUpdateTime.ToLocalTime()</td>
-                    <td>
-                        <a class="icon-update" asp-controller="FGGroup" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
-                        <a class="icon-delete" asp-controller="FGGroup" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@item.Sort</td>
+                <td><a asp-controller="FGGroupRole" asp-action="Index" asp-route-groupId="@item.Id">@item.Name</a></td>
+                <td>@item.ResourceUrl</td>
+                <td>@item.Note</td>
+                <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
+                <td>
+                    <a class="icon-update" asp-controller="FGGroup" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                    <a class="icon-delete" asp-controller="FGGroup" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
