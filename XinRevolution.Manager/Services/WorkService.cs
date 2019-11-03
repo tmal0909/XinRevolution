@@ -5,6 +5,7 @@ using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
 using XinRevolution.Database.Entity;
 using XinRevolution.Manager.Constants;
+using XinRevolution.Manager.Enum;
 using XinRevolution.Manager.MetaDatas;
 using XinRevolution.Manager.Models;
 using XinRevolution.Repository.Interface;
@@ -20,7 +21,43 @@ namespace XinRevolution.Manager.Services
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.WorkContainer);
         }
 
+        public override ServiceResultModel<WorkMD> Create(WorkMD metaData)
+        {
+            try
+            {
+                if (metaData.ResourceFile != null)
+                    metaData.ResourceUrl = UploadResource(_containerName, metaData.ResourceFile, ResourceTypeEnum.Image);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResultModel<WorkMD>
+                {
+                    Status = false,
+                    Message = $"操作失敗 : {ex.Message}",
+                    Data = metaData
+                };
+            }
+
+            var result = base.Create(metaData);
+
+            if (!result.Status)
+            {
+                if(metaData.ResourceFile != null)
+                {
+                    DumpResource(metaData.ResourceUrl);
+                    _unitOfWork.Commit();
+                }
+            }
+
+            return result;
+        }
+
         public override ServiceResultModel<WorkMD> Update(WorkMD metaData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ServiceResultModel<WorkMD> Delete(WorkMD metaData)
         {
             throw new NotImplementedException();
         }

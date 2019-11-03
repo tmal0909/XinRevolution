@@ -18,12 +18,6 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                if (string.IsNullOrEmpty(metaData.Account))
-                    throw new Exception($"請輸入帳號");
-
-                if (string.IsNullOrEmpty(metaData.Password))
-                    throw new Exception($"請輸入密碼");
-
                 var entity = _unitOfWork.GetRepository<UserEntity>()
                     .Single(x => x.Account.Equals(metaData.Account, StringComparison.CurrentCultureIgnoreCase));
 

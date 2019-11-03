@@ -18,6 +18,8 @@ namespace XinRevolution.Manager.Services
         protected readonly IUnitOfWork<DbContext> _unitOfWork;
         protected readonly IAzureBlobService _cloudService;
 
+        protected IUnitOfWork<DbContext> DB { get { return this._unitOfWork; } }
+
         public BaseService(IUnitOfWork<DbContext> unitOfWork, IAzureBlobService cloudService)
         {
             _unitOfWork = unitOfWork;
