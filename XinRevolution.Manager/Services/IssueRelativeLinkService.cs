@@ -45,156 +45,17 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<IssueRelativeLinkMD> Create(IssueRelativeLinkMD metaData)
         {
-            var result = new ServiceResultModel<IssueRelativeLinkMD>();
-            var resourceChange = false;
-
-            try
-            {
-                if (metaData.IssueId <= 0)
-                    throw new Exception($"資料異常");
-
-                if (metaData.ResourceFile == null || metaData.ResourceFile.Length <= 0)
-                    throw new Exception($"資源檔案異常");
-
-                var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                if (!ValidResourceTypeConstant.Image.Contains(extension))
-                    throw new Exception($"不支援該類型資源檔案");
-
-                var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                if (!uploadResult.Status)
-                    throw new Exception(uploadResult.Message);
-
-                resourceChange = true;
-                metaData.ResourceUrl = uploadResult.Data;
-
-                _unitOfWork.GetRepository<IssueRelativeLinkEntity>().Insert(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法新增資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                if (resourceChange)
-                {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                    _unitOfWork.Commit();
-
-                    metaData.ResourceUrl = string.Empty;
-                }
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         public override ServiceResultModel<IssueRelativeLinkMD> Update(IssueRelativeLinkMD metaData)
         {
-            var result = new ServiceResultModel<IssueRelativeLinkMD>();
-            var resourceChange = false;
-            var originResourceUrl = string.Empty;
-
-            try
-            {
-                if (metaData.ResourceFile != null && metaData.ResourceFile.Length > 0)
-                {
-                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeConstant.Image.Contains(extension))
-                        throw new Exception($"不支援該類型資源檔案");
-
-                    originResourceUrl = metaData.ResourceUrl;
-
-                    var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                    if (!uploadResult.Status)
-                        throw new Exception(uploadResult.Message);
-
-                    resourceChange = true;
-                    metaData.ResourceUrl = uploadResult.Data;
-
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = originResourceUrl,
-                        DumpStatus = false
-                    });
-                }
-
-                _unitOfWork.GetRepository<IssueRelativeLinkEntity>().Update(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法更新資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                if (resourceChange)
-                {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                    _unitOfWork.Commit();
-
-                    metaData.ResourceUrl = originResourceUrl;
-                }
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         public override ServiceResultModel<IssueRelativeLinkMD> Delete(IssueRelativeLinkMD metaData)
         {
-            var result = new ServiceResultModel<IssueRelativeLinkMD>();
-
-            try
-            {
-                _unitOfWork.GetRepository<IssueRelativeLinkEntity>().Delete(ToEntity(metaData));
-
-                if (!string.IsNullOrEmpty(metaData.ResourceUrl))
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         protected override IssueRelativeLinkEntity ToEntity(IssueRelativeLinkMD metaData)

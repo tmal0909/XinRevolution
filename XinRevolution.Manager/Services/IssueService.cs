@@ -16,41 +16,7 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<IssueMD> Delete(IssueMD metaData)
         {
-            var result = new ServiceResultModel<IssueMD>();
-
-            try
-            {
-                var dumpResources = new List<DumpResourceEntity>();
-                var issueRelativeLinks = _unitOfWork.GetRepository<IssueRelativeLinkEntity>().GetAll(x => x.IssueId == metaData.Id);
-                var issueItems = _unitOfWork.GetRepository<IssueItemEntity>().GetAll(x => x.IssueId == metaData.Id);
-
-                dumpResources.AddRange(issueRelativeLinks.Select(x => new DumpResourceEntity { ResourceUrl = x.ResourceUrl, DumpStatus = false }));
-                dumpResources.AddRange(issueItems.Select(x => new DumpResourceEntity { ResourceUrl = x.ResourceUrl, DumpStatus = false }));
-
-                _unitOfWork.GetRepository<IssueRelativeLinkEntity>().Delete(x => x.IssueId == metaData.Id);
-                _unitOfWork.GetRepository<IssueItemEntity>().Delete(x => x.IssueId == metaData.Id);
-                _unitOfWork.GetRepository<IssueEntity>().Delete(ToEntity(metaData));
-
-                if (dumpResources.Count > 0)
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Insert(dumpResources);
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         protected override IssueEntity ToEntity(IssueMD metaData)

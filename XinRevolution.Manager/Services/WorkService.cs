@@ -22,64 +22,7 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<WorkMD> Update(WorkMD metaData)
         {
-            var result = new ServiceResultModel<WorkMD>();
-            var sourceData = _unitOfWork.GetRepository<WorkEntity>().Single(metaData.Id);
-            var resourceChange = false;
-
-            try
-            {
-                if (metaData.ResourceFile != null && metaData.ResourceFile.Length > 0)
-                {
-                    var extension = Path.GetExtension(metaData.ResourceFile.FileName).ToLower();
-                    if (!ValidResourceTypeConstant.Image.Contains(extension))
-                        throw new Exception($"不支援該類型資源檔案");
-
-                    var uploadResult = _cloudService.Upload(_containerName, metaData.ResourceFile);
-                    if (!uploadResult.Status)
-                        throw new Exception(uploadResult.Message);
-
-                    resourceChange = true;
-                    metaData.ResourceUrl = uploadResult.Data;
-
-                    if (!string.IsNullOrEmpty(sourceData.ResourceUrl))
-                        _unitOfWork.GetRepository<DumpResourceEntity>().Insert(new DumpResourceEntity
-                        {
-                            ResourceUrl = sourceData.ResourceUrl,
-                            DumpStatus = false
-                        });
-                }
-
-                _unitOfWork.GetRepository<WorkEntity>().Update(ToEntity(metaData));
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法新增資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                if (resourceChange)
-                {
-                    _unitOfWork.GetRepository<DumpResourceEntity>().Delete(new DumpResourceEntity
-                    {
-                        ResourceUrl = metaData.ResourceUrl,
-                        DumpStatus = false
-                    });
-                    _unitOfWork.Commit();
-
-                    metaData.ResourceUrl = !string.IsNullOrEmpty(sourceData.ResourceUrl) ? sourceData.ResourceUrl : string.Empty;
-                }
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         protected override WorkEntity ToEntity(WorkMD metaData)

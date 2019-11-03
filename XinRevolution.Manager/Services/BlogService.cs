@@ -17,39 +17,7 @@ namespace XinRevolution.Manager.Services
 
         public override ServiceResultModel<BlogMD> Delete(BlogMD metaData)
         {
-            var result = new ServiceResultModel<BlogMD>();
-
-            try
-            {
-                var blogPosts = _unitOfWork.GetRepository<BlogPostEntity>().GetAll(x => x.BlogId == metaData.Id);
-                var dumpResources = blogPosts
-                    .Where(x => x.ReferenceType != ReferenceTypeEnum.Text)
-                    .Select(x => x.ReferenceContent);
-
-                _unitOfWork.GetRepository<BlogTagEntity>().Delete(x => x.BlogId == metaData.Id);
-                _unitOfWork.GetRepository<BlogPostEntity>().Delete(x => x.BlogId == metaData.Id);
-                _unitOfWork.GetRepository<BlogEntity>().Delete(ToEntity(metaData));
-
-                if (dumpResources.Count() > 0)
-                    DumpResource(dumpResources);
-
-                if (_unitOfWork.Commit() <= 0)
-                    throw new Exception($"無法刪除資料列");
-
-                result.Status = true;
-                result.Message = $"操作成功";
-                result.Data = metaData;
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollBack();
-
-                result.Status = false;
-                result.Message = $"操作失敗 : {ex.Message}";
-                result.Data = metaData;
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
 
         protected override BlogEntity ToEntity(BlogMD metaData)
