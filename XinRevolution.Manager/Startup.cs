@@ -55,6 +55,7 @@ namespace XinRevolution.Manager
             services.AddScoped<FGGroupService>();
             services.AddScoped<FGGroupRoleService>();
             services.AddScoped<FGRoleResourceService>();
+            services.AddScoped<FGRoleEquipmentService>();
         }
 
         public void Configure(IApplicationBuilder app, XinRevolutionContext dbContext)

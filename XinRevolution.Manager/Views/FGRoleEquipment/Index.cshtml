@@ -1,10 +1,15 @@
-﻿@model IEnumerable<FGGroupRoleEntity>
+﻿@model IEnumerable<FGRoleEquipmentEntity>
+
+@{
+    var role = ViewBag.Role as FGGroupRoleEntity;
+}
 
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="FGGroup" asp-action="Index">焰世代 - 群組管理</a></li>
-            <li class="breadcrumb-item active" aria-current="page">角色管理</li>
+            <li class="breadcrumb-item"><a asp-controller="FGGroupRole" asp-action="Index" asp-route-groupId="@role.GroupId">角色管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">裝備管理 - <span>@role.Name</span></li>
         </ol>
     </nav>
 </div>
@@ -16,9 +21,9 @@
                 <th>排序</th>
                 <th>名稱</th>
                 <th>簡介</th>
-                <th>相關連結</th>
+                <th>輪播資源</th>
+                <th>展示資源</th>
                 <th>更新時間</th>
-                <th>裝備管理</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -27,14 +32,14 @@
             {
                 <tr>
                     <td>@item.Sort</td>
-                    <td><a asp-controller="FGRoleResource" asp-action="Index" asp-route-roleId="@item.Id">@item.Name</a></td>
+                    <td>@item.Name</td>
                     <td>@item.Intro</td>
-                    <td>@item.RelativeLinkUrl</td>
+                    <td>@item.SlideResourceUrl</td>
+                    <td>@item.MainResourceUrl</td>
                     <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
-                    <td><a class="icon-detail" asp-controller="FGRoleEquipment" asp-action="Index" asp-route-roleId="@item.Id" title="裝備管理"></a></td>
                     <td>
-                        <a class="icon-update" asp-controller="FGGroupRole" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
-                        <a class="icon-delete" asp-controller="FGGroupRole" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
+                        <a class="icon-update" asp-controller="FGRoleEquipment" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>
+                        <a class="icon-delete" asp-controller="FGRoleEquipment" asp-action="Delete" asp-route-id="@item.Id" title="刪除"></a>
                     </td>
                 </tr>
             }
@@ -44,6 +49,6 @@
 
 @section Scripts{
     <script>
-        initDataTable($('table'), '/FGGroupRole/Create?groupId={0}'.format(@ViewBag.GroupId));
+        initDataTable($('table'), '/FGRoleEquipment/Create?roleId={0}'.format(@role.Id));
     </script>
 }

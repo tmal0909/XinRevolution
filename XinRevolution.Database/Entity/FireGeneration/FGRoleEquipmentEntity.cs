@@ -22,7 +22,7 @@ namespace XinRevolution.Database.Entity.FireGeneration
 
         [Required]
         [Column(TypeName = "nvarchar(300)")]
-        public string DisplayResourceUrl { get; set; }
+        public string SlideResourceUrl { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(300)")]
