@@ -17,7 +17,7 @@ namespace XinRevolution.Manager.Constants
 
         public static string FGGroupContainer = "BlobContainers:FireGenerationGroup";
 
-        public static string FGGroupRoleContainer = "BlobContainers:FireGenerationGroupRole";
+        public static string FGRoleResourceContainer = "BlobContainers:FireGenerationRoleResource";
 
         public static string FGRoleEquipmentContainer = "BlobContainers:FireGenerationRoleEquipment";
     }
