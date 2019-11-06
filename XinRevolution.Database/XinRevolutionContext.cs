@@ -27,7 +27,7 @@ namespace XinRevolution.Database
         public DbSet<BlogTagEntity> BlogTags { get; set; }
 
         public DbSet<WorkEntity> Works { get; set; }
-
+        
         public DbSet<FGGroupEntity> FGGroups { get; set; }
 
         public DbSet<FGGroupRoleEntity> FGGroupRoles { get; set; }
@@ -35,6 +35,10 @@ namespace XinRevolution.Database
         public DbSet<FGRoleResourceEntity> FGRoleResources { get; set; }
 
         public DbSet<FGRoleEquipmentEntity> FGRoleEquipments { get; set; }
+
+        public DbSet<FGViewCategoryEntity> FGViewCategories { get; set; }
+
+        public DbSet<FGViewCategoryEvnentEntity> FGViewCategoryEvents { get; set; }
 
         #endregion
 
@@ -71,6 +75,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGGroupRoleEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGRoleResourceEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGViewCategoryEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasKey(x => x.Id);
         }
 
         private void DefineAlternateKey(ModelBuilder modelBuilder)
@@ -89,6 +95,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGGroupRoleEntity>().HasAlternateKey(x => new { x.Id, x.GroupId });
             modelBuilder.Entity<FGRoleResourceEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
+            modelBuilder.Entity<FGViewCategoryEntity>().HasAlternateKey(x => new { x.Name });
+            modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasAlternateKey(x => new { x.Id, x.CategoryId });
         }
 
         private void DefineDefaultValue(ModelBuilder modelBuilder)
@@ -107,6 +115,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGGroupRoleEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGRoleResourceEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGRoleEquipmentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGViewCategoryEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGViewCategoryEvnentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
         private void DefineRelation(ModelBuilder modelBuilder)
@@ -119,6 +129,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGGroupRoleEntity>().HasOne(x => x.Group).WithMany(x => x.Roles).HasForeignKey(x => x.GroupId);
             modelBuilder.Entity<FGRoleResourceEntity>().HasOne(x => x.Role).WithMany(x => x.Resources).HasForeignKey(x => x.RoleId);
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasOne(x => x.Role).WithMany(x => x.Equipments).HasForeignKey(x => x.RoleId);
+            modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasOne(x => x.Category).WithMany(x => x.Events).HasForeignKey(x => x.CategoryId);
         }
 
         private void DefineSeedData(ModelBuilder modelBuilder)
