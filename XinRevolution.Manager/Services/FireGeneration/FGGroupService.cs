@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 using XinRevolution.CloudService.AzureService.Interface;
-using XinRevolution.Database.Entity;
 using XinRevolution.Database.Entity.FireGeneration;
 using XinRevolution.Manager.Constants;
 using XinRevolution.Manager.Enum;
