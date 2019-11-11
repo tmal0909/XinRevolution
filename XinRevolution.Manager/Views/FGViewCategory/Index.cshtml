@@ -3,7 +3,7 @@
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">世界觀分類管理</li>
+            <li class="breadcrumb-item active" aria-current="page">焰世代 - 世界觀分類管理</li>
         </ol>
     </nav>
 </div>
@@ -23,7 +23,7 @@
             {
                 <tr>
                     <td>@item.Sort</td>
-                    <td><a href="#">@item.Name</a></td>
+                    <td><a asp-controller="FGViewCategoryEvent" asp-action="Index" asp-route-categoryId="@item.Id" title="事件管理">@item.Name</a></td>
                     <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>
                     <td>
                         <a class="icon-update" asp-controller="FGViewCategory" asp-action="Update" asp-route-id="@item.Id" title="編輯"></a>

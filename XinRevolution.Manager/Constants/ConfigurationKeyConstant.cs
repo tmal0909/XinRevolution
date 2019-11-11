@@ -20,5 +20,7 @@ namespace XinRevolution.Manager.Constants
         public static string FGRoleResourceContainer = "BlobContainers:FireGenerationRoleResource";
 
         public static string FGRoleEquipmentContainer = "BlobContainers:FireGenerationRoleEquipment";
+
+        public static string FGViewCategoryEventContainer = "BlobContainers:FireGenerationViewCategoryEvent";
     }
 }

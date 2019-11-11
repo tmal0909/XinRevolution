@@ -27,8 +27,6 @@ namespace XinRevolution.Manager.Controllers.FireGeneration
             return View(result.Data);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create()
         {
             var result = _service.FindMetaData();
@@ -37,6 +35,22 @@ namespace XinRevolution.Manager.Controllers.FireGeneration
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
 
             return View(result.Data);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(FGViewCategoryMD metaData)
+        {
+            var result = _service.Create(metaData);
+
+            if (!result.Status)
+            {
+                ViewBag.ErrorMessage = result.Message;
+
+                return View(result.Data);
+            }
+
+            return RedirectToAction("Index", "FGViewCategory");
         }
 
         public IActionResult Update(int id)
@@ -53,11 +67,18 @@ namespace XinRevolution.Manager.Controllers.FireGeneration
         [ValidateAntiForgeryToken]
         public IActionResult Update(FGViewCategoryMD metaData)
         {
+            var result = _service.Update(metaData);
 
+            if (!result.Status)
+            {
+                ViewBag.ErrorMessage = result.Message;
+
+                return View(result.Data);
+            }
+
+            return RedirectToAction("Index", "FGViewCategory");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var result = _service.FindMetaData(id);
@@ -66,6 +87,22 @@ namespace XinRevolution.Manager.Controllers.FireGeneration
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
 
             return View(result.Data);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(FGViewCategoryMD metaData)
+        {
+            var result = _service.Delete(metaData);
+
+            if (!result.Status)
+            {
+                ViewBag.ErrorMessage = result.Message;
+
+                return View(result.Data);
+            }
+
+            return RedirectToAction("Index", "FGViewCategory");
         }
     }
 }
