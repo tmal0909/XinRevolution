@@ -89,7 +89,7 @@ namespace XinRevolution.Database
             modelBuilder.Entity<TagEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<BlogEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<BlogPostEntity>().HasAlternateKey(x => new { x.Id, x.BlogId });
-            modelBuilder.Entity<BlogTagEntity>().HasAlternateKey(x => new { x.Id, x.BlogId, x.TagId });
+            modelBuilder.Entity<BlogTagEntity>().HasAlternateKey(x => new { x.BlogId, x.TagId });
             modelBuilder.Entity<WorkEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGGroupEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGGroupRoleEntity>().HasAlternateKey(x => new { x.Id, x.GroupId });
