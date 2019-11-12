@@ -138,19 +138,11 @@ namespace XinRevolution.Database
             {
                 Id = 1,
                 Account = "dev",
-                Password = "dev",
+                Password = "1234",
                 Name = "developer",
                 Phone = "12345678",
                 Mail = "dev@mail.com",
                 Address = "12345678"
-            });
-
-            modelBuilder.Entity<WorkEntity>().HasData(new WorkEntity {
-                Id = 1,
-                Name = "焰世代",
-                Intro = "焰世代作品簡介",
-                ResourceUrl = "default",
-                Controller = "FireGeneration"
             });
         }
 

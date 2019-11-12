@@ -1,0 +1,138 @@
+@import 'mixin.scss';
+
+.issues-height {
+    height: calc((100vh - 80px)/4);
+    margin-bottom: 0.75rem;
+}
+
+.block-plain {
+    width: 100%;
+
+    &:hover {
+        .issues-div {
+            opacity: 0.2;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+// 議題時間樣式
+
+.issue-date {
+    width: 100%;
+    background: $black;
+    color: #fff;
+    padding: 0.2rem;
+    border: 1px #fff solid;
+    border-radius: 4px;
+
+    .date {
+        background: #ccc;
+        color: $black;
+        width: max-content;
+        white-space: nowrap;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+    }
+}
+
+// 複數議題
+.issues-div {
+    float: left;
+    display: inline-block;
+    width: calc( 100% /3 );
+    height: 100%;
+    background: $black;
+    position: relative;
+    @include transition(all, 0.4s, ease, 0s);
+
+    &:hover {
+        box-shadow: 0 0 16px 0 rgba(0, 0, 0, .5);
+        transform: translate(1rem, -1rem);
+    }
+
+
+
+    .issues-img,
+    .issues-content {
+        display: inline-block;
+        float: left;
+    }
+
+
+    .issues-img {
+        width: 40%;
+        overflow: hidden;
+        height: 100%;
+
+        img {
+            max-width: none;
+            height: 100%;
+
+        }
+    }
+
+    .issues-content {
+        position: absolute;
+        bottom: 0;
+        width: 60%;
+        padding: 1rem;
+    }
+}
+
+
+// 單數議題
+
+.issue-div {
+    height: 100%;
+    // overflow: hidden;
+    // background: #ccc;
+
+    .time-group {
+
+
+        //    時間節點
+        .time-node {
+            margin: 0 0.5rem 0.5rem;
+            position: relative;
+
+
+            &:before {
+                content: '';
+                width: 1rem;
+                height: 1rem;
+                background: $black;
+                left: -1.5rem;
+                transform: rotate(45deg);
+                position: absolute;
+            }
+        }
+
+        //    日期樣式
+        .issue-date {
+            margin: 0 0.5rem;
+            padding: 0.2rem;
+            width: 10rem;
+        }
+
+
+
+    }
+
+    //    議題內容
+    .issue-content {
+        padding-top: 1.5rem;
+
+        p,
+        img {
+            margin-bottom:0.5rem;
+        }
+        img{
+            width: 100%;
+        }
+    }
+}

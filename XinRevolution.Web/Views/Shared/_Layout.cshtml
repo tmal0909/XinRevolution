@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>XinRevolution</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Homenaje|Libre+Barcode+128|Noto+Sans+TC|Pathway+Gothic+One|Open+Sans:400,600i,700i,800i|Share+Tech|Share+Tech|Roboto&amp;subset=latin-ext">
+    <link rel="stylesheet" href="~/lib/hamburger/css/hamburgers.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/myScss.css" />
+
+    @RenderSection("Styles", required: false)
+
+    <script src="~/lib/jquery/js/jquery.3.3.1.min.js"></script>
+    <script src="~/js/util.js"></script>
+    <script src="~/js/site.js"></script>
+</head>
+<body>
+    @* Animation *@
+    <div class="@ViewBag.Animation" id="layout-animation-block"></div>
+
+    @* Header *@
+    <header class="header-div">
+        @* Menu Button *@
+        <div class="btn left-top border-bottom">
+            <div class="hamburger hamburger--emphatic">
+                <div class="hamburger-box">
+                    <div class="hamburger-inner"></div>
+                </div>
+            </div>
+        </div>
+
+        @* Logo *@
+        <div class="logo-header">
+            <a asp-controller="Home" class="navbar-brand">
+                <div class="x-logo"></div>
+            </a>
+        </div>
+
+        @* Functions *@
+        <div class="btn border-bottom right-top">
+            <a href="#" class="btn icon-account"></a>
+            <a href="#" class="btn icon-shopping-cart"></a>
+            <a href="#" class="btn icon-search"></a>
+        </div>
+    </header>
+
+    @* Content *@
+    <div class="wrapper overflow-auto-y">
+        <div class="h100 relative">
+            @* Main *@
+            @RenderBody()
+
+            @* Decoration *@
+            <div>
+                <div class="top-sight"></div>
+                
+                <div class="bottom-sight">
+                    <embed class="circle-g" src="~/images/circle-g .svg" type="image/svg+xml" />
+                </div>
+
+                <div class="grid-container">
+                    <div class="cross-div">
+                        <div class="column-6 "></div>
+                        <div class="column-6 "></div>
+                        <div class="column-6 "></div>
+                        <div class="column-6 "></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Footer *@
+    <footer>
+        @* AboutUs Button *@
+        <div class="btn border-top left-bottom">
+            <div class="btn btn-square">ABOUT_US</div>
+        </div>
+
+        @* Share *@
+        <div class="right btn border-top right-bottom">
+            <nav>
+                <a class="btn icon-twitter"></a>
+                <a class="btn icon-fb" href="https://www.facebook.com/XinRevo/" target="_blank"></a>
+                <a class="btn icon-ig"></a>
+            </nav>
+        </div>
+
+        @* Decoration *@
+        <div class="footer-div"></div>
+    </footer>
+
+    @* Menu *@
+    <div class="menu-div">
+        <partial name="/Views/Home/_Menu.cshtml" />
+    </div>
+
+    @* AboutUs *@
+    <div class="aboutUs-div">
+        <partial name="/Views/Home/_AboutUs.cshtml" />
+    </div>
+
+    @* Popup *@
+    <div class="display-none"></div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

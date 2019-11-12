@@ -1,0 +1,386 @@
+@import 'calcite-web.scss';
+@import 'reset.scss';
+@import 'mixin.scss';
+@import 'btn.scss';
+@import 'menu.scss';
+@import 'index.scss';
+@import 'blog.scss';
+@import 'work.scss';
+@import 'issue.scss';
+@import 'fireGeneration.scss';
+
+.bg-block {
+    // box-shadow: 4px 5px 20px #6f6f6f78;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgb(208, 201, 192);
+    // background:radial-gradient(circle at 50% 15%,rgba(255, 232, 190, 0.5),rgba(146, 143, 143, 0.5));
+    z-index: 1;
+
+    &.horizontal {
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: 40%;
+        z-index: -1;
+    }
+}
+
+
+
+// -----------temp-----------
+* {
+    font-family: "Roboto script=all rev=1", "Adobe Blank", "Noto Sans TC";
+    box-sizing: border-box;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.display-none {
+    display: none;
+}
+
+html {
+    overflow-y: hidden;
+}
+
+body {
+    background: linear-gradient(149deg, #dddcdc, #e2e2e2 29%, #bbb1b1);
+    position: relative;
+    overflow: hidden;
+}
+
+footer,
+header {
+    width: 100%;
+    position: fixed;
+}
+
+header {
+    top: 0;
+    z-index: 2000;
+
+    .header-div {
+        width: 100%;
+    }
+
+    div {
+        float: left;
+    }
+
+    &.bright {
+        .x-logo {
+            @extend .x-logo;
+            background: url(/Official/images/X-logo-w.svg) no-repeat !important;
+            background-size: contain !important;
+            background-position: center !important;
+        }
+
+        .hamburger-inner,
+        .hamburger-inner::before,
+        .hamburger-inner::after {
+            background: #fff;
+        }
+
+        .btn.right-top {
+            [class*="icon-"] {
+                color: #fff !important;
+
+                &:hover {
+                    color: $black !important;
+                }
+            }
+        }
+    }
+
+}
+
+footer {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1900;
+}
+
+%footer-line {
+    height: 1rem;
+    position: fixed;
+    width: 14rem;
+    bottom: 0;
+}
+
+.footer-div {
+    position: fixed;
+    // height: 10px;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 290px);
+    margin: 0 auto;
+    right: 0;
+    background: $black;
+
+    &:before {
+        content: '';
+        background: url("/Official/images/footer-line-l.svg") no-repeat center;
+        background-size: contain;
+        @extend %footer-line;
+        left: 8rem;
+    }
+
+    &:after {
+        content: '';
+        background: url("/Official/images/footer-line-r.svg") no-repeat center;
+        background-size: contain;
+        @extend %footer-line;
+        right: 8rem;
+    }
+}
+
+// custom
+.h100 {
+    height: 100%;
+
+    .slick-list {
+        height: 100%;
+
+        .slick-track {
+            height: 100%;
+            padding: 1rem;
+        }
+    }
+}
+.w100{
+    width: 100%;
+}
+.right {
+    float: right;
+}
+
+.relative {
+    position: relative;
+}
+
+.fixed {
+    position: fixed;
+}
+
+
+.wrapper {
+    @include transition(all, 1s, ease, 0s);
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    &.bright {
+        background: #000;
+        *{
+            color: #fff;
+        }
+    }
+}
+
+// 內容-區塊
+.content-div {
+    height: 100%;
+    padding-top: calc(0.5rem + 40px);
+    padding-bottom: calc(0.5rem + 40px);
+    position: relative;
+    z-index: 999;
+}
+
+.pt-content {
+    padding-top: calc(0.5rem + 40px);
+}
+
+// 主要內容
+.content {
+    @extend .content-div;
+    // width: 100%;
+}
+ // 主要內容-overflow
+
+.overflow-auto-x {
+
+    overflow-x: overlay;
+    overflow-y: hidden;
+
+    // &::-webkit-scrollbar {
+    //     display: none
+    // }
+}
+
+.overflow-auto-y {
+    overflow-x: hidden;
+    overflow-y: overlay;
+
+    // &::-webkit-scrollbar {
+    //     display: none
+    // }
+}
+
+.horizontal-scroll {
+    white-space: nowrap;
+}
+
+
+// 十字框線
+%cross-div-line {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: calc(100% + 40px);
+    background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.08));
+    top: -40px;
+}
+
+//--------------------//
+.cross-div {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+
+    div {
+        height: 100%;
+        padding-top: calc(0.5rem + 40px);
+        padding-bottom: calc(0.5rem + 40px);
+        position: relative;
+
+        &:after {
+            @extend %cross-div-line;
+            right: 0;
+        }
+
+        &:nth-child(1):before {
+            @extend %cross-div-line;
+            left: 0;
+        }
+    }
+}
+
+
+// 瞄準鏡 圓圈
+
+.circle-g {
+    top: -40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+    // transform: scale(0.8);
+    // width: 28%;
+    margin: auto;
+    transform: scale(0.7);
+    width: 25%;
+}
+
+// 瞄準鏡 
+.bottom-sight,
+.top-sight {
+    // width: 100%;
+    // height: 40px;
+    // position: fixed;
+    // z-index: 900;
+    width: 80%;
+    margin: 0 10%;
+    height: 40px;
+    position: fixed;
+    display: block;
+    z-index: 1000;
+}
+
+$positon: 20%;
+$sight-position:-20px;
+
+@mixin sight($coordinate:'', $top:auto, $bottom:auto) {
+    content: $coordinate;
+    bottom: $bottom;
+    top: $top;
+    height: 20px;
+    width: 22%;
+    background-size: 100%;
+    position: absolute;
+    mix-blend-mode: difference;
+}
+
+//-----------23.973875°N 120.982024°E--------//
+.top-sight {
+    top: 0;
+
+    &:after,
+    &:before {
+        @include sight($bottom: $sight-position)
+    }
+
+    &:before {
+        background: url("/Official/images/topLeftSight.svg")no-repeat right top;
+        left: $positon;
+    }
+
+    &:after {
+        background: url("/Official/images/topRightSight.svg")no-repeat left top;
+        right: $positon;
+    }
+}
+
+.bottom-sight {
+    bottom: 0;
+
+    &:before,
+    &:after {
+        mix-blend-mode: difference;
+        color: $gray;
+        font-size: 0.5rem;
+    }
+
+    &:before {
+        background: url("/Official/images/bottomLeftSight.svg")no-repeat right bottom;
+        left: $positon;
+        @include sight($coordinate: '23.973875°N', $top: $sight-position)
+    }
+
+    &:after {
+        text-align: right;
+        background: url("/Official/images/bottomRightSight.svg")no-repeat left bottom;
+        right: $positon;
+        @include sight($coordinate: '120.982024°E', $top: $sight-position)
+    }
+}
+
+// 瞄準方框
+
+.corner {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    border: 1px solid $line-color;
+}
+
+.corner-top-left {
+    border-bottom: none;
+    border-right: none;
+    top: 0;
+    left: 0;
+}
+
+// 瞄準圈
+
+.index-circle {
+    background: url("/Official/images/index-circle.svg") no-repeat center;
+    background-size: contain;
+    height: 80%;
+    width: 80%;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+
+}

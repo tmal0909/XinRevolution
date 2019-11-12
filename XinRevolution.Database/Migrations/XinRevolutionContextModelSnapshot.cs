@@ -530,7 +530,7 @@ namespace XinRevolution.Database.Migrations
                             Address = "12345678",
                             Mail = "dev@mail.com",
                             Name = "developer",
-                            Password = "dev",
+                            Password = "1234",
                             Phone = "12345678",
                             UtcUpdateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -571,18 +571,6 @@ namespace XinRevolution.Database.Migrations
                     b.HasAlternateKey("Name");
 
                     b.ToTable("Works");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Controller = "FireGeneration",
-                            Intro = "焰世代作品簡介",
-                            Name = "焰世代",
-                            ResourceUrl = "default",
-                            Sort = 0,
-                            UtcUpdateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("XinRevolution.Database.Entity.BlogPostEntity", b =>

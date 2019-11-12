@@ -1,0 +1,321 @@
+@import 'mixin.scss';
+
+// menu
+
+.menu {
+    color: $black;
+}
+
+%close {
+    @include transition(all, 0.4s, ease, 0s);
+    position: absolute;
+    color: #fff;
+    font-size: 5rem;
+    width: fit-content;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 5rem;
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &:after {
+        content: "close";
+        font-size: 1rem;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: fit-content;
+        bottom: -0.5rem;
+
+    }
+}
+
+.menu-div {
+    @include transition(all, 0.4s, ease, 0s);
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    visibility: hidden;
+    z-index: 1500;
+    height: 100vh;
+
+    &.active {
+        opacity: 1;
+
+        background: $black;
+        visibility: visible;
+
+        nav {
+            height: 100%;
+
+            &:after {
+                margin: auto;
+                width: 1px;
+                height: 20rem;
+                background: #cccccc4a;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+
+            }
+        }
+
+        [class*="column-"] {
+            padding: 15% 0;
+
+            a {
+                @include transition(all, 0.3s, ease, 0s);
+                width: 100%;
+                display: block;
+                color: #ccc;
+                font-size: 1.5rem;
+                text-align: center;
+                margin: 2.5rem 0;
+
+                &:hover,
+                &:active {
+                    background: #fff;
+                    color: #000;
+                }
+            }
+
+        }
+    }
+
+    .close {
+        @extend %close;
+    }
+}
+
+//aboutUs-div
+
+.aboutUs-div {
+    @include transition(all, 0.4s, ease, 0s);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1900;
+    background: $black;
+
+    visibility: hidden;
+    opacity: 0;
+
+    .close {
+        @extend %close;
+    }
+
+    &.active {
+        visibility: visible;
+        opacity: 1;
+
+    }
+
+    .aboutUs-content {
+        font-size: 6rem;
+        color: #fff;
+    }
+}
+
+
+// popup-div
+
+.popup-div {
+    @extend .aboutUs-div;
+    z-index: 2000;
+
+}
+
+// fire-menu
+.fire-menu {
+    background: $black;
+    @include transition(all, 0.4s, ease, 0s);
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2vw;
+    padding: 0.5rem;
+    height: calc(100% - (1rem + 80px));
+    margin: calc(0.5rem + 40px) 0;
+    color: #fff;
+    z-index: 999;
+
+    .close {
+        $width: 10px;
+        width: $width;
+        height: 40px;
+        background: $black;
+        position: absolute;
+        left: - $width;
+        top: calc(50% - 40px);
+
+        &::before {
+
+            @include biseau-mixin(- $width, auto, 0, 0, 0 0 $width $width, transparent transparent $black transparent);
+        }
+
+        &:after {
+
+            @include biseau-mixin(auto, auto, - $width, 0, $width 0 0 $width, $black transparent transparent transparent);
+        }
+    }
+
+
+
+    .fire-content {
+        border: 1px solid #fff;
+        padding: 0.2rem;
+        height: 100%;
+        position: relative;
+
+        // 標題
+        &:before {
+            @include transition(all, 0.4s, ease, 0s);
+            content: 'test';
+            width: 100%;
+            color: transparent;
+            position: relative;
+            left: 0;
+            top: 0;
+            text-align: center;
+            background: #fff;
+            display: inline-block;
+        }
+    }
+
+    // 焰
+    .icon-fire {
+        @include transition(all, 0.4s, ease, 0s);
+        opacity: 0;
+        visibility: hidden;
+        margin: 6rem 0.3rem;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    a {
+        @include transition(all, 0.4s, ease, 0s);
+        display: block;
+        margin: 0.3rem;
+        white-space: nowrap;
+        opacity: 0;
+        color: #fff;
+    }
+
+    // 警示線
+    .warning-lines {
+        position: absolute;
+        overflow: hidden;
+        width: calc(100% - 0.4rem);
+        margin: 0.2rem;
+        height: 22px;
+        bottom: 0;
+        left: 0;
+
+        &:after {
+            content: '';
+            background: url("/Official/images/warning-lines.svg");
+            width: 200%;
+            height: 100%;
+            display: block;
+        }
+    }
+
+    // hover,active
+    &.sideMenu-active,
+    &:hover,
+    &:active {
+        width: 8rem;
+
+        // 標題-hover
+        .fireContent:before {
+            opacity: 1;
+            color: $black;
+        }
+
+        // 焰-hover
+        .icon-fire {
+            opacity: 1;
+            visibility: show;
+        }
+
+        // 警示線-hover
+        .warning-lines {
+            &:after {
+                content: '';
+                -webkit-animation: a-warningLines 2s linear;
+                /* Safari 4.0 - 8.0 */
+                animation: a-warningLines 2s linear;
+                animation-iteration-count: infinite;
+
+            }
+        }
+
+        a {
+            opacity: 1;
+            color: #ccc;
+            text-align: center;
+
+            &:hover,
+            &:active {
+
+                background: #fff;
+                color: #000;
+            }
+        }
+    }
+}
+
+
+
+//sign
+.sign {
+    position: fixed;
+    left: calc(1.6rem + 20px);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    // background: aquamarine;
+    z-index: 1000;
+    height: max-content;
+
+    .prev,
+    .next {
+        writing-mode: vertical-lr;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        display: block;
+    }
+
+
+    .now {
+        /* transform: rotate(180deg); */
+        /* writing-mode: vertical-lr; */
+        position: absolute;
+        top: 0;
+        width: max-content;
+        height: max-content;
+        margin: auto 2rem;
+        bottom: 0;
+        cursor: default;
+
+        &::before {
+            content: '';
+            width: 20px;
+            height: 4px;
+            background: #000000;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 8px 0.3rem;
+        }
+    }
+}

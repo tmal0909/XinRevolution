@@ -1,0 +1,178 @@
+@import 'mixin.scss';
+
+// 視差捲軸-待測試
+.section-1 {
+    background-image: url("/Official/images/index.png");
+}
+
+.section-3 {
+    background-image: url("/Official/images/X-logo.svg");
+}
+
+.out {
+    height: 1300px;
+}
+
+.wrapper {
+    overflow-y: scroll;
+}
+
+.article {
+
+    margin: 0 auto;
+    height: 100vh;
+    padding: 40px;
+    font: 24px 'Arial';
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+    line-height: 28px;
+}
+
+.test {
+    top: -20%;
+}
+
+.off {
+    top: -80%;
+}
+
+.moon {
+    transition: all 1s ease;
+}
+
+// 主視覺
+.master-vision {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+.adj {
+    mix-blend-mode: difference;
+    background-image: linear-gradient(149deg, #eaeaea, #a4a4a4 29%, #4a3c3c);
+    // background-image: linear-gradient(1234deg, #ffffff45, #90989a 29%, #000000);
+    width: 100%;
+    height: 100%;
+    // background: #fff;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+
+.bg-red {
+    // background-image: radial-gradient(circle at 104% 155%, #300b0b, #461b1b 10%, #ff9f9f);
+    // background-image: radial-gradient(circle at 1700% 200%, #300b0b, #000000 10%, #ffb3b7);
+    background-image: radial-gradient(circle at 20% -50%, #6d1717, #0b524c 10%, #000000);
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+}
+
+
+.moon {
+    background: url("/Official/images/moon.png") no-repeat;
+    background-size: 100%;
+    width: 60rem;
+    height: 60rem;
+    background-blend-mode: difference;
+    position: absolute;
+    z-index: 1;
+    top: -50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+}
+
+.wing {
+    background: url("/Official/images/wing.png") no-repeat;
+    background-size: contain;
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    transform: rotateZ(-10deg);
+    width: 100%;
+    height: 65rem;
+    right: -50%;
+    top: 0;
+}
+
+//radial-gradient(circle at 50% 15%,rgba(0,197,255,.5),rgba(0,0,0,.5)),linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.72)) 
+
+.video-style:before {
+    position: absolute;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    content: "";
+    clear: both;
+    display: block;
+    // background: radial-gradient(circle at 50% 15%,rgba(0,197,255,.5),rgba(0,0,0,.5)),linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.72)),url("/Official/images/screen.png") center center repeat;
+    background: radial-gradient(circle at 50% 15%, rgba(176, 177, 181, 0.58), rgba(0, 0, 0, 0.42)), linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)), url(/Official/images/screen.png) center center repeat;
+    -webkit-background-size: 3px 3px;
+    -moz-background-size: 3px 3px;
+    -ms-background-size: 3px 3px;
+    -o-background-size: 3px 3px;
+    background-size: 3px 3px;
+    // z-index: 3;
+}
+
+.logo-header {
+    display: inline-block;
+    width: calc(100% - 16rem);
+    padding-top: 4px;
+    vertical-align: top;
+    mix-blend-mode: difference;
+    height: 40px;
+
+        a {
+            display: block;
+            margin: auto;
+            position: relative;
+            float: none;
+            width: 2.5rem;
+            height: 100%;
+            cursor: pointer;
+
+            .x-logo {
+                @include transition(all, 0.4s, ease, 0s);
+                background: url("/Official/images/X-logo.svg")no-repeat;
+                width: 100%;
+                height: 100%;
+                background-size: contain;
+                background-position: center;
+                
+                &:hover {
+                    opacity: 0.4;
+              
+            }
+        }
+    }
+}
+
+
+.logo-x {
+    position: absolute;
+    margin: auto;
+    display: block;
+    left: 0;
+    z-index: 100;
+    width: max-content;
+    height: 5rem;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    mix-blend-mode: difference;
+
+    &.icon-logo {
+        color: #00A9E0;
+        font-size: 5rem;
+    }
+}

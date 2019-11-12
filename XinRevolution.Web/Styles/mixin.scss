@@ -1,0 +1,367 @@
+$black: #292929;
+$gray: rgba(191, 191, 191, 0.6);
+$gray-light:#d8d8d8;
+$line-color:rgba(255, 255, 255, 0.4);
+$hover-white: rgba(255, 255, 255, 0.8);
+
+
+h1 {
+  font-size: 7rem;
+}
+
+h2 {
+  font-size: 5rem;
+}
+
+h3 {
+  font-size: 3rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+.lighten {
+  opacity: 0.4;
+}
+
+// 主題文字
+// .theme {
+//   text-align: right;
+//   font-size: 5rem;
+//   font-style: italic;
+//   margin: 0;
+//   position: relative;
+
+//   &::after {
+//     content: "";
+//     width: 21rem;
+//     height: 1rem;
+//     background: #f11515;
+//     position: absolute;
+//     right: -1rem;
+//     top: 2rem;
+//     z-index: -1;
+//     transform: skew(-45deg);
+//   }
+// }
+
+.theme {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 2rem 1rem 1rem;
+  font-weight: 100;
+  font-family: "Roboto script=all rev=1";
+
+  &:after {
+    content: "";
+    top: -80%;
+    z-index: -1;
+    width: 200%;
+    background: url(/Official/images/X-logo-w.svg) no-repeat;
+    height: 200%;
+    position: fixed;
+    background-size: 100%;
+    background-position: center;
+    left: -80%;
+  }
+}
+
+
+// 外框
+
+.border {
+  border: 1px solid $gray-light;
+  margin-bottom: 0.5rem;
+}
+
+// 媒體區塊
+.media-content {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 10px 0.5rem 10px 0;
+  width: 3rem;
+  height: 3rem;
+  background: $black;
+
+  &:first-child {
+    margin-left: 0.5rem;
+  }
+}
+
+// 全螢幕背景
+%full-screenBg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+// 梯形按鈕
+/*--- var ---*/
+$width: 8rem;
+$height: 40px;
+$angle: 40px;
+
+/*-----------*/
+@mixin biseau-mixin($top:auto, $right:auto, $bottom:auto, $left:auto, $border-width:0 0 0 0, $border-color:transparent) {
+  content: '';
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  border-width: $border-width;
+  border-color: $border-color;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+// animation
+/*--- var ---*/
+$sec:1s;
+
+@mixin transition ($property:all, $duration:0.5s, $function:ease, $delay:0s) {
+  transition: $property $duration $function $delay;
+  -webkit-transition: $property $duration $function $delay;
+  -moz-transition: $property $duration $function $delay;
+  -o-transition: $property $duration $function $delay;
+  -ms-transition: $property $duration $function $delay;
+}
+
+.animation-vertical,
+.animation-horizontal,
+.animation-fire {
+  // @include transition(all,4s,ease,0s);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  font-size: 80px;
+  z-index: 2200;
+}
+
+.animation-vertical {
+  background: red;
+  -webkit-animation: a-down $sec ease;
+  /* Safari 4.0 - 8.0 */
+  animation: a-down $sec ease;
+}
+
+.animation-horizontal {
+  background: blue;
+  -webkit-animation: a-right $sec ease;
+  /* Safari 4.0 - 8.0 */
+  animation: a-right $sec ease;
+}
+
+.animation-fire {
+  background: rgb(37, 35, 37);
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 21rem;
+    height: 21rem;
+    border-radius: 100%;
+    border: 1px solid red;
+    background: url(/Official/images/fire.svg) no-repeat;
+    background-size: 90%;
+    background-position: center;
+    -webkit-animation: a-fire $sec ease;
+    /* Safari 4.0 - 8.0 */
+    animation: a-fire $sec ease;
+
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 100%;
+    border: 1px solid red;
+    box-shadow: 0 0 50px 10px #872d4a8f;
+    -webkit-animation: a-fire $sec ease;
+    /* Safari 4.0 - 8.0 */
+    animation: a-fire $sec ease;
+
+
+  }
+
+}
+
+
+
+
+/* Standard syntax */
+
+@keyframes a-down {
+  from {
+    height: 0%;
+  }
+
+  to {
+    height: 100;
+  }
+}
+
+/* Standard syntax */
+
+@keyframes a-right {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* Standard syntax */
+
+@keyframes a-fire {
+  from {
+    width: 0;
+    height: 0;
+    box-shadow: 0 0 50px 10px #ffffff00;
+  }
+
+
+  to {
+    width: 22rem;
+    height: 22rem;
+    box-shadow: 0 0 50px 10px #872d49c4;
+  }
+}
+
+
+/* Standard syntax */
+
+@keyframes a-warningLines {
+  0% {
+    background-position-x: 100%;
+  }
+
+  100% {
+    background-position-x: 0;
+  }
+}
+
+
+/* Standard syntax */
+
+@keyframes a-refresh {
+
+  0% {
+
+    right: -100%;
+  }
+
+
+
+  100% {
+    right: 100%;
+  }
+}
+
+// 長方形標題
+
+.rectangle-title {
+  color: $black;
+  padding: 0.5rem 0;
+
+  &:before {
+    @include transition;
+    content: '';
+    width: 4px;
+    height: 30px;
+    background: #000000;
+    display: inline-block;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+    // position: absolute;
+  }
+
+  &.light {
+    color: #fff;
+
+    &:before {
+      background: #fff;
+    }
+  }
+}
+
+
+//    故事節點
+%node {
+  cursor: pointer;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.5);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100%;
+}
+
+
+.node {
+  @extend %node;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  &.active {
+    background: rgb(65, 241, 244);
+  }
+}
+
+.node-line {
+  width: 1px;
+  max-height: 10rem;
+  min-height: 2rem;
+  background: #fff;
+  margin: auto;
+  height: 200%;
+  transform-origin: center;
+  position: relative;
+}
+
+
+// 3D camera
+
+.camera {
+  width: 100%;
+  height: 200px;
+  perspective-origin: center center;
+  perspective: 300px;
+
+  .space {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #000;
+    transform-style: preserve-3d;
+
+    .box {
+      @include transition(all, 0.4s, ease, 0s);
+      transform: translateX(50px) translateY(50px) rotateY(20deg);
+      // background: rgba(0, 0, 0, 0.459);
+    }
+  }
+
+}
