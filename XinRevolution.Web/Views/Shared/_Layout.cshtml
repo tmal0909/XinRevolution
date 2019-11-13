@@ -25,7 +25,7 @@
     <header class="header-div">
         @* Menu Button *@
         <div class="btn left-top border-bottom">
-            <div class="hamburger hamburger--emphatic">
+            <div class="hamburger hamburger--emphatic js-popup-show-btn" data-target="#layout-menu-block">
                 <div class="hamburger-box">
                     <div class="hamburger-inner"></div>
                 </div>
@@ -56,7 +56,7 @@
             @* Decoration *@
             <div>
                 <div class="top-sight"></div>
-                
+
                 <div class="bottom-sight">
                     <embed class="circle-g" src="~/images/circle-g .svg" type="image/svg+xml" />
                 </div>
@@ -77,7 +77,7 @@
     <footer>
         @* AboutUs Button *@
         <div class="btn border-top left-bottom">
-            <div class="btn btn-square">ABOUT_US</div>
+            <div class="btn btn-square js-popup-show-btn" data-target="#layout-aboutUs-block">ABOUT_US</div>
         </div>
 
         @* Share *@
@@ -94,17 +94,17 @@
     </footer>
 
     @* Menu *@
-    <div class="menu-div">
+    <div class="menu-div js-popup-block" id="layout-menu-block">
         <partial name="/Views/Home/_Menu.cshtml" />
     </div>
 
     @* AboutUs *@
-    <div class="aboutUs-div">
+    <div class="aboutUs-div js-popup-block" id="layout-aboutUs-block">
         <partial name="/Views/Home/_AboutUs.cshtml" />
     </div>
 
     @* Popup *@
-    <div class="display-none"></div>
+    <div class="display-none js-popup-block" id="layout-popup-block"></div>
 
     @RenderSection("Scripts", required: false)
 </body>
