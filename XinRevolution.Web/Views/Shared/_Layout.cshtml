@@ -23,7 +23,6 @@
 
     @* Header *@
     <header class="header-div">
-        @* Menu Button *@
         <div class="btn left-top border-bottom">
             <div class="hamburger hamburger--emphatic js-popup-show-btn" data-target="#layout-menu-block">
                 <div class="hamburger-box">
@@ -32,14 +31,12 @@
             </div>
         </div>
 
-        @* Logo *@
         <div class="logo-header">
             <a asp-controller="Home" class="navbar-brand">
                 <div class="x-logo"></div>
             </a>
         </div>
 
-        @* Functions *@
         <div class="btn border-bottom right-top">
             <a href="#" class="btn icon-account"></a>
             <a href="#" class="btn icon-shopping-cart"></a>
@@ -50,10 +47,8 @@
     @* Content *@
     <div class="wrapper overflow-auto-y">
         <div class="h100 relative">
-            @* Main *@
             @RenderBody()
 
-            @* Decoration *@
             <div>
                 <div class="top-sight"></div>
 
@@ -75,12 +70,10 @@
 
     @* Footer *@
     <footer>
-        @* AboutUs Button *@
         <div class="btn border-top left-bottom">
             <div class="btn btn-square js-popup-show-btn" data-target="#layout-aboutUs-block">ABOUT_US</div>
         </div>
 
-        @* Share *@
         <div class="right btn border-top right-bottom">
             <nav>
                 <a class="btn icon-twitter"></a>
@@ -89,7 +82,6 @@
             </nav>
         </div>
 
-        @* Decoration *@
         <div class="footer-div"></div>
     </footer>
 
