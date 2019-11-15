@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using XinRevolution.Database;
 using XinRevolution.Repository;
 using XinRevolution.Repository.Interface;
+using XinRevolution.Web.Services;
 
 namespace XinRevolution.Web
 {
@@ -35,6 +36,8 @@ namespace XinRevolution.Web
 
             services.AddScoped<DbContext, XinRevolutionContext>();
             services.AddScoped<IUnitOfWork<DbContext>, UnitOfWork<DbContext>>();
+
+            services.AddScoped<BlogService>();
         }
 
         public void Configure(IApplicationBuilder app)

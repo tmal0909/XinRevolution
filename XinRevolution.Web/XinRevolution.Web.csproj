@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\FireGeneration\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XinRevolution.Web.Constants;
+using XinRevolution.Web.Services;
 
 namespace XinRevolution.Web.Controllers
 {
     public class BlogController : Controller
     {
-        public BlogController()
+        private readonly BlogService _service;
+
+        public BlogController(BlogService service)
         {
-            ViewBag.Animation = AnimationTypeConstant.Horizontal;
+            _service = service;
         }
 
         /// <summary>
@@ -15,7 +18,12 @@ namespace XinRevolution.Web.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            return View();
+            var result = _service.Find();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
     }
 }

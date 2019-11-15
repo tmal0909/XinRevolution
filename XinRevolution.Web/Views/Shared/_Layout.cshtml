@@ -24,7 +24,7 @@
     @* Header *@
     <header class="header-div">
         <div class="btn left-top border-bottom">
-            <div class="hamburger hamburger--emphatic js-popup-show-btn" data-target="#layout-menu-block">
+            <div class="hamburger hamburger--emphatic js-popup-ctrl" data-target="#popup-menu">
                 <div class="hamburger-box">
                     <div class="hamburger-inner"></div>
                 </div>
@@ -71,7 +71,7 @@
     @* Footer *@
     <footer>
         <div class="btn border-top left-bottom">
-            <div class="btn btn-square js-popup-show-btn" data-target="#layout-aboutUs-block">ABOUT_US</div>
+            <div class="btn btn-square js-popup-ctrl" data-target="#popup-aboutUs">ABOUT_US</div>
         </div>
 
         <div class="right btn border-top right-bottom">
@@ -86,12 +86,12 @@
     </footer>
 
     @* Menu *@
-    <div class="menu-div js-popup-block" id="layout-menu-block">
+    <div class="menu-div js-popup-block" id="popup-menu">
         <partial name="/Views/Home/_Menu.cshtml" />
     </div>
 
     @* AboutUs *@
-    <div class="aboutUs-div js-popup-block" id="layout-aboutUs-block">
+    <div class="aboutUs-div js-popup-block" id="popup-aboutUs">
         <partial name="/Views/Home/_AboutUs.cshtml" />
     </div>
 

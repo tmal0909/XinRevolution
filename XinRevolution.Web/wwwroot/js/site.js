@@ -5,7 +5,7 @@
     });
 
     // 事件 - Popup Show Btn 點選
-    $(document).on('click', '.js-popup-show-btn', function () {
+    $(document).on('click', '.js-popup-ctrl', function () {
         var target = $(this).data('target');
 
         if (target)
@@ -13,7 +13,7 @@
     });
 
     // 事件 - Popup Close Btn 點選
-    $(document).on('click', '.js-popup-close-btn', function () {
+    $(document).on('click', '.js-popup-close', function () {
         var target = $(this).parents('.js-popup-block').first();
 
         if (target)

@@ -17,5 +17,12 @@ namespace XinRevolution.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Error(string errorMessage = "")
+        {
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
+        }
     }
 }
