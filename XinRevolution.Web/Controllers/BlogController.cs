@@ -11,6 +11,8 @@ namespace XinRevolution.Web.Controllers
         public BlogController(BlogService service)
         {
             _service = service;
+
+            ViewBag.Animation = AnimationTypeConstant.Horizontal;
         }
 
         /// <summary>

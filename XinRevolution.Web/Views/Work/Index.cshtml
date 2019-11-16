@@ -1,0 +1,27 @@
+﻿@model WorkViewModel
+@* 作品首頁 *@
+<div class="grid-container h100 pt-content relative">
+    <div class="js-works-container">
+        @foreach (var work in Model.Works)
+        {
+            <div>
+                <a asp-controller="@work.Controller">
+                    <div>
+                        <img src="@work.ResourceUrl" />
+                    </div>
+                    <div>@work.Name</div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/slick/css/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick/css/slick-theme.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/slick/js/slick.min.js"></script>
+    <script src="~/js/site.work.js"></script>
+}

@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XinRevolution.Web.Constants;
+using XinRevolution.Web.Services;
 
 namespace XinRevolution.Web.Controllers
 {
     public class WorkController : Controller
     {
-        public WorkController()
+        private readonly WorkService _service;
+
+        public WorkController(WorkService service)
         {
+            _service = service;
+
             ViewBag.Animation = AnimationTypeConstant.Horizontal;
         }
 
@@ -15,7 +20,12 @@ namespace XinRevolution.Web.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            return View();
+            var result = _service.Find();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
     }
 }

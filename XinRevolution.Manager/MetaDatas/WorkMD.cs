@@ -22,7 +22,7 @@ namespace XinRevolution.Manager.MetaDatas
         public string Intro { get; set; }
 
         [Required(ErrorMessage = "請選擇資源檔案")]
-        [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
+        [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "資源連結", Prompt = "請上傳資源檔案")]
         public string ResourceUrl { get; set; }
 

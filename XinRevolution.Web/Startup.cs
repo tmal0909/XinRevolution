@@ -38,6 +38,7 @@ namespace XinRevolution.Web
             services.AddScoped<IUnitOfWork<DbContext>, UnitOfWork<DbContext>>();
 
             services.AddScoped<BlogService>();
+            services.AddScoped<WorkService>();
         }
 
         public void Configure(IApplicationBuilder app)
