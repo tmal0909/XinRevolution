@@ -1,0 +1,55 @@
+﻿@model IssueDetailViewModel
+
+@* 追蹤議題 - 詳細資訊 *@
+<div class="grid-container h100 relative overflowAuto-y">
+    <a asp-controller="Issue" asp-action="Index">返回</a>
+
+    <div class="column-12">
+        <div>@Model.Issue.Name</div>
+
+        <div>@Model.Issue.Intro</div>
+
+        <div class="overflow-hidden js-issueLink-container">
+            @foreach (var link in Model.Issue.IssueRelativeLinks)
+            {
+                <div><a class="column-3" href="@link.LinkUrl"><img src="@link.ResourceUrl" alt="@link.Note"/></a></div>
+            }
+        </div>
+
+        <div class="community-g">
+            <span>share to:</span>
+            <a class="btn icon-twitter" href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank"></a>
+            <a class="btn icon-fb" href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank"></a>
+        </div>
+    </div>
+
+    <div class="column-12 h100">
+        @foreach (var item in Model.Issue.IssueItems)
+        {
+            <div class="issue-div">
+                <div class="time-group column-6">
+                    <div class="time-node">@item.Title</div>
+
+                    <div class="issue-date">
+                        <div class="date">@item.ReleaseDate.ToString("yyyy-MM-dd")</div>
+                    </div>
+                </div>
+
+                <div class="issue-content column-6">
+                    <p>@item.Content</p>
+                    <img src="@item.ResourceUrl" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/slick/css/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick/css/slick-theme.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/slick/js/slick.min.js"></script>
+    <script src="~/js/site.issue.js"></script>
+}

@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using XinRevolution.Web.Constants;
+using XinRevolution.Web.Services;
 
 namespace XinRevolution.Web.Controllers
 {
     public class IssueController : Controller
     {
-        public IssueController()
+        private readonly IssueService _service;
+
+        public IssueController(IssueService service)
         {
+            _service = service;
+
             ViewBag.Animation = AnimationTypeConstant.Horizontal;
         }
 
@@ -15,7 +20,25 @@ namespace XinRevolution.Web.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            return View();
+            var result = _service.Find();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
+        }
+
+        /// <summary>
+        /// 議題詳細資料
+        /// </summary>
+        public IActionResult Detail(int issueId)
+        {
+            var result = _service.FindDetail(issueId);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
     }
 }

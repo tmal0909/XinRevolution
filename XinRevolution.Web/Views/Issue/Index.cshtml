@@ -1,0 +1,43 @@
+﻿@model IssueViewModel
+@* 追蹤議題首頁 *@
+<div class="grid-container pt-content h100 relative overflowAuto-y">
+    <div class="now">Issues</div>
+
+    <div class="sign">
+        <nav>
+            <a class="prev" asp-controller="Work" asp-action="Index">PREV</a>
+        </nav>
+    </div>
+
+    <div>切換按鈕</div>
+
+    <div class="block-plain column-18 pre-6">
+        <div class="issues-height block">
+
+            @foreach (var issue in Model.Issues)
+            {
+                var lastIssueItem = issue.IssueItems.OrderByDescending(x => x.ReleaseDate).First();
+
+                <div class="issues-div">
+                    <a asp-controller="Issue" asp-action="Detail" asp-route-issueId="@issue.Id">
+                        <div class="issues-img">
+                            <img src="@lastIssueItem.ResourceUrl" />
+                        </div>
+
+                        <div class="issues-content">
+                            <div class="rectangle-title light">@issue.Name</div>
+
+                            <div class="issue-date">
+                                <div class="date">@lastIssueItem.ReleaseDate.ToString("yyyy-MM-dd")</div>
+                            </div>
+
+                            <div>@issue.Intro</div>
+
+                            <div>More</div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

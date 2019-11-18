@@ -15,7 +15,7 @@ namespace XinRevolution.Manager.Controllers
 
         public IActionResult Index(int issueId)
         {
-            var result = _service.Find();
+            var result = _service.Find(issueId);
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
