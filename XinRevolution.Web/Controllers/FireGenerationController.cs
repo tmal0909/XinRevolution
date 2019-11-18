@@ -1,9 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XinRevolution.Web.Constants;
+using XinRevolution.Web.Services;
 
 namespace XinRevolution.Web.Controllers
 {
     public class FireGenerationController : Controller
     {
+        private readonly FireGenerationService _service;
+
+        public FireGenerationController(FireGenerationService service)
+        {
+            _service = service;
+
+            ViewBag.Animation = AnimationTypeConstant.Horizontal;
+        }
+
+        /// <summary>
+        /// 簡介
+        /// </summary>
+        public IActionResult Intro()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 焰世代首頁
         /// </summary>

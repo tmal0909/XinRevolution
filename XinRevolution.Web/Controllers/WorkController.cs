@@ -16,7 +16,7 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
-        /// 作品
+        /// 作品集首頁
         /// </summary>
         public IActionResult Index()
         {

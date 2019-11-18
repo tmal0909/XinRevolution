@@ -29,7 +29,7 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
-        /// 議題詳細資料
+        /// 追蹤議題 - 詳細資料
         /// </summary>
         public IActionResult Detail(int issueId)
         {

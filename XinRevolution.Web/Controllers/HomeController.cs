@@ -18,6 +18,9 @@ namespace XinRevolution.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 預設錯誤頁
+        /// </summary>
         public IActionResult Error(string errorMessage = "")
         {
             ViewBag.ErrorMessage = errorMessage;
