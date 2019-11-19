@@ -26,11 +26,28 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().Include(include);
         }
 
+        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, TInclude>> include)
+        {
+            return Context.Set<TEntity>().AsNoTracking().Include(include);
+        }
+
         public IEnumerable<TEntity> GetAll(IEnumerable<string> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
 
             foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<TEntity> GetAll<TInclude>(IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        {
+            var result = Context.Set<TEntity>().AsNoTracking();
+
+            foreach(var include in includes)
             {
                 result = result.Include(include);
             }
@@ -48,11 +65,28 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().Include(include).Where(condition);
         }
 
+        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
+        {
+            return Context.Set<TEntity>().Where(condition).Include(include);
+        }
+
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().Where(condition).AsQueryable();
 
             foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result;
+        }
+        
+        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        {
+            var result = Context.Set<TEntity>().AsNoTracking().Where(condition);
+
+            foreach(var include in includes)
             {
                 result = result.Include(include);
             }
@@ -76,7 +110,26 @@ namespace XinRevolution.Repository
             return ((DbSet<TEntity>)result).Find(key);
         }
 
+        public TEntity Single<TInclude>(object key, Expression<Func<TEntity, TInclude>> include)
+        {
+            var result = Context.Set<TEntity>().AsNoTracking().Include(include);
+
+            return ((DbSet<TEntity>)result).Find(key);
+        }
+
         public TEntity Single(object key, IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return ((DbSet<TEntity>)result).Find(key);
+        }
+        
+        public TEntity Single<TInclude>(object key, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
 
@@ -98,7 +151,24 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().Include(include).SingleOrDefault(condition);
         }
 
+        public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
+        {
+            return Context.Set<TEntity>().AsNoTracking().Include(include).SingleOrDefault(condition);
+        }
+
         public TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
+        {
+            var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result.SingleOrDefault(condition);
+        }
+
+        public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
 
