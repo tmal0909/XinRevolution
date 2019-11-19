@@ -21,12 +21,12 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking();
         }
 
-        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, TInclude>> include)
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, object>> include)
         {
             return Context.Set<TEntity>().AsNoTracking().Include(include);
         }
 
-        public IEnumerable<TEntity> GetAll<TInclude>(IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        public IEnumerable<TEntity> GetAll(IEnumerable<Expression<Func<TEntity, object>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking();
 
@@ -43,12 +43,12 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().Where(condition);
         }
 
-        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include)
         {
             return Context.Set<TEntity>().Where(condition).Include(include);
         }
                 
-        public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().Where(condition);
 
@@ -69,14 +69,14 @@ namespace XinRevolution.Repository
             return entity;
         }
 
-        public TEntity Single<TInclude>(object key, Expression<Func<TEntity, TInclude>> include)
+        public TEntity Single(object key, Expression<Func<TEntity, object>> include)
         {
             var result = Context.Set<TEntity>().AsNoTracking().Include(include);
 
             return ((DbSet<TEntity>)result).Find(key);
         }
         
-        public TEntity Single<TInclude>(object key, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        public TEntity Single(object key, IEnumerable<Expression<Func<TEntity, object>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
 
@@ -93,12 +93,12 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().SingleOrDefault(condition);
         }
 
-        public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
+        public TEntity Single(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include)
         {
             return Context.Set<TEntity>().AsNoTracking().Include(include).SingleOrDefault(condition);
         }
 
-        public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
+        public TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
 

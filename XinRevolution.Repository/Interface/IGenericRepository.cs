@@ -11,27 +11,27 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll();
 
-        IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, TInclude>> include);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, object>> include);
 
-        IEnumerable<TEntity> GetAll<TInclude>(IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
+        IEnumerable<TEntity> GetAll(IEnumerable<Expression<Func<TEntity, object>>> includes);
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
-        IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
 
-        IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
 
         TEntity Single(object key);
 
-        TEntity Single<TInclude>(object key, Expression<Func<TEntity, TInclude>> include);
+        TEntity Single(object key, Expression<Func<TEntity, object>> include);
 
-        TEntity Single<TInclude>(object key, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
+        TEntity Single(object key, IEnumerable<Expression<Func<TEntity, object>>> includes);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition);
 
-        TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include);
+        TEntity Single(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
 
-        TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
+        TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
 
         TEntity Insert(TEntity entity);
 
