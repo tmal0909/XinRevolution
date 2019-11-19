@@ -21,26 +21,9 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking();
         }
 
-        public IEnumerable<TEntity> GetAll(string include)
-        {
-            return Context.Set<TEntity>().AsNoTracking().Include(include);
-        }
-
         public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, TInclude>> include)
         {
             return Context.Set<TEntity>().AsNoTracking().Include(include);
-        }
-
-        public IEnumerable<TEntity> GetAll(IEnumerable<string> includes)
-        {
-            var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
-
-            foreach (var include in includes)
-            {
-                result = result.Include(include);
-            }
-
-            return result;
         }
 
         public IEnumerable<TEntity> GetAll<TInclude>(IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
@@ -54,34 +37,17 @@ namespace XinRevolution.Repository
 
             return result;
         }
-
+        
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition)
         {
             return Context.Set<TEntity>().AsNoTracking().Where(condition);
-        }
-
-        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, string include)
-        {
-            return Context.Set<TEntity>().AsNoTracking().Include(include).Where(condition);
         }
 
         public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
         {
             return Context.Set<TEntity>().Where(condition).Include(include);
         }
-
-        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
-        {
-            var result = Context.Set<TEntity>().AsNoTracking().Where(condition).AsQueryable();
-
-            foreach (var include in includes)
-            {
-                result = result.Include(include);
-            }
-
-            return result;
-        }
-        
+                
         public IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)
         {
             var result = Context.Set<TEntity>().AsNoTracking().Where(condition);
@@ -93,7 +59,7 @@ namespace XinRevolution.Repository
 
             return result;
         }
-
+        
         public TEntity Single(object key)
         {
             var entity = Context.Set<TEntity>().Find(key);
@@ -103,28 +69,9 @@ namespace XinRevolution.Repository
             return entity;
         }
 
-        public TEntity Single(object key, string include)
-        {
-            var result = Context.Set<TEntity>().AsNoTracking().Include(include);
-
-            return ((DbSet<TEntity>)result).Find(key);
-        }
-
         public TEntity Single<TInclude>(object key, Expression<Func<TEntity, TInclude>> include)
         {
             var result = Context.Set<TEntity>().AsNoTracking().Include(include);
-
-            return ((DbSet<TEntity>)result).Find(key);
-        }
-
-        public TEntity Single(object key, IEnumerable<string> includes)
-        {
-            var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
-
-            foreach (var include in includes)
-            {
-                result = result.Include(include);
-            }
 
             return ((DbSet<TEntity>)result).Find(key);
         }
@@ -146,26 +93,9 @@ namespace XinRevolution.Repository
             return Context.Set<TEntity>().AsNoTracking().SingleOrDefault(condition);
         }
 
-        public TEntity Single(Expression<Func<TEntity, bool>> condition, string include)
-        {
-            return Context.Set<TEntity>().AsNoTracking().Include(include).SingleOrDefault(condition);
-        }
-
         public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include)
         {
             return Context.Set<TEntity>().AsNoTracking().Include(include).SingleOrDefault(condition);
-        }
-
-        public TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes)
-        {
-            var result = Context.Set<TEntity>().AsNoTracking().AsQueryable();
-
-            foreach (var include in includes)
-            {
-                result = result.Include(include);
-            }
-
-            return result.SingleOrDefault(condition);
         }
 
         public TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes)

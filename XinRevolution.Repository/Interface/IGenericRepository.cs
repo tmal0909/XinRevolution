@@ -11,41 +11,25 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll();
 
-        IEnumerable<TEntity> GetAll(string include);
-
         IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, TInclude>> include);
-        
-        IEnumerable<TEntity> GetAll(IEnumerable<string> includes);
 
         IEnumerable<TEntity> GetAll<TInclude>(IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, string include);
-
         IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include);
-
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes);
 
         IEnumerable<TEntity> GetAll<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
 
         TEntity Single(object key);
 
-        TEntity Single(object key, string include);
-
         TEntity Single<TInclude>(object key, Expression<Func<TEntity, TInclude>> include);
-
-        TEntity Single(object key, IEnumerable<string> includes);
 
         TEntity Single<TInclude>(object key, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition);
 
-        TEntity Single(Expression<Func<TEntity, bool>> condition, string include);
-
         TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TInclude>> include);
-
-        TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<string> includes);
 
         TEntity Single<TInclude>(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, TInclude>>> includes);
 
