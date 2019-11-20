@@ -38,6 +38,7 @@ namespace XinRevolution.Repository
             return result;
         }
         
+
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition)
         {
             return Context.Set<TEntity>().AsNoTracking().Where(condition);
@@ -45,7 +46,7 @@ namespace XinRevolution.Repository
 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include)
         {
-            return Context.Set<TEntity>().Where(condition).Include(include);
+            return Context.Set<TEntity>().AsNoTracking().Where(condition).Include(include);
         }
                 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes)
@@ -60,6 +61,7 @@ namespace XinRevolution.Repository
             return result;
         }
         
+
         public TEntity Single(object key)
         {
             var entity = Context.Set<TEntity>().Find(key);
@@ -88,6 +90,7 @@ namespace XinRevolution.Repository
             return ((DbSet<TEntity>)result).Find(key);
         }
 
+
         public TEntity Single(Expression<Func<TEntity, bool>> condition)
         {
             return Context.Set<TEntity>().AsNoTracking().SingleOrDefault(condition);
@@ -109,6 +112,7 @@ namespace XinRevolution.Repository
 
             return result.SingleOrDefault(condition);
         }
+
 
         public TEntity Insert(TEntity entity)
         {

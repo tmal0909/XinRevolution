@@ -15,11 +15,13 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll(IEnumerable<Expression<Func<TEntity, object>>> includes);
 
+
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
+
 
         TEntity Single(object key);
 
@@ -27,11 +29,13 @@ namespace XinRevolution.Repository.Interface
 
         TEntity Single(object key, IEnumerable<Expression<Func<TEntity, object>>> includes);
 
+
         TEntity Single(Expression<Func<TEntity, bool>> condition);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
+
 
         TEntity Insert(TEntity entity);
 
