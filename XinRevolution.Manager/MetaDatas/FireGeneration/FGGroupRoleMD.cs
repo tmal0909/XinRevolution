@@ -20,7 +20,6 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
         public string Intro { get; set; }
 
         [DataType(DataType.Url)]
-        [Required(ErrorMessage = "請輸入相關連結")]
         [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "相關連結", Prompt = "請輸入相關連結")]
         public string RelativeLinkUrl { get; set; }

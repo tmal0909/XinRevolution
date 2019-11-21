@@ -1,0 +1,13 @@
+﻿@using XinRevolution.Database.Enum.FireGeneration
+
+@model FireGenerationIntroViewModel
+
+@* 焰世代 - 介紹 *@
+<div>
+    <div class="grid-container pt-content relative fire-intro">
+        <div class="icon-fire" style="text-align: center;font-size: 16rem;"></div>
+        <p class="">@Model.Intro</p>
+    </div>
+
+    <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+</div>

@@ -79,12 +79,15 @@ namespace XinRevolution.Repository
 
         public TEntity Single(object key)
         {
-            return ((DbSet<TEntity>)Context.Set<TEntity>().AsNoTracking()).Find(key); 
+            return Context.Set<TEntity>().Find(key);
         }
 
         public TEntity Single(object key, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
-            return ((DbSet<TEntity>)include(Context.Set<TEntity>().AsNoTracking())).Find(key);
+            var entities = include(Context.Set<TEntity>());
+            var result = ((DbSet<TEntity>)entities).Find(key);
+
+            return result;
         }
 
         public TEntity Single(Expression<Func<TEntity, bool>> condition)

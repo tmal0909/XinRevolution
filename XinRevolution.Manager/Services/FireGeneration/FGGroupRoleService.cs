@@ -77,7 +77,8 @@ namespace XinRevolution.Manager.Services.FireGeneration
                 Name = metaData.Name,
                 Intro = metaData.Intro,
                 RelativeLinkUrl = metaData.RelativeLinkUrl,
-                GroupId = metaData.GroupId
+                GroupId = metaData.GroupId,
+                Sort = metaData.Sort
             };
         }
 
@@ -89,7 +90,8 @@ namespace XinRevolution.Manager.Services.FireGeneration
                 Name = entity.Name,
                 Intro = entity.Intro,
                 RelativeLinkUrl = entity.RelativeLinkUrl,
-                GroupId = entity.GroupId
+                GroupId = entity.GroupId,
+                Sort = entity.Sort
             };
         }
     }

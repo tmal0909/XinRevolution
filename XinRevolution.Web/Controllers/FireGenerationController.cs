@@ -33,7 +33,12 @@ namespace XinRevolution.Web.Controllers
         /// </summary>
         public IActionResult Intro()
         {
-            return View();
+            var result = _service.FindIntro(ControllerContext.RouteData.Values["controller"].ToString());
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
 
         /// <summary>

@@ -1,58 +1,36 @@
-﻿@model FireGenerationIndexViewModel
+﻿@using XinRevolution.Database.Enum.FireGeneration
+
+@model FireGenerationIndexViewModel
+
 @* 焰世代 - 首頁 *@
-    <div>
-        @foreach (var group in Model.FireGenerationGroups)
-        {
-            <div>
-                <div class="background">
-                    <img src="@group.ResourceUrl" />
-                </div>
+<div class="class="js-group-container"">
+    @foreach (var group in Model.FireGenerationGroups.OrderBy(x => x.Sort))
+    {
+        <div>
+            <div class="background">
+                <img src="@group.ResourceUrl" />
+            </div>
 
-                <div class="characters-bg">
-                    <div class="grid-container h100 relative content">
-                        <div class="characters-div">
-                            <div class="js-character btn btn-square" asp-area="Official" data-controller="FireGeneration" data-action="Character" data-id="2">bear</div>
-                            <img class="default" src="~/Official/images/bear.png" />
-                            <img class="onhover" src="~/Official/images/bear-hover.png" />
-                        </div>
+            <div class="characters-bg">
+                <div class="grid-container h100 relative content">
+                    @foreach (var role in group.Roles.OrderBy(x => x.Sort))
+                    {
+                        var mainPicture = role.Resources.Single(x => x.Type == FGRoleResourceTypeEnum.Main1).ResourceUrl;
+                        var vicePicture = role.Resources.Single(x => x.Type == FGRoleResourceTypeEnum.Main2).ResourceUrl;
 
                         <div class="characters-div">
-                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
-                               asp-route-id="2">fish</a>
-                            <img class="default" src="~/Official/images/fish.png" />
-                            <img class="onhover" src="~/Official/images/fish-hover.png" />
+                            <a class="btn btn-square" asp-controller="FireGeneration" asp-action="Character">@role.Name</a>
+                            <img class="onhover" src="@mainPicture" />
+                            <img class="default" src="@vicePicture" />
                         </div>
-                        <div class="characters-div">
-                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
-                               asp-route-id="2">tiger</a>
-                            <img class="default" src="~/Official/images/tiger.png" />
-                            <img class="onhover" src="~/Official/images/tiger-hover.png" />
-                        </div>
-                        <div class="characters-div">
-                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
-                               asp-route-id="2">dg</a>
-                            <img class="default" src="~/Official/images/dg.png" />
-                            <img class="onhover" src="~/Official/images/dg-hover.png" />
-                        </div>
-                        <div class="characters-div">
-                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
-                               asp-route-id="2">bee</a>
-                            <img class="default" src="~/Official/images/bee.png" />
-                            <img class="onhover" src="~/Official/images/bee-hover.png" />
-                        </div>
-                        <div class="characters-div">
-                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
-                               asp-route-id="1">free</a>
-                            <img class="default" src="~/Official/images/free.png" />
-                            <img class="onhover" src="~/Official/images/free-hover.png" />
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
-        }
+        </div>
+    }
 
-        <partial name="/Views/FireGeneration/_Navigator.cshtml" />
-    </div>
+    <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+</div>
 
 @section Styles{
     <style>
