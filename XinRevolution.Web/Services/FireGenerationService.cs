@@ -24,10 +24,9 @@ namespace XinRevolution.Web.Services
             try
             {
                 var groups = _unitOfWork.GetRepository<FGGroupEntity>()
-                    .GetAll(x => x.Roles).ToList();
-
-                groups.ForEach(x => x.Roles.ForEach(y => y.Resources = _unitOfWork.GetRepository<FGRoleResourceEntity>().GetAll(z => z.RoleId == y.Id).ToList()));
-                
+                    .GetAll(x => x.Include(y => y.Roles).ThenInclude(y => y.Select(z => z.Resources)))
+                    .ToList();
+                                
                 result.Data.FireGenerationGroups = groups;
             }
             catch(Exception ex)

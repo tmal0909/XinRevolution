@@ -64,11 +64,7 @@ namespace XinRevolution.Repository
 
         public IEnumerable<TEntity> GetAll(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
-            var result = Context.Set<TEntity>().AsNoTracking();
-
-            result = include(result);
-
-            return result;
+            return include(Context.Set<TEntity>().AsNoTracking()); 
         }
 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition)
@@ -78,30 +74,17 @@ namespace XinRevolution.Repository
 
         public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
-            var result = Context.Set<TEntity>().AsNoTracking().Where(condition);
-
-            result = include(result);
-
-            return result;
+            return include(Context.Set<TEntity>().AsNoTracking()).Where(condition);
         }
 
         public TEntity Single(object key)
         {
-            var entities = Context.Set<TEntity>().AsNoTracking();
-            var result = ((DbSet<TEntity>)entities).Find(key);
-
-            return result;
+            return ((DbSet<TEntity>)Context.Set<TEntity>().AsNoTracking()).Find(key); 
         }
 
         public TEntity Single(object key, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
-            var entities = Context.Set<TEntity>().AsNoTracking();
-
-            entities = include(entities);
-
-            var result = ((DbSet<TEntity>)entities).Find(key);
-
-            return result;
+            return ((DbSet<TEntity>)include(Context.Set<TEntity>().AsNoTracking())).Find(key);
         }
 
         public TEntity Single(Expression<Func<TEntity, bool>> condition)
@@ -111,11 +94,7 @@ namespace XinRevolution.Repository
 
         public TEntity Single(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
-            var entities = Context.Set<TEntity>().AsNoTracking();
-
-            entities = include(entities);
-
-            return entities.SingleOrDefault(condition);
+            return include(Context.Set<TEntity>().AsNoTracking()).SingleOrDefault(condition);
         }
     }
 }

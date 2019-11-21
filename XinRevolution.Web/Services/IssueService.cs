@@ -27,7 +27,9 @@ namespace XinRevolution.Web.Services
             try
             {
                 var issues = _unitOfWork.GetRepository<IssueEntity>()
-                    .GetAll(x => x.IssueItems.Count() > 0, y => y.IssueItems)
+                    .GetAll(
+                        x => x.IssueItems.Count() > 0, 
+                        x => x.Include(y => y.IssueItems))
                     .OrderByDescending(x => x.IssueItems.Max(y => y.ReleaseDate))
                     .AsEnumerable();
 
@@ -49,12 +51,9 @@ namespace XinRevolution.Web.Services
             try
             {
                 var issue = _unitOfWork.GetRepository<IssueEntity>()
-                    .Single(
-                        x => x.Id == issueId,
-                        new Expression<Func<IssueEntity, object>>[] {
-                            x => x.IssueItems,
-                            x => x.IssueRelativeLinks
-                    });
+                    .Single(x => x.Id == issueId, 
+                            x => x.Include(y => y.IssueItems)
+                                  .Include(y => y.IssueRelativeLinks));
 
                 result.Data.Issue = issue;
             }
