@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using XinRevolution.Database.Entity;
 using XinRevolution.Repository.Interface;
@@ -26,8 +27,7 @@ namespace XinRevolution.Web.Services
             try
             {
                 var issues = _unitOfWork.GetRepository<IssueEntity>()
-                    .GetAll(nameof(IssueEntity.IssueItems))
-                    .Where(x => x.IssueItems.Count() > 0)
+                    .GetAll(x => x.IssueItems.Count() > 0, y => y.IssueItems)
                     .OrderByDescending(x => x.IssueItems.Max(y => y.ReleaseDate))
                     .AsEnumerable();
 
@@ -49,13 +49,12 @@ namespace XinRevolution.Web.Services
             try
             {
                 var issue = _unitOfWork.GetRepository<IssueEntity>()
-                    .GetAll(new List<string> {
-                        nameof(IssueEntity.IssueItems),
-                        nameof(IssueEntity.IssueRelativeLinks)
-                    })
-                    .Where(x => x.IssueItems.Count() > 0)
-                    .OrderByDescending(x => x.IssueItems.Max(y => y.ReleaseDate))
-                    .SingleOrDefault(x => x.Id == issueId);
+                    .Single(
+                        x => x.Id == issueId,
+                        new Expression<Func<IssueEntity, object>>[] {
+                            x => x.IssueItems,
+                            x => x.IssueRelativeLinks
+                    });
 
                 result.Data.Issue = issue;
             }

@@ -40,6 +40,7 @@ namespace XinRevolution.Web
             services.AddScoped<BlogService>();
             services.AddScoped<WorkService>();
             services.AddScoped<IssueService>();
+            services.AddScoped<FireGenerationService>();
         }
 
         public void Configure(IApplicationBuilder app)

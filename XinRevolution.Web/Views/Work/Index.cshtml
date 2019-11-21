@@ -5,7 +5,7 @@
         @foreach (var work in Model.Works)
         {
             <div>
-                <a asp-controller="@work.Controller">
+                <a asp-controller="@work.Controller" asp-action="Index">
                     <div>
                         <img src="@work.ResourceUrl" />
                     </div>

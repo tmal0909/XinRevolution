@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using XinRevolution.Database.Entity;
 using XinRevolution.Repository.Interface;
 using XinRevolution.Web.Model;
@@ -24,10 +25,12 @@ namespace XinRevolution.Web.Services
 
             try
             {
-                var blogs = _unitOfWork.GetRepository<BlogEntity>().GetAll(new List<string> {
-                    nameof(BlogEntity.BlogPosts),
-                    nameof(BlogEntity.BlogTags)
-                }).OrderByDescending(x => x.ReleaseDate);
+                var blogs = _unitOfWork.GetRepository<BlogEntity>()
+                    .GetAll(new Expression<Func<BlogEntity, object>>[] {
+                        x => x.BlogPosts,
+                        x => x.BlogTags,
+                    })
+                    .OrderByDescending(x => x.ReleaseDate);
 
                 var tags = _unitOfWork.GetRepository<TagEntity>().GetAll(x => x.Status);
 
