@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace XinRevolution.Repository.Interface
@@ -11,31 +13,19 @@ namespace XinRevolution.Repository.Interface
 
         IEnumerable<TEntity> GetAll();
 
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, object>> include);
-
-        IEnumerable<TEntity> GetAll(IEnumerable<Expression<Func<TEntity, object>>> includes);
-
+        IEnumerable<TEntity> GetAll(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include);
 
         IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition);
 
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
-
-        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
-
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include);
 
         TEntity Single(object key);
 
-        TEntity Single(object key, Expression<Func<TEntity, object>> include);
-
-        TEntity Single(object key, IEnumerable<Expression<Func<TEntity, object>>> includes);
-
+        TEntity Single(object key, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include);
 
         TEntity Single(Expression<Func<TEntity, bool>> condition);
 
-        TEntity Single(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, object>> include);
-
-        TEntity Single(Expression<Func<TEntity, bool>> condition, IEnumerable<Expression<Func<TEntity, object>>> includes);
-
+        TEntity Single(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include);
 
         TEntity Insert(TEntity entity);
 

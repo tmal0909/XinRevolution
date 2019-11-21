@@ -19,9 +19,4 @@
     <ProjectReference Include="..\XinRevolution.Repository\XinRevolution.Repository.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="wwwroot\js\firegeneration\" />
-  </ItemGroup>
-
 </Project>
