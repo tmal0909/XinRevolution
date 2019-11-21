@@ -1,5 +1,4 @@
 ﻿@model BlogViewModel
-
 @* 部落格 - 首頁 *@
 <div class="grid-container h100 pt-content relative">
     <div class="theme">BLOGS</div>
@@ -12,59 +11,48 @@
     </div>
 
     <div class="column-15 pre-2 h100 z999">
-        @{
-            try
-            {
-                @foreach (var blog in Model.Blogs)
-                {
-                    var blogTags = Model.Tags.Where(x => blog.BlogTags.Select(y => y.TagId).Contains(x.Id));
+        @foreach (var blog in Model.Blogs)
+        {
+            <div class="blog-unit js-blog-unit" data-tags="@string.Join(";", blog.BlogTags.Select(x => x.Id))">
+                <a name="@blog.Name"></a>
 
-                    <div class="blog-unit js-blog-unit" data-tags="@string.Join(";", blogTags.Select(x => x.Id))">
-                        <a name="@blog.Name"></a>
+                <div class="blog-archive">@blog.ReleaseDate.ToString("yyyy.MM")</div>
 
-                        <div class="blog-archive">@blog.ReleaseDate.ToString("yyyy.MM")</div>
+                <div class="blog-info">
+                    <span>@blog.ReleaseDate.ToString("yyyy/MM/dd")</span>
+                    <span>@string.Join(" ", blog.BlogTags.Select(x => $"#{x.Tag.Name}"))</span>
+                </div>
 
-                        <div class="blog-info">
-                            <span>@blog.ReleaseDate.ToString("yyyy/MM/dd")</span>
-                            <span>@string.Join(" ", blogTags.Select(x => $"#{x.Name}"))</span>
-                        </div>
+                <h4 class="blog-title">@blog.Name</h4>
 
-                        <h4 class="blog-title">@blog.Name</h4>
+                <div class="blog-content">
+                    @foreach (var post in blog.BlogPosts)
+                    {
+                        switch (post.ReferenceType)
+                        {
+                            case ReferenceTypeEnum.Image:
+                                <img class="blog-img" src="@post.ReferenceContent">
+                                break;
 
-                        <div class="blog-content">
-                            @foreach (var post in blog.BlogPosts)
-                            {
-                                switch (post.ReferenceType)
-                                {
-                                    case ReferenceTypeEnum.Image:
-                                        <img class="blog-img" src="@post.ReferenceContent">
-                                        break;
+                            case ReferenceTypeEnum.Text:
+                                <p class="blog-article">@post.ReferenceContent</p>
+                                break;
 
-                                    case ReferenceTypeEnum.Text:
-                                        <p class="blog-article">@post.ReferenceContent</p>
-                                        break;
+                            case ReferenceTypeEnum.Video:
+                                <video class="blog-video" controls>
+                                    <source src="@post.ReferenceContent" type="video/mp4" />
+                                </video>
+                                break;
+                        }
+                    }
+                </div>
 
-                                    case ReferenceTypeEnum.Video:
-                                        <video class="blog-video" controls>
-                                            <source src="@post.ReferenceContent" type="video/mp4" />
-                                        </video>
-                                        break;
-                                }
-                            }
-                        </div>
-
-                        <div class="community-g">
-                            <span>share to:</span>
-                            <a class="btn icon-twitter" href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank"></a>
-                            <a class="btn icon-fb" href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank"></a>
-                        </div>
-                    </div>
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
+                <div class="community-g">
+                    <span>share to:</span>
+                    <a class="btn icon-twitter" href="https://twitter.com/share?url=https://simplesharebuttons.com&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons" target="_blank"></a>
+                    <a class="btn icon-fb" href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank"></a>
+                </div>
+            </div>
         }
     </div>
 

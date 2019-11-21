@@ -16,17 +16,22 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
-        /// 簡介
-        /// </summary>
-        public IActionResult Intro()
-        {
-            return View();
-        }
-
-        /// <summary>
         /// 焰世代首頁
         /// </summary>
         public IActionResult Index()
+        {
+            var result = _service.FindCharacterGroup();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
+        }
+
+        /// <summary>
+        /// 簡介
+        /// </summary>
+        public IActionResult Intro()
         {
             return View();
         }

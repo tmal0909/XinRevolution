@@ -25,15 +25,18 @@ namespace XinRevolution.Web.Services
 
             try
             {
-                var blogs = _unitOfWork.GetRepository<BlogEntity>()
-                    .GetAll(new Expression<Func<BlogEntity, object>>[] {
-                        x => x.BlogPosts,
-                        x => x.BlogTags,
-                    })
-                    .OrderByDescending(x => x.ReleaseDate);
-
                 var tags = _unitOfWork.GetRepository<TagEntity>().GetAll(x => x.Status);
+                var blogs = _unitOfWork.GetRepository<BlogEntity>()
+                    .GetAll(
+                        x => x.BlogPosts.Count > 0,
+                        new Expression<Func<BlogEntity, object>>[] {
+                            x => x.BlogPosts,
+                            x => x.BlogTags,
+                    })
+                    .ToList();
 
+                blogs.ForEach(x => x.BlogTags.ForEach(y => y.Tag = _unitOfWork.GetRepository<TagEntity>().Single(z => z.Id == y.TagId)));
+                
                 result.Data.Blogs = blogs;
                 result.Data.Tags = tags;
             }

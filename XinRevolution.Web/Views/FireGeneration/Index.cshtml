@@ -1,2 +1,79 @@
-﻿
+﻿@model FireGenerationIndexViewModel
 @* 焰世代 - 首頁 *@
+    <div>
+        @foreach (var group in Model.FireGenerationGroups)
+        {
+            <div>
+                <div class="background">
+                    <img src="@group.ResourceUrl" />
+                </div>
+
+                <div class="characters-bg">
+                    <div class="grid-container h100 relative content">
+                        <div class="characters-div">
+                            <div class="js-character btn btn-square" asp-area="Official" data-controller="FireGeneration" data-action="Character" data-id="2">bear</div>
+                            <img class="default" src="~/Official/images/bear.png" />
+                            <img class="onhover" src="~/Official/images/bear-hover.png" />
+                        </div>
+
+                        <div class="characters-div">
+                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
+                               asp-route-id="2">fish</a>
+                            <img class="default" src="~/Official/images/fish.png" />
+                            <img class="onhover" src="~/Official/images/fish-hover.png" />
+                        </div>
+                        <div class="characters-div">
+                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
+                               asp-route-id="2">tiger</a>
+                            <img class="default" src="~/Official/images/tiger.png" />
+                            <img class="onhover" src="~/Official/images/tiger-hover.png" />
+                        </div>
+                        <div class="characters-div">
+                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
+                               asp-route-id="2">dg</a>
+                            <img class="default" src="~/Official/images/dg.png" />
+                            <img class="onhover" src="~/Official/images/dg-hover.png" />
+                        </div>
+                        <div class="characters-div">
+                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
+                               asp-route-id="2">bee</a>
+                            <img class="default" src="~/Official/images/bee.png" />
+                            <img class="onhover" src="~/Official/images/bee-hover.png" />
+                        </div>
+                        <div class="characters-div">
+                            <a class="btn btn-square" asp-area="Official" asp-controller="FireGeneration" asp-action="Character"
+                               asp-route-id="1">free</a>
+                            <img class="default" src="~/Official/images/free.png" />
+                            <img class="onhover" src="~/Official/images/free-hover.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+    </div>
+
+@section Styles{
+    <style>
+        .nameDiv {
+            margin-bottom: 0.5rem;
+        }
+
+        .characterInfo {
+            top: 50%;
+            position: relative;
+        }
+
+        td {
+            border: 1px solid #000;
+        }
+    </style>
+    <link rel="stylesheet" href="~/lib/slick/css/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick/css/slick-theme.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/slick/js/slick.min.js"></script>
+    <script src="~/js/firegeneration/firegenration.index.js"></script>
+}
