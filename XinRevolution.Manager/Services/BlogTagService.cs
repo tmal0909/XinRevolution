@@ -21,7 +21,7 @@ namespace XinRevolution.Manager.Services
 
             try
             {
-                var entities = DB.GetRepository<BlogTagEntity>().GetAll(x => x.BlogId == blogId, y => y.Tag);
+                var entities = DB.GetRepository<BlogTagEntity>().GetAll(x => x.BlogId == blogId, y => y.Include(z => z.Tag));
 
                 result.Status = true;
                 result.Message = $"操作成功";
