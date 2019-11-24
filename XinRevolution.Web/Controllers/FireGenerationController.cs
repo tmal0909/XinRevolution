@@ -16,11 +16,11 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
-        /// 焰世代首頁
+        /// 簡介
         /// </summary>
-        public IActionResult Index()
+        public IActionResult Intro()
         {
-            var result = _service.FindRoleGroup();
+            var result = _service.FindIntro(ControllerContext.RouteData.Values["controller"].ToString());
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
@@ -29,11 +29,11 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
-        /// 簡介
+        /// 焰世代首頁
         /// </summary>
-        public IActionResult Intro()
+        public IActionResult Index()
         {
-            var result = _service.FindIntro(ControllerContext.RouteData.Values["controller"].ToString());
+            var result = _service.FindRoleGroup();
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
@@ -57,9 +57,24 @@ namespace XinRevolution.Web.Controllers
         /// <summary>
         /// 世界觀
         /// </summary>
-        public IActionResult WorldView()
+        public IActionResult ViewCategory()
         {
-            return View();
+            var result = _service.FindCategory();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
+        }
+
+        public IActionResult ViewCategoryEvent(int eventId)
+        {
+            var result = _service.FindCategoryEvent(eventId);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return PartialView(result.Data);
         }
     }
 }

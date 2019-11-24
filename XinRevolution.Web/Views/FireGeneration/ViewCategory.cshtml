@@ -1,0 +1,32 @@
+﻿@model FireGenerationViewCategoryViewModel
+
+@* 焰世代 - 世界觀 *@
+<div class="js-ctrl-background h100" data-header="bright">
+    <div class="grid-container h100 relative overflowAuto-y content">
+        <div class="column-6 fixed">
+            <ul>
+                @foreach (var category in Model.Categories.OrderBy(x => x.Sort))
+                {
+                    <li>
+                        <div>@category.Name</div>
+
+                        <ul>
+                            @foreach (var item in category.Events)
+                            {
+                                <li class="conception-btn js-viewcategory-item" data-id="@item.Id">@item.Name</li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="column-16 pre-8" id="ViewCategoryEventContainer"></div>
+    </div>
+
+    <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+</div>
+
+@section Scripts{
+    <script src="~/js/firegeneration/firegenration.viewcategory.js"></script>
+}

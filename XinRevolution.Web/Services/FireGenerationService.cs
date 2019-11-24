@@ -75,5 +75,44 @@ namespace XinRevolution.Web.Services
 
             return result;
         }
+
+        public ServiceResultModel<FireGenerationViewCategoryViewModel> FindCategory()
+        {
+            var result = new ServiceResultModel<FireGenerationViewCategoryViewModel>();
+
+            try
+            {
+                var categories = _unitOfWork.GetRepository<FGViewCategoryEntity>()
+                    .GetAll(x => x.Include(y => y.Events));
+
+                result.Data.Categories = categories;
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
+
+        public ServiceResultModel<FireGenerationViewCategoryEventViewModel> FindCategoryEvent(int eventId)
+        {
+            var result = new ServiceResultModel<FireGenerationViewCategoryEventViewModel>();
+
+            try
+            {
+                var eventItem = _unitOfWork.GetRepository<FGViewCategoryEvnentEntity>().Single(x => x.Id == eventId);
+
+                result.Data.Event = eventItem;
+            }
+            catch(Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
     }
 }
