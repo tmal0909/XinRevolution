@@ -1,4 +1,4 @@
 ﻿$(function () {
     // 輪播套件初始化
-    $('.js-group-container').slick();
+    $('.js-firegeneration-group-container').slick();
 });

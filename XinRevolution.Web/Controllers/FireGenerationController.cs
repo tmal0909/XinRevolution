@@ -20,7 +20,7 @@ namespace XinRevolution.Web.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            var result = _service.FindCharacterGroup();
+            var result = _service.FindRoleGroup();
 
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
@@ -44,9 +44,14 @@ namespace XinRevolution.Web.Controllers
         /// <summary>
         /// 角色介紹
         /// </summary>
-        public IActionResult Character()
+        public IActionResult Role(int roleId)
         {
-            return View();
+            var result = _service.FindRole(roleId);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
         }
 
         /// <summary>

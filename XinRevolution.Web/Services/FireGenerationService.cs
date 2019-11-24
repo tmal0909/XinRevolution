@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Entity.FireGeneration;
 using XinRevolution.Repository.Interface;
@@ -18,7 +17,26 @@ namespace XinRevolution.Web.Services
             _unitOfWork = unitOfWork;
         }
 
-        public ServiceResultModel<FireGenerationIndexViewModel> FindCharacterGroup()
+        public ServiceResultModel<FireGenerationIntroViewModel> FindIntro(string controllerName)
+        {
+            var result = new ServiceResultModel<FireGenerationIntroViewModel>();
+
+            try
+            {
+                var work = _unitOfWork.GetRepository<WorkEntity>().Single(x => x.Controller.Equals(controllerName, StringComparison.CurrentCultureIgnoreCase));
+
+                result.Data.Intro = work.Intro;
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
+
+        public ServiceResultModel<FireGenerationIndexViewModel> FindRoleGroup()
         {
             var result = new ServiceResultModel<FireGenerationIndexViewModel>();
 
@@ -38,15 +56,16 @@ namespace XinRevolution.Web.Services
             return result;
         }
 
-        public ServiceResultModel<FireGenerationIntroViewModel> FindIntro(string controllerName)
+        public ServiceResultModel<FireGenerationRoleViewModel> FindRole(int roleId)
         {
-            var result = new ServiceResultModel<FireGenerationIntroViewModel>();
+            var result = new ServiceResultModel<FireGenerationRoleViewModel>();
 
             try
             {
-                var work = _unitOfWork.GetRepository<WorkEntity>().Single(x => x.Controller.Equals(controllerName, StringComparison.CurrentCultureIgnoreCase));
+                var role = _unitOfWork.GetRepository<FGGroupRoleEntity>()
+                    .Single(x => x.Id == roleId, x => x.Include(y => y.Resources).Include(y => y.Equipments));
 
-                result.Data.Intro = work.Intro;
+                result.Data.Role = role;
             }
             catch(Exception ex)
             {
