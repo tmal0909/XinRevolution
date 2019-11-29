@@ -40,6 +40,12 @@ namespace XinRevolution.Database
 
         public DbSet<FGViewCategoryEvnentEntity> FGViewCategoryEvents { get; set; }
 
+        public DbSet<FGSeasonEntity> FGSeasons { get; set; }
+
+        public DbSet<FGSeasonChapterEntity> FGSeasonChapters { get; set; }
+
+        public DbSet<FGChapterComicEntity> FGChapterComics { get; set; }
+
         #endregion
 
         #region Constructor
@@ -77,6 +83,9 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGViewCategoryEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGSeasonEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGSeasonChapterEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<FGChapterComicEntity>().HasKey(x => x.Id);
         }
 
         private void DefineAlternateKey(ModelBuilder modelBuilder)
@@ -97,6 +106,9 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasAlternateKey(x => new { x.Id, x.RoleId });
             modelBuilder.Entity<FGViewCategoryEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasAlternateKey(x => new { x.Id, x.CategoryId });
+            modelBuilder.Entity<FGSeasonEntity>().HasAlternateKey(x => new { x.SerialNumber });
+            modelBuilder.Entity<FGSeasonChapterEntity>().HasAlternateKey(x => new { x.Id, x.SeasonId });
+            modelBuilder.Entity<FGChapterComicEntity>().HasAlternateKey(x => new { x.Id, x.ChapterId });
         }
 
         private void DefineDefaultValue(ModelBuilder modelBuilder)
@@ -117,6 +129,9 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGRoleEquipmentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGViewCategoryEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
             modelBuilder.Entity<FGViewCategoryEvnentEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGSeasonEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGSeasonChapterEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
+            modelBuilder.Entity<FGChapterComicEntity>().Property(x => x.UtcUpdateTime).HasDefaultValueSql("getutcdate()");
         }
 
         private void DefineRelation(ModelBuilder modelBuilder)
@@ -130,6 +145,8 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGRoleResourceEntity>().HasOne(x => x.Role).WithMany(x => x.Resources).HasForeignKey(x => x.RoleId);
             modelBuilder.Entity<FGRoleEquipmentEntity>().HasOne(x => x.Role).WithMany(x => x.Equipments).HasForeignKey(x => x.RoleId);
             modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasOne(x => x.Category).WithMany(x => x.Events).HasForeignKey(x => x.CategoryId);
+            modelBuilder.Entity<FGSeasonChapterEntity>().HasOne(x => x.Season).WithMany(x => x.Chapters).HasForeignKey(x => x.SeasonId);
+            modelBuilder.Entity<FGChapterComicEntity>().HasOne(x => x.Chapter).WithMany(x => x.Comics).HasForeignKey(x => x.ChapterId);
         }
 
         private void DefineSeedData(ModelBuilder modelBuilder)
