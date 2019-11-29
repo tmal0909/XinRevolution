@@ -46,12 +46,14 @@ namespace XinRevolution.Manager
             services.AddScoped<BlogTagService>();
             services.AddScoped<WorkService>();
 
+            // 焰世代
             services.AddScoped<FGGroupService>();
             services.AddScoped<FGGroupRoleService>();
             services.AddScoped<FGRoleResourceService>();
             services.AddScoped<FGRoleEquipmentService>();
             services.AddScoped<FGViewCategoryService>();
             services.AddScoped<FGViewCategoryEventService>();
+            services.AddScoped<FGSeasonService>();
         }
 
         public void Configure(IApplicationBuilder app, XinRevolutionContext dbContext)
