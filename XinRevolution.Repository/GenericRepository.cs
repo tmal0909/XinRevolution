@@ -79,13 +79,19 @@ namespace XinRevolution.Repository
 
         public TEntity Single(object key)
         {
-            return Context.Set<TEntity>().Find(key);
+            var entity = Context.Set<TEntity>().Find(key);
+
+            Context.Entry(entity).State = EntityState.Detached;
+
+            return entity;
         }
 
         public TEntity Single(object key, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
         {
             var entities = include(Context.Set<TEntity>());
             var result = ((DbSet<TEntity>)entities).Find(key);
+
+            Context.Entry(result).State = EntityState.Detached;
 
             return result;
         }
