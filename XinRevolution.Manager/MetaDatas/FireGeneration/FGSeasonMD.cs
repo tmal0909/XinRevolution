@@ -21,7 +21,7 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
 
         [Required(ErrorMessage = "請選擇資源")]
         [StringLength(300, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "背景資源連結", Prompt = "請選擇背景資源連結")]
+        [Display(Name = "資源連結", Prompt = "請選擇資源連結")]
         public string ResourceUrl { get; set; }
 
         [Display(Name = "瀏覽資源")]

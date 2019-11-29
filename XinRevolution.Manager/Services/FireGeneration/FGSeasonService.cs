@@ -108,8 +108,8 @@ namespace XinRevolution.Manager.Services.FireGeneration
                 var chapterIds = chapters.Select(x => x.Id);
                 var chapterComics = DB.GetRepository<FGChapterComicEntity>().GetAll(x => chapterIds.Contains(x.ChapterId));
 
-                dumpResources.AddRange(chapters.Where(x => !string.IsNullOrEmpty(x.ResourceUrl)).Select(x => x.ResourceUrl));
                 dumpResources.AddRange(chapterComics.Where(x => !string.IsNullOrEmpty(x.ResourceUrl)).Select(x => x.ResourceUrl));
+                dumpResources.AddRange(chapters.Where(x => !string.IsNullOrEmpty(x.ResourceUrl)).Select(x => x.ResourceUrl));
 
                 if (!string.IsNullOrEmpty(metaData.ResourceUrl))
                     dumpResources.Add(metaData.ResourceUrl);
@@ -117,8 +117,9 @@ namespace XinRevolution.Manager.Services.FireGeneration
                 if (dumpResources.Count() > 0)
                     DumpResource(dumpResources);
 
+                // TODO : 刪除 Comic
+                //DB.GetRepository<FGChapterComicEntity>().Delete(x => chapterIds.Contains(x.ChapterId));
                 DB.GetRepository<FGSeasonChapterEntity>().Delete(x => x.SeasonId == metaData.Id);
-                DB.GetRepository<FGChapterComicEntity>().Delete(x => chapterIds.Contains(x.ChapterId));
             }
             catch (Exception ex)
             {

@@ -1,0 +1,60 @@
+﻿@model FGSeasonMD
+
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="FGSeason" asp-action="Index">焰世代 - 時間軸 - 季管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">編輯</li>
+        </ol>
+    </nav>
+</div>
+
+<div>
+    <form asp-controller="FGSeason" asp-action="Update" method="post" autocomplete="off" enctype="multipart/form-data">
+        <input asp-for="Id" />
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label" asp-for="SerialNumber"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="SerialNumber" readonly />
+                <span class="text-danger" asp-validation-for="SerialNumber"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label" asp-for="Name"></label>
+            <div class="col-10">
+                <input class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label" asp-for="ResourceUrl"></label>
+            <div class="col-10">
+                <div class="input-group">
+                    <input class="form-control" asp-for="ResourceUrl" readonly />
+                    <div class="input-group-append">
+                        <input class="d-none" asp-for="ResourceFile" accept=".jpg,.jpeg,.png,.svg,.gif" />
+                        <label class="btn btn-primary" asp-for="ResourceFile"></label>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="ResourceUrl"></span>
+            </div>
+        </div>
+
+        <div class="form-group row justify-content-center">
+            <span class="text-danger">@ViewBag.ErrorMessage</span>
+        </div>
+
+        <div class="form-group row justify-content-center">
+            <button class="btn btn-primary" type="submit">送出</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        initFileInput($('#ResourceFile'), $('#ResourceUrl'));
+    </script>
+}
