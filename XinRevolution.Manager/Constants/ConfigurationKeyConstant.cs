@@ -23,6 +23,8 @@ namespace XinRevolution.Manager.Constants
 
         public static string FGViewCategoryEventContainer = "BlobContainers:FireGenerationViewCategoryEvent";
 
-        public static string FGSeasonContainer = "BlobContainers:FGSeason";
+        public static string FGSeasonContainer = "BlobContainers:FireGenerationSeason";
+
+        public static string FGSeasonChapterContainer = "BlobContainers:FireGenerationSeasonChapter";
     }
 }
