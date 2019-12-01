@@ -55,6 +55,7 @@ namespace XinRevolution.Manager
             services.AddScoped<FGViewCategoryEventService>();
             services.AddScoped<FGSeasonService>();
             services.AddScoped<FGSeasonChapterService>();
+            services.AddScoped<FGChapterComicService>();
         }
 
         public void Configure(IApplicationBuilder app, XinRevolutionContext dbContext)

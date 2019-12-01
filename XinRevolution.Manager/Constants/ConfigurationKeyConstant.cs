@@ -26,5 +26,7 @@ namespace XinRevolution.Manager.Constants
         public static string FGSeasonContainer = "BlobContainers:FireGenerationSeason";
 
         public static string FGSeasonChapterContainer = "BlobContainers:FireGenerationSeasonChapter";
+
+        public static string FGSeasonChapterComicContainer = "BlobContainers:FireGenerationSeasonChapterComic";
     }
 }

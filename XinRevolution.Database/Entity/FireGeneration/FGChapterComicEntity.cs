@@ -13,12 +13,12 @@ namespace XinRevolution.Database.Entity.FireGeneration
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "nvarchar(300)")]
-        public string ResourceUrl { get; set; }
+        [Column(TypeName = "smallint")]
+        public int Page { get; set; }
 
         [Required]
-        [Column(TypeName = "smallint")]
-        public int Sort { get; set; }
+        [Column(TypeName = "nvarchar(300)")]
+        public string ResourceUrl { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(50)")]
