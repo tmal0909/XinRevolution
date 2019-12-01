@@ -23,7 +23,7 @@
             @foreach (var item in Model.OrderBy(x => x.SerialNumber))
             {
                 <tr>
-                    <td>@item.SerialNumber</td>
+                    <td><a asp-controller="FGSeasonChapter" asp-action="Index" asp-route-seasonId="@item.Id">@item.SerialNumber</a></td>
                     <td>@item.Name</td>
                     <td>@item.ResourceUrl</td>
                     <td>@item.UtcUpdateTime.AddHours(8).ToString("yyyy/MM/dd HH:mm:ss")</td>

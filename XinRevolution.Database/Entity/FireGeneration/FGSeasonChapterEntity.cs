@@ -14,6 +14,10 @@ namespace XinRevolution.Database.Entity.FireGeneration
         public int Id { get; set; }
 
         [Required]
+        [Column(TypeName = "int")]
+        public int SerialNumber { get; set; }
+
+        [Required]
         [Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
 

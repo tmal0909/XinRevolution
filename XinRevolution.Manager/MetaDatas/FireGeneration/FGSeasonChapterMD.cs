@@ -10,6 +10,10 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
         [Required(ErrorMessage = "請攜帶鍵值")]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "請輸入章節編號")]
+        [Display(Name = "章節編號", Prompt = "請輸入章節編號")]
+        public int SerialNumber { get; set; }
+
         [Required(ErrorMessage = "請輸入章節名稱")]
         [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
         [Display(Name = "章節名稱", Prompt = "請輸入章節名稱")]

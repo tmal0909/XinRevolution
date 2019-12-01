@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using XinRevolution.Database;
 
 namespace XinRevolution.Database.Migrations
 {
     [DbContext(typeof(XinRevolutionContext))]
-    partial class XinRevolutionContextModelSnapshot : ModelSnapshot
+    [Migration("20191201170931_FGSeasonChapterAddSort")]
+    partial class FGSeasonChapterAddSort
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,7 +343,7 @@ namespace XinRevolution.Database.Migrations
                     b.Property<int>("SeasonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SerialNumber")
+                    b.Property<int>("Sort")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UtcUpdateTime")

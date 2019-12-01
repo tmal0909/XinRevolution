@@ -159,6 +159,7 @@ namespace XinRevolution.Manager.Services.FireGeneration
             return new FGSeasonChapterEntity
             {
                 Id = metaData.Id,
+                SerialNumber = metaData.SerialNumber,
                 Name = metaData.Name,
                 Intro = metaData.Intro,
                 Offset = metaData.Offset,
@@ -172,6 +173,7 @@ namespace XinRevolution.Manager.Services.FireGeneration
             return new FGSeasonChapterMD
             {
                 Id = entity.Id,
+                SerialNumber = entity.SerialNumber,
                 Name = entity.Name,
                 Intro = entity.Intro,
                 Offset = entity.Offset,
