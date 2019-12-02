@@ -17,7 +17,7 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th>編號</th>
+                <th>章節編號</th>
                 <th>名稱</th>
                 <th>簡介</th>
                 <th>偏移</th>
@@ -30,7 +30,7 @@
             @foreach (var item in Model.OrderBy(x => x.SerialNumber))
             {
                 <tr>
-                    <td>@item.SerialNumber</td>
+                    <td><a asp-controller="FGChapterComic" asp-action="Index" asp-route-chapterId="@item.Id">@item.SerialNumber</a></td>
                     <td>@item.Name</td>
                     <td>@item.Intro</td>
                     <td>@item.Offset</td>

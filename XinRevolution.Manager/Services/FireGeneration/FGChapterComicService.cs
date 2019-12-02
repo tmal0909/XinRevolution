@@ -79,7 +79,7 @@ namespace XinRevolution.Manager.Services.FireGeneration
 
         public override ServiceResultModel<FGChapterComicMD> Update(FGChapterComicMD metaData)
         {
-            var sourceData = DB.GetRepository<FGSeasonChapterEntity>().Single(metaData.Id);
+            var sourceData = DB.GetRepository<FGChapterComicEntity>().Single(metaData.Id);
 
             try
             {

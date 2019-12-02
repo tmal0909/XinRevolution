@@ -22,6 +22,28 @@ namespace XinRevolution.Manager.Services.FireGeneration
             _containerName = configuration.GetValue<string>(ConfigurationKeyConstant.FGSeasonChapterContainer);
         }
 
+        public ServiceResultModel<FGSeasonChapterEntity> FindDetail(int chapterId)
+        {
+            var result = new ServiceResultModel<FGSeasonChapterEntity>();
+
+            try
+            {
+                var entity = DB.GetRepository<FGSeasonChapterEntity>().Single(x => x.Id == chapterId, x => x.Include(y => y.Season));
+
+                result.Status = true;
+                result.Message = $"操作成功";
+                result.Data = entity;
+            }
+            catch(Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"操作失敗 : {ex.Message}";
+                result.Data = default(FGSeasonChapterEntity);
+            }
+
+            return result;
+        }
+
         public ServiceResultModel<IEnumerable<FGSeasonChapterEntity>> Find(int seasonId)
         {
             var result = new ServiceResultModel<IEnumerable<FGSeasonChapterEntity>>();
