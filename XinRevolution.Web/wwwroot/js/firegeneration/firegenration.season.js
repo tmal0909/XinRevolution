@@ -16,7 +16,24 @@
     });
 
     // 漫畫點選
+    $(document).on('click', '#chapter-read-btn', function () {
+        var data = {
+            chapterId: $(this).data('id')
+        };
 
+        $.ajax({
+            url: '/FireGeneration/Chapter',
+            data: data,
+            type: 'GET',
+            success: function (result) {
+                if (!result)
+                    return;
+
+                $('#layout-popup-block').html(result);
+                toggleBlock($('#layout-popup-block'), true);
+            }
+        });
+    });
 
     // 預設點擊第一筆章節
     $('.js-chapter-node').first().click();

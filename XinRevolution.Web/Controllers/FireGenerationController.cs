@@ -81,6 +81,21 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
+        /// 時間軸 - 章 (漫畫)
+        /// </summary>
+        /// <param name="chapterId"></param>
+        /// <returns></returns>
+        public IActionResult Chapter(int chapterId)
+        {
+            var result = _service.FindChapter(chapterId);
+
+            if (!result.Status)
+                return null;
+
+            return PartialView("_Chapter",result.Data);
+        }
+
+        /// <summary>
         /// 世界觀
         /// </summary>
         public IActionResult ViewCategory()
@@ -103,7 +118,7 @@ namespace XinRevolution.Web.Controllers
             if (!result.Status)
                 return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
 
-            return PartialView(result.Data);
+            return PartialView("_ViewCategoryEvent", result.Data);
         }
     }
 }

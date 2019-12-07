@@ -117,8 +117,7 @@ namespace XinRevolution.Manager.Services.FireGeneration
                 if (dumpResources.Count() > 0)
                     DumpResource(dumpResources);
 
-                // TODO : 刪除 Comic
-                //DB.GetRepository<FGChapterComicEntity>().Delete(x => chapterIds.Contains(x.ChapterId));
+                DB.GetRepository<FGChapterComicEntity>().Delete(x => chapterIds.Contains(x.ChapterId));
                 DB.GetRepository<FGSeasonChapterEntity>().Delete(x => x.SeasonId == metaData.Id);
             }
             catch (Exception ex)

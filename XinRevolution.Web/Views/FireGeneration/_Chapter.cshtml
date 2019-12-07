@@ -1,0 +1,13 @@
+﻿@model FireGenerationChapterViewModel
+
+@* 焰世代 - 時間軸 - 季 - 章節漫畫 *@
+<div>@Model.Chapter.Name</div>
+
+<div>
+    @foreach (var item in Model.Chapter.Comics)
+    {
+        <img src="@item.ResourceUrl" />
+    }
+</div>
+
+<div class="close js-popup-close">X</div>

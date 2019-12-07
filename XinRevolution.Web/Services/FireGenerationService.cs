@@ -116,6 +116,26 @@ namespace XinRevolution.Web.Services
             return result;
         }
 
+        public ServiceResultModel<FireGenerationChapterViewModel> FindChapter(int chapterId)
+        {
+            var result = new ServiceResultModel<FireGenerationChapterViewModel>();
+
+            try
+            {
+                var chapter = _unitOfWork.GetRepository<FGSeasonChapterEntity>().Single(x => x.Id == chapterId, x => x.Include(y => y.Season).Include(y => y.Comics));
+                chapter.Comics = chapter.Comics.OrderBy(x => x.Page).ToList();
+
+                result.Data.Chapter = chapter;
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
+
         public ServiceResultModel<FireGenerationViewCategoryViewModel> FindCategory()
         {
             var result = new ServiceResultModel<FireGenerationViewCategoryViewModel>();
