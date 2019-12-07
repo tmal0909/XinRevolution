@@ -1,0 +1,90 @@
+﻿@model FireGenerationSeasonViewModel
+
+@* 焰世代 - 時間軸 - 季 *@
+<div class="grid-container h100">
+    <div class="season-div">
+        <div class="story-img column-5 pre-1 post-3">
+            <img src="@Model.Season.ResourceUrl" />
+        </div>
+
+        <div class="story-content  content column-6">
+            <div class="number">@Model.Season.SerialNumber.ToString("00")</div>
+
+            <div>
+                <table>
+                    @for (int i = 0, len = Model.Season.Chapters.Count; i < len; i++)
+                    {
+                        var chapter = Model.Season.Chapters[i];
+
+                        <tr>
+                            @for (int j = 0; j < 7; j++)
+                            {
+                                if (j == chapter.Offset)
+                                {
+                                    <td>
+                                        <div class="node js-chapter-node" data-id="@chapter.Id" data-name="@chapter.Name" data-intro="@chapter.Intro" data-resource="@chapter.ResourceUrl"></div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                        </tr>
+
+                        if (i + 1 < len)
+                        {
+                            var nextChapter = Model.Season.Chapters[i + 1];
+                            var colspan = Math.Abs(nextChapter.Offset - chapter.Offset) + 1;
+                            var start = nextChapter.Offset > chapter.Offset ? chapter.Offset : nextChapter.Offset;
+
+                            <tr>
+                                @for (int j = 0; j < 7; j++)
+                                {
+                                    if (j == start)
+                                    {
+                                        j = j + colspan - 1;
+
+                                        <td colspan="@colspan">
+                                            <div class="node-line"></div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="column-6 pre-2 post-1 content">
+            <a class="right" asp-controller="FireGeneration" asp-action="StoryLine">返回</a>
+
+            <div>@Model.Season.Name</div>
+
+            <div>
+                <img id="chapter-resource" src="" />
+            </div>
+
+            <hr />
+
+            <div id="chapter-name"></div>
+
+            <div id="chapter-intro"></div>
+
+            <div>
+                <button id="chapter-read-btn" data-id="-1">漫畫</button>
+            </div>
+        </div>
+    </div>
+
+    <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+</div>
+
+@section Scripts{
+    <script src="~/js/firegeneration/firegenration.season.js"></script>
+}

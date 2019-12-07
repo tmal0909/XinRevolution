@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using XinRevolution.Database.Entity;
 using XinRevolution.Database.Entity.FireGeneration;
 using XinRevolution.Repository.Interface;
@@ -47,7 +48,7 @@ namespace XinRevolution.Web.Services
 
                 result.Data.FireGenerationGroups = groups;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Status = false;
                 result.Message = $"查詢失敗，{ex.Message}";
@@ -67,7 +68,46 @@ namespace XinRevolution.Web.Services
 
                 result.Data.Role = role;
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
+
+        public ServiceResultModel<FireGenerationStoryLineViewModel> FindStoryLine()
+        {
+            var result = new ServiceResultModel<FireGenerationStoryLineViewModel>();
+
+            try
+            {
+                var stories = _unitOfWork.GetRepository<FGSeasonEntity>().GetAll(x => x.Include(y => y.Chapters));
+
+                result.Data.Stories = stories;
+            }
+            catch (Exception ex)
+            {
+                result.Status = false;
+                result.Message = $"查詢失敗，{ex.Message}";
+            }
+
+            return result;
+        }
+        
+        public ServiceResultModel<FireGenerationSeasonViewModel> FindSeason(int seasonId)
+        {
+            var result = new ServiceResultModel<FireGenerationSeasonViewModel>();
+
+            try
+            {
+                var season = _unitOfWork.GetRepository<FGSeasonEntity>().Single(x => x.Id == seasonId, x => x.Include(y => y.Chapters));
+                season.Chapters = season.Chapters.OrderBy(x => x.SerialNumber).ToList();
+
+                result.Data.Season = season;
+            }
+            catch (Exception ex)
             {
                 result.Status = false;
                 result.Message = $"查詢失敗，{ex.Message}";
@@ -106,7 +146,7 @@ namespace XinRevolution.Web.Services
 
                 result.Data.Event = eventItem;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Status = false;
                 result.Message = $"查詢失敗，{ex.Message}";

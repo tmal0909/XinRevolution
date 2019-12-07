@@ -1,0 +1,39 @@
+﻿@model FireGenerationStoryLineViewModel
+
+@* 焰世代 - 時間軸 *@
+<div class="h100">
+    <div class="grid-container content w100 h100 relative">
+        <div class="h100 js-storyLine-container">
+            @foreach (var story in Model.Stories)
+            {
+                <div class="story-div">
+                    <a class="column-6 h100" asp-controller="FireGeneration" asp-action="Season" asp-route-seasonId="@story.Id">
+                        <div class="story-img">
+                            <img src="@story.ResourceUrl" />
+                        </div>
+
+                        <div class="story-content">
+                            <div class="number">@story.SerialNumber.ToString("00")</div>
+
+                            <div class="title">@story.Name</div>
+
+                            <div class="time">@story.Chapters.Max(x => x.UtcUpdateTime).AddHours(8)</div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <partial name="/Views/FireGeneration/_Navigator.cshtml" />
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/slick/css/slick.css" />
+    <link rel="stylesheet" href="~/lib/slick/css/slick-theme.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/slick/js/slick.min.js"></script>
+    <script src="~/js/firegeneration/firegeneration.storyline.js"></script>
+}

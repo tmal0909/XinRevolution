@@ -55,6 +55,32 @@ namespace XinRevolution.Web.Controllers
         }
 
         /// <summary>
+        /// 時間軸
+        /// </summary>
+        public IActionResult StoryLine()
+        {
+            var result = _service.FindStoryLine();
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
+        }
+
+        /// <summary>
+        /// 時間軸 - 季
+        /// </summary>
+        public IActionResult Season(int seasonId)
+        {
+            var result = _service.FindSeason(seasonId);
+
+            if (!result.Status)
+                return RedirectToAction("Error", "Home", new { errorMessage = result.Message });
+
+            return View(result.Data);
+        }
+
+        /// <summary>
         /// 世界觀
         /// </summary>
         public IActionResult ViewCategory()

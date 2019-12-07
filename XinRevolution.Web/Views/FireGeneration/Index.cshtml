@@ -19,7 +19,7 @@
                         var vicePicture = role.Resources.Single(x => x.Type == FGRoleResourceTypeEnum.Main2).ResourceUrl;
 
                         <div class="characters-div">
-                            <a class="btn btn-square" asp-controller="FireGeneration" asp-action="Character">@role.Name</a>
+                            <a class="btn btn-square" asp-controller="FireGeneration" asp-action="Role" asp-route-roleId="@role.Id">@role.Name</a>
                             <img class="onhover" src="@mainPicture" />
                             <img class="default" src="@vicePicture" />
                         </div>
