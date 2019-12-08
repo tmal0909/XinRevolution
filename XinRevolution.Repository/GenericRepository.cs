@@ -51,9 +51,9 @@ namespace XinRevolution.Repository
 
         public void Delete(Expression<Func<TEntity, bool>> condition)
         {
-            var existEntitys = Context.Set<TEntity>().Where(condition);
+            var existEntitys = Context.Set<TEntity>().AsNoTracking().Where(condition);
 
-            if (existEntitys.Count() > 0)
+            if (existEntitys.Any())
                 Context.Set<TEntity>().RemoveRange(existEntitys);
         }
 
