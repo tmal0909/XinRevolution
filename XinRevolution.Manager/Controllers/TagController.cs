@@ -34,6 +34,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(TagMD metaData)
         {
             var result = _service.Create(metaData);
@@ -60,6 +61,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Update(TagMD metaData)
         {
             var result = _service.Update(metaData);
@@ -86,6 +88,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(TagMD metaData)
         {
             var result = _service.Delete(metaData);

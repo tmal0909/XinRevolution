@@ -38,6 +38,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Update(WorkMD metaData)
         {
             var result = _service.Update(metaData);

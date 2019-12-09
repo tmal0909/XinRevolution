@@ -24,6 +24,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(UserMD metaData)
         {
             var result = _service.Login(metaData);

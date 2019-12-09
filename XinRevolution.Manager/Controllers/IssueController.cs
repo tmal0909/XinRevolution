@@ -34,6 +34,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(IssueMD metaData)
         {
             var result = _service.Create(metaData);
@@ -59,6 +60,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Update(IssueMD metaData)
         {
             var result = _service.Update(metaData);
@@ -84,6 +86,7 @@ namespace XinRevolution.Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(IssueMD metaData)
         {
             var result = _service.Delete(metaData);
