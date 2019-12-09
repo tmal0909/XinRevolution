@@ -12,7 +12,7 @@ namespace XinRevolution.Manager.MetaDatas.FireGeneration
 
         [Required(ErrorMessage = "請輸入群組名稱")]
         [StringLength(50, ErrorMessage = "資料長度過長，請重新輸入")]
-        [Display(Name = "議題名稱", Prompt = "請輸入群組名稱")]
+        [Display(Name = "群組名稱", Prompt = "請輸入群組名稱")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "請選擇資源")]

@@ -107,9 +107,9 @@ namespace XinRevolution.Database
             modelBuilder.Entity<FGViewCategoryEntity>().HasAlternateKey(x => new { x.Name });
             modelBuilder.Entity<FGViewCategoryEvnentEntity>().HasAlternateKey(x => new { x.Id, x.CategoryId });
             modelBuilder.Entity<FGSeasonEntity>().HasAlternateKey(x => new { x.SerialNumber });
-            modelBuilder.Entity<FGSeasonChapterEntity>().HasAlternateKey(x => new { x.SerialNumber });
+            modelBuilder.Entity<FGSeasonChapterEntity>().HasAlternateKey(x => new { x.Id, x.SerialNumber });
             modelBuilder.Entity<FGSeasonChapterEntity>().HasAlternateKey(x => new { x.Id, x.SeasonId });
-            modelBuilder.Entity<FGChapterComicEntity>().HasAlternateKey(x => new { x.Page });
+            modelBuilder.Entity<FGChapterComicEntity>().HasAlternateKey(x => new { x.Id, x.Page });
             modelBuilder.Entity<FGChapterComicEntity>().HasAlternateKey(x => new { x.Id, x.ChapterId });
         }
 

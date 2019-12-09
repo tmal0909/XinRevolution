@@ -1,6 +1,14 @@
 ﻿@model WorkViewModel
 @* 作品首頁 *@
 <div class="grid-container h100 pt-content relative">
+
+    <div class="sign">
+        <nav>
+            <a class="prev" asp-controller="Home">PREV</a>
+            <a class="next" asp-controller="Work">NEXT</a>
+        </nav>
+    </div>
+
     <div class="js-works-container">
         @foreach (var work in Model.Works)
         {
